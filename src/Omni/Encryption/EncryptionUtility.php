@@ -22,21 +22,6 @@ class EncryptionUtility
     }
 
     /**
-     * checks that the password is of the correct format
-     *
-     * @param string $password
-     * @return boolean
-     */
-    public function checkPasswordFormat($password)
-    {
-        // VERIFY THE PASSWORD IS OF THE CORRECT FORMAT
-        if (strlen($password) < 8 || !preg_match('/[\d]+/',$password) || !preg_match('/[A-Z]+/',$password)){
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * Takes in a value and then returns the AES Encrypted value
      *
      * @param $value

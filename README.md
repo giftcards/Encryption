@@ -15,6 +15,8 @@ Usage
 
 Simple usage:
 
+    namespace Omni\Namespace;
+
     use Omni\Encryption\EncryptionUtility;
     // ....
 
@@ -50,16 +52,16 @@ Dependency Injection:
         arguments: ['%ENCRYPTION_STRING%']
 
     omni.some.service.class:
-        class: Omni\Service\SomeServiceClass
+        class: Omni\Namespace\SomeClass
         arguments: [@omni.encryption.encryption_utility]
 
-  *Omni/Service/SomeServiceClass.php*
+  *Omni/Service/SomeClass.php*
 
-    namespace Omni\Service;
+    namespace Omni\Namespace;
 
     use Omni\EncryptionBundle\EncryptionUtility;
 
-    class SomeServiceClass
+    class SomeClass
     {
         protected $encryptionUtility;
 
@@ -76,5 +78,4 @@ The EncryptionUtility class provides the following functions:
 
   * `aesEncrypt($data)` -- returns the $data encrypted with 128-bit Rijndael encryption
   * `aesDecrypt($data)` -- returns the decrypted, or null if the original data was not encrypted with the same key and algorithm
-  * `checkPasswordFormat($password)` -- returns true if the password is at least 8 characters, with at least one digit and at least one uppercase letter
 
