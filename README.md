@@ -13,6 +13,8 @@ Then do a `composer update`.
 Usage
 -----
 
+Simple usage:
+
     use Omni\Encryption\EncryptionUtility;
     // ....
 
@@ -38,6 +40,37 @@ Usage
             return $this->encryptionUtility->aesDecrypt($message);
         }
     }
+
+Dependency Injection:
+
+  *services.yml* (or similar file)
+
+    omni.encryption.encryption_utility:
+        class: Omni\EncryptionBundle\EncryptionUtility
+        arguments: ['%ENCRYPTION_STRING%']
+
+    omni.some.service.class:
+        class: Omni\Service\SomeServiceClass
+        arguments: [@omni.encryption.encryption_utility]
+
+  *Omni/Service/SomeServiceClass.php*
+
+    namespace Omni\Service;
+
+    use Omni\EncryptionBundle\EncryptionUtility;
+
+    class SomeServiceClass
+    {
+        protected $encryptionUtility;
+
+        public function __construct(EncryptionUtility $encryptionUtility)
+        {
+            $this->encryptionUtility = $encryptionUtility;
+        }
+
+        // etc...
+    }
+
 
 The EncryptionUtility class provides the following functions:
 

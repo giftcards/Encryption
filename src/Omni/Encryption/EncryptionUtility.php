@@ -8,7 +8,8 @@
 
 namespace Omni\Encryption;
 
-class EncryptionUtility {
+class EncryptionUtility
+{
 
     protected $encryptionString;
 
