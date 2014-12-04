@@ -1,0 +1,11 @@
+/composer.phar
+/cov
+/.buildpath
+/.settings
+/.project
+/.nbproject
+/.idea
+/vendor
+atlassian-ide-plugin.xml
+sftp-config.json
+*~
