@@ -5,8 +5,8 @@
   },
   "autoload": {
     "psr-0": {
-      "Omni\\Encryption": "src"
+      "Omni\\Encryption": ""
     }
   },
-  "target-dir": "Omni/Encryption/src"
+  "target-dir": "Omni/Encryption"
 }
