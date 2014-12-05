@@ -8,5 +8,5 @@
       "Omni\\Encryption": "src"
     }
   },
-  "target-dir": "src/Omni/Encryption"
+  "target-dir": "Omni/Encryption/src"
 }
