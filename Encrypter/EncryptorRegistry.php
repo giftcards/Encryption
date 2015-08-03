@@ -8,12 +8,12 @@
 
 namespace Omni\Encryption\Encrypter;
 
-class EncrypterRegistry
+class EncryptorRegistry
 {
-    /** @var EncrypterInterface[] */
+    /** @var EncryptorInterface[] */
     protected $encryptors = array();
 
-    public function add(EncrypterInterface $encryptor)
+    public function add(EncryptorInterface $encryptor)
     {
         $this->encryptors[$encryptor->getName()] = $encryptor;
         return $this;

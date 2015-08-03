@@ -9,7 +9,7 @@
 namespace Omni\Encryption\Command;
 
 use Omni\Encryption\EncryptedData\StoreRegistry;
-use Omni\Encryption\Encrypter\EncrypterRegistry;
+use Omni\Encryption\Encrypter\EncryptorRegistry;
 use Omni\Encryption\Key\SourceInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -26,7 +26,7 @@ class MigrateKeyCommand extends Command
     public function __construct(
         SourceInterface $keySource,
         StoreRegistry $storeRegistry,
-        EncrypterRegistry $encrypterRegistry
+        EncryptorRegistry $encrypterRegistry
     ) {
         $this->keySource = $keySource;
         $this->storeRegistry = $storeRegistry;

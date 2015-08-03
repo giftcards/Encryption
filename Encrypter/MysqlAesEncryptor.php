@@ -8,7 +8,7 @@
 
 namespace Omni\Encryption\Encrypter;
 
-class MysqlAesEncrypter implements EncrypterInterface
+class MysqlAesEncryptor implements EncryptorInterface
 {
     public function getName()
     {

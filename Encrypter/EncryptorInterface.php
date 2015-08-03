@@ -8,7 +8,7 @@
 
 namespace Omni\Encryption\Encrypter;
 
-interface EncrypterInterface
+interface EncryptorInterface
 {
     public function getName();
     public function encrypt($data, $encryptionKey);
