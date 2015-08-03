@@ -6,7 +6,7 @@
  * Time: 6:41 PM
  */
 
-namespace Omni\Encryption\Encrypter;
+namespace Omni\Encryption\Encryptor;
 
 class MysqlAesEncryptor implements EncryptorInterface
 {

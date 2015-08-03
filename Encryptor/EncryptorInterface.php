@@ -6,7 +6,7 @@
  * Time: 6:39 PM
  */
 
-namespace Omni\Encryption\Encrypter;
+namespace Omni\Encryption\Encryptor;
 
 interface EncryptorInterface
 {

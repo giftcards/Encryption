@@ -9,7 +9,7 @@
 namespace Omni\Encryption\Command;
 
 use Omni\Encryption\EncryptedData\StoreRegistry;
-use Omni\Encryption\Encrypter\EncryptorRegistry;
+use Omni\Encryption\Encryptor\EncryptorRegistry;
 use Omni\Encryption\Key\SourceInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

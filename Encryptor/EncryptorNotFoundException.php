@@ -6,7 +6,7 @@
  * Time: 6:46 PM
  */
 
-namespace Omni\Encryption\Encrypter;
+namespace Omni\Encryption\Encryptor;
 
 class EncryptorNotFoundException extends \InvalidArgumentException
 {
