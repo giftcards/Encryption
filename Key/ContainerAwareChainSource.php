@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ContainerAwareChainSource extends ChainSource
 {
     protected $container;
-    protected $sourceIds = array();
+    protected $serviceIds = array();
 
     public function __construct(ContainerInterface $container)
     {
@@ -22,7 +22,7 @@ class ContainerAwareChainSource extends ChainSource
 
     public function addServiceId($serviceId)
     {
-        $this->sourceIds[] = $serviceId;
+        $this->serviceIds[] = $serviceId;
         return $this;
     }
     
@@ -42,8 +42,8 @@ class ContainerAwareChainSource extends ChainSource
     {
         $this->sources = array_merge(
             $this->sources,
-            array_map(array($this->container, 'get'), $this->sourceIds)
+            array_map(array($this->container, 'get'), $this->serviceIds)
         );
-        $this->sourceIds = array();
+        $this->serviceIds = array();
     }
 }
