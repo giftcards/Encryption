@@ -10,36 +10,40 @@ namespace Omni\Encryption\Key;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class ContainerAwareChainSource implements SourceInterface
+class ContainerAwareChainSource extends ChainSource
 {
     protected $container;
-    protected $sources = array();
+    protected $sourceIds = array();
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
-    public function set($name, $serviceId)
+    public function addServiceId($serviceId)
     {
-        $this->sources[$name] = $serviceId;
+        $this->sourceIds[] = $serviceId;
         return $this;
     }
     
     public function has($key)
     {
-        return
-            isset($this->sources[$key])
-            && ($this->sources[$key] instanceof SourceInterface || $this->container->has($this->sources[$key]))
-        ;
+        $this->loadServices();
+        return parent::has($key);
     }
 
     public function get($key)
     {
-        if (!$this->has($key)) {
-            throw new KeyNotFoundException($key);
-        }
+        $this->loadServices();
+        return parent::get($key);
+    }
 
-        return $this->container->get($this->sources[$key]);
+    protected function loadServices()
+    {
+        $this->sources = array_merge(
+            $this->sources,
+            array_map(array($this->container, 'get'), $this->sourceIds)
+        );
+        $this->sourceIds = array();
     }
 }
