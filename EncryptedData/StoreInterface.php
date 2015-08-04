@@ -11,10 +11,6 @@ namespace Omni\Encryption\EncryptedData;
 interface StoreInterface
 {
     /**
-     * @return string
-     */
-    public function getName();
-    /**
      * @param array $options
      * @return \Traversable|EncryptedData[]
      */

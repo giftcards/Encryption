@@ -16,12 +16,13 @@ class StoreRegistry
     protected $stores = array();
 
     /**
+     * @param $name
      * @param StoreInterface $store
      * @return $this
      */
-    public function add(StoreInterface $store)
+    public function set($name, StoreInterface $store)
     {
-        $this->stores[$store->getName()] = $store;
+        $this->stores[$name] = $store;
         return $this;
     }
 
