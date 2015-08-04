@@ -10,27 +10,34 @@ namespace Omni\Encryption\Key;
 
 class CombiningSource extends AbstractSource
 {
-    protected $left;
-    protected $right;
+    protected $internalSource;
+    protected $leftsAndRights;
 
     /**
      * CombiningSource constructor.
-     * @param $left
-     * @param $right
+     * @param SourceInterface $internalSource
+     * @param array $leftsAndRights
      */
-    public function __construct(SourceInterface $left, SourceInterface $right)
+    public function __construct(SourceInterface $internalSource, array $leftsAndRights)
     {
-        $this->left = $left;
-        $this->right = $right;
+        $this->internalSource = $internalSource;
+        $this->leftsAndRights = $leftsAndRights;
     }
 
     public function has($key)
     {
-        return $this->left->has($key) && $this->right->has($key);
+        return
+            isset($this->leftsAndRights[$key])
+            && $this->internalSource->has($this->leftsAndRights[$key]['left'])
+            && $this->internalSource->has($this->leftsAndRights[$key]['right'])
+        ;
     }
 
     public function getKey($key)
     {
-        return $this->left->get($key).$this->right->get($key);
+        return
+            $this->internalSource->get($this->leftsAndRights[$key]['left'])
+            .$this->internalSource->get($this->leftsAndRights[$key]['right'])
+        ;
     }
 }
