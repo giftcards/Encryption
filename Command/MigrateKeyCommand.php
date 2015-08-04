@@ -40,8 +40,8 @@ class MigrateKeyCommand extends Command
     protected function configure()
     {
         $this
-            ->addArgument('old-key', InputArgument::REQUIRED, 'The old key the current data is encrypted with.')
-            ->addArgument('new-key', InputArgument::REQUIRED, 'The new key the current data is encrypted with.')
+            ->addArgument('old-key-name', InputArgument::REQUIRED, 'The old key the current data is encrypted with.')
+            ->addArgument('new-key-name', InputArgument::REQUIRED, 'The new key the current data is encrypted with.')
             ->addArgument('encrypter', InputArgument::REQUIRED, 'The encrypter to use.')
             ->addArgument('stores', InputArgument::IS_ARRAY|InputArgument::REQUIRED, 'A list of stores to re-encrypt.')
             ->addOption(
@@ -69,8 +69,8 @@ class MigrateKeyCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $encrypter = $this->encrypterRegistry->get($input->getArgument('encrypter'));
-        $oldKey = $this->keySource->get($input->getArgument('old-key'));
-        $newKey = $this->keySource->get($input->getArgument('new-key'));
+        $oldKey = $this->keySource->get($input->getArgument('old-key-name'));
+        $newKey = $this->keySource->get($input->getArgument('new-key-name'));
 
         foreach ($input->getArgument('stores') as $storeName) {
             $store = $this->storeRegistry->get($storeName);

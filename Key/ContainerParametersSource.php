@@ -10,7 +10,7 @@ namespace Omni\Encryption\Key;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class ContainerSource extends AbstractSource
+class ContainerParametersSource extends AbstractSource
 {
     protected $container;
     protected $parameterMap;
