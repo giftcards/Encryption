@@ -33,7 +33,7 @@ class ChainSource implements SourceInterface
     public function get($key)
     {
         foreach ($this->sources as $source) {
-            if ($source->has($source)) {
+            if ($source->has($key)) {
                 return $source->get($key);
             }
         }

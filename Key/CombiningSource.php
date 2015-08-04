@@ -8,8 +8,13 @@
 
 namespace Omni\Encryption\Key;
 
+use Doctrine\Instantiator\Exception\InvalidArgumentException;
+
 class CombiningSource extends AbstractSource
 {
+    const LEFT = 'left';
+    const RIGHT = 'right';
+    
     protected $internalSource;
     protected $leftsAndRights;
 
@@ -21,6 +26,16 @@ class CombiningSource extends AbstractSource
     public function __construct(SourceInterface $internalSource, array $leftsAndRights)
     {
         $this->internalSource = $internalSource;
+
+        foreach ($leftsAndRights as $key => $leftsAndRight) {
+            if (!isset($leftsAndRight[self::LEFT]) || !isset($leftsAndRight[self::RIGHT])) {
+                throw new InvalidArgumentException(sprintf(
+                    'All values for the $leftAndRights array must have a left and right key. The value for key "%s" does not.',
+                    $key
+                ));
+            }
+        }
+
         $this->leftsAndRights = $leftsAndRights;
     }
 
@@ -28,16 +43,16 @@ class CombiningSource extends AbstractSource
     {
         return
             isset($this->leftsAndRights[$key])
-            && $this->internalSource->has($this->leftsAndRights[$key]['left'])
-            && $this->internalSource->has($this->leftsAndRights[$key]['right'])
+            && $this->internalSource->has($this->leftsAndRights[$key][self::LEFT])
+            && $this->internalSource->has($this->leftsAndRights[$key][self::RIGHT])
         ;
     }
 
     public function getKey($key)
     {
         return
-            $this->internalSource->get($this->leftsAndRights[$key]['left'])
-            .$this->internalSource->get($this->leftsAndRights[$key]['right'])
+            $this->internalSource->get($this->leftsAndRights[$key][self::LEFT])
+            .$this->internalSource->get($this->leftsAndRights[$key][self::RIGHT])
         ;
     }
 }
