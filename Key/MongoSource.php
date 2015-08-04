@@ -42,14 +42,16 @@ class MongoSource extends AbstractSource
 
     public function has($key)
     {
-        return (bool) $this->connection->selectCollection($this->database, $this->collection)
+        return (bool) $this->connection
+            ->selectCollection($this->database, $this->collection)
             ->findOne(array($this->findByField => $key))
         ;
     }
 
     protected function getKey($key)
     {
-        $record = $this->connection->selectCollection($this->database, $this->collection)
+        $record = $this->connection
+            ->selectCollection($this->database, $this->collection)
             ->findOne(array($this->findByField => $key))
         ;
         return $record[$this->valueField];
