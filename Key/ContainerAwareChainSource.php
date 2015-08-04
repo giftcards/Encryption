@@ -20,7 +20,7 @@ class ContainerAwareChainSource implements SourceInterface
         $this->container = $container;
     }
 
-    public function add($name, $serviceId)
+    public function set($name, $serviceId)
     {
         $this->sources[$name] = $serviceId;
         return $this;
