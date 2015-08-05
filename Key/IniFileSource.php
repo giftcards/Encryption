@@ -22,6 +22,7 @@ class IniFileSource extends AbstractSource
     public function __construct($file, $caseSensitive = false)
     {
         $this->file = $file;
+        $this->caseSensitive = $caseSensitive;
     }
 
     public function has($key)
