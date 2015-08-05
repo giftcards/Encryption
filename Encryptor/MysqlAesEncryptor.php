@@ -38,7 +38,7 @@ class MysqlAesEncryptor implements EncryptorInterface
             return null;
         }
 
-        if (strlen(trim($data)) < 1) {
+        if (strlen(trim($data)) == 0) {
             return $data;
         }
 
