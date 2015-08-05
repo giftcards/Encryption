@@ -4,7 +4,8 @@
     "phpunit/phpunit": "~4.3",
     "symfony/dependency-injection": "~2.3",
     "symfony/console": "~2.3",
-    "doctrine/mongodb": "~1.1"
+    "doctrine/mongodb": "~1.1",
+    "omni/testing-bundle": "~1.1"
   },
   "autoload": {
     "psr-0": {

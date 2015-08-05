@@ -13,29 +13,23 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ContainerParametersSource extends AbstractSource
 {
     protected $container;
-    protected $parameterMap;
 
     /**
      * ContainerSource constructor.
      * @param ContainerInterface $container
-     * @param array $parameterMap
      */
-    public function __construct(ContainerInterface $container, array $parameterMap)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->parameterMap = $parameterMap;
     }
 
     public function has($key)
     {
-        return
-            isset($this->parameterMap[$key])
-            && $this->container->hasParameter($this->parameterMap[$key])
-        ;
+        return $this->container->hasParameter($key);
     }
 
     public function getKey($key)
     {
-        return $this->container->getParameter($this->parameterMap[$key]);
+        return $this->container->getParameter($key);
     }
 }
