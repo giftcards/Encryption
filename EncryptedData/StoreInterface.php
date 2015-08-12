@@ -12,11 +12,11 @@ interface StoreInterface
 {
     /**
      * @param array $options
-     * @return \Traversable|EncryptedData[]
+     * @return \Traversable|Data[]
      */
     public function load(array $options);
     /**
-     * @param EncryptedData $encryptedData
+     * @param Data $encryptedData
      */
-    public function save(EncryptedData $encryptedData);
+    public function save(Data $encryptedData);
 }

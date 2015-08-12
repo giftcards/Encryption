@@ -6,7 +6,8 @@
     "doctrine/mongodb": "~1.1",
     "omni/testing-bundle": "~1.1",
     "mockery/mockery": ">=0.8@dev",
-    "fzaninotto/faker": "~1.3"
+    "fzaninotto/faker": "~1.3",
+    "guzzle/guzzle": "~3.4"
   },
   "autoload": {
     "psr-0": {

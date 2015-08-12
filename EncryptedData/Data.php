@@ -8,20 +8,22 @@
 
 namespace Omni\Encryption\EncryptedData;
 
-class EncryptedData
+class Data
 {
     protected $id;
     protected $data;
+    protected $keyName;
 
     /**
      * EncryptedData constructor.
      * @param $id
      * @param $data
      */
-    public function __construct($id, array $data)
+    public function __construct($id, array $data, $keyName)
     {
         $this->id = $id;
         $this->data = $data;
+        $this->keyName = $keyName;
     }
 
     /**
@@ -41,13 +43,10 @@ class EncryptedData
     }
 
     /**
-     * @param array $data
-     * @return $this
+     * @return mixed
      */
-    public function setData(array $data)
+    public function getKeyName()
     {
-        $this->data = $data;
-        
-        return $this;
+        return $this->keyName;
     }
 }

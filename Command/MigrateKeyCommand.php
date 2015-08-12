@@ -8,6 +8,7 @@
 
 namespace Omni\Encryption\Command;
 
+use Omni\Encryption\EncryptedData\Data;
 use Omni\Encryption\EncryptedData\StoreRegistry;
 use Omni\Encryption\Encryptor\EncryptorRegistry;
 use Omni\Encryption\Key\SourceInterface;
@@ -40,7 +41,6 @@ class MigrateKeyCommand extends Command
     protected function configure()
     {
         $this
-            ->addArgument('old-key-name', InputArgument::REQUIRED, 'The old key the current data is encrypted with.')
             ->addArgument('new-key-name', InputArgument::REQUIRED, 'The new key the current data is encrypted with.')
             ->addArgument('encrypter', InputArgument::REQUIRED, 'The encrypter to use.')
             ->addArgument('stores', InputArgument::IS_ARRAY|InputArgument::REQUIRED, 'A list of stores to re-encrypt.')
@@ -69,13 +69,13 @@ class MigrateKeyCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $encrypter = $this->encrypterRegistry->get($input->getArgument('encrypter'));
-        $oldKey = $this->keySource->get($input->getArgument('old-key-name'));
         $newKey = $this->keySource->get($input->getArgument('new-key-name'));
 
         foreach ($input->getArgument('stores') as $storeName) {
             $store = $this->storeRegistry->get($storeName);
             foreach ($store->load($input->getOption('store-option')) as $encryptedData) {
                 $data = $encryptedData->getData();
+                $oldKey = $encryptedData->getKeyName();
                 if (!$input->getOption('no-decrypt')) {
                     $data = array_map(function ($value) use ($encrypter, $oldKey) {
                         return $encrypter->decrypt($value, $oldKey);
@@ -86,8 +86,7 @@ class MigrateKeyCommand extends Command
                         return $encrypter->encrypt($value, $newKey);
                     }, $data);
                 }
-                $encryptedData->setData($data);
-                $store->save($encryptedData);
+                $store->save(new Data($encryptedData->getId(), $data, $newKey));
             }
         }
     }
