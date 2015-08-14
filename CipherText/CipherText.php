@@ -10,7 +10,7 @@ namespace Omni\Encryption\CipherText;
 
 use Omni\Encryption\Profile\Profile;
 
-class CipherText
+class CipherText implements CipherTextInterface
 {
     protected $text;
     protected $profile;

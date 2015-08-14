@@ -35,7 +35,7 @@ class Group implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
-     * @return CipherText[]
+     * @return CipherTextInterface[]
      */
     public function getCipherTexts()
     {

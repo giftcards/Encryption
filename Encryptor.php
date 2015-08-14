@@ -10,6 +10,7 @@ namespace Omni\Encryption;
 
 use Omni\Encryption\CipherText\CipherText;
 use Omni\Encryption\Cipher\CipherRegistry;
+use Omni\Encryption\CipherText\CipherTextInterface;
 use Omni\Encryption\Key\SourceInterface;
 use Omni\Encryption\Profile\ProfileRegistry;
 
@@ -46,7 +47,7 @@ class Encryptor
         );
     }
 
-    public function decrypt(CipherText $cipherText)
+    public function decrypt(CipherTextInterface $cipherText)
     {
         $key = $this->keySource->get($cipherText->getProfile()->getKeyName());
         $algorithm = $this->algorithmRegistry->get($cipherText->getProfile()->getAlgorithm());

@@ -10,7 +10,7 @@ namespace Omni\Encryption\CipherText;
 
 use Omni\Encryption\Encryptor;
 
-class DecryptingCipherText extends CipherText
+class DecryptingCipherText implements CipherTextInterface
 {
     protected $innerText;
     protected $generator;
@@ -20,7 +20,7 @@ class DecryptingCipherText extends CipherText
      * @param $innerText
      * @param $generator
      */
-    public function __construct(CipherText $innerText, Encryptor $generator)
+    public function __construct(CipherTextInterface $innerText, Encryptor $generator)
     {
         $this->innerText = $innerText;
         $this->generator = $generator;
