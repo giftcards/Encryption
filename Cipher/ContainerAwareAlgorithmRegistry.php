@@ -6,11 +6,11 @@
  * Time: 3:19 PM
  */
 
-namespace Omni\Encryption\Encryptor;
+namespace Omni\Encryption\Cipher;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class ContainerAwareEncryptorRegistry extends EncryptorRegistry
+class ContainerAwareCipherRegistry extends CipherRegistry
 {
     protected $container;
     protected $serviceIds = array();
@@ -30,10 +30,10 @@ class ContainerAwareEncryptorRegistry extends EncryptorRegistry
         return $this;
     }
 
-    public function add(EncryptorInterface $encryptor)
+    public function add(CipherInterface $cipher)
     {
-        unset($this->serviceIds[$encryptor->getName()]);
-        return parent::add($encryptor);
+        unset($this->serviceIds[$cipher->getName()]);
+        return parent::add($cipher);
     }
 
     public function has($name)
@@ -62,10 +62,10 @@ class ContainerAwareEncryptorRegistry extends EncryptorRegistry
 
     protected function load($name)
     {
-        if (isset($this->encryptors[$name]) || !isset($this->serviceIds[$name])) {
+        if (isset($this->ciphers[$name]) || !isset($this->serviceIds[$name])) {
             return;
         }
         
-        $this->encryptors[$name] = $this->container->get($this->serviceIds[$name]);
+        $this->ciphers[$name] = $this->container->get($this->serviceIds[$name]);
     }
 }

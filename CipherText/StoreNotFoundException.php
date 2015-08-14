@@ -6,7 +6,7 @@
  * Time: 6:31 PM
  */
 
-namespace Omni\Encryption\EncryptedData;
+namespace Omni\Encryption\CipherText;
 
 class StoreNotFoundException extends \InvalidArgumentException
 {

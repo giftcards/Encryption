@@ -6,17 +6,17 @@
  * Time: 6:15 PM
  */
 
-namespace Omni\Encryption\EncryptedData;
+namespace Omni\Encryption\CipherText;
 
 interface StoreInterface
 {
     /**
      * @param array $options
-     * @return \Traversable|Data[]
+     * @return \Traversable|Group[]
      */
     public function load(array $options);
     /**
-     * @param Data $encryptedData
+     * @param Group $encryptedData
      */
-    public function save(Data $encryptedData);
+    public function save(Group $encryptedData);
 }

@@ -8,10 +8,11 @@
 
 namespace Omni\Encryption\Command;
 
-use Omni\Encryption\EncryptedData\Data;
-use Omni\Encryption\EncryptedData\StoreRegistry;
-use Omni\Encryption\Encryptor\EncryptorRegistry;
-use Omni\Encryption\Key\SourceInterface;
+use Omni\Encryption\CipherText\CipherText;
+use Omni\Encryption\CipherText\Group;
+use Omni\Encryption\CipherText\StoreRegistry;
+use Omni\Encryption\Encryptor;
+use Omni\Encryption\Profile\ProfileRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,18 +21,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MigrateKeyCommand extends Command
 {
-    protected $keySource;
+    protected $profileRegistry;
     protected $storeRegistry;
-    protected $encrypterRegistry;
+    protected $cipherTextGenerator;
 
     public function __construct(
-        SourceInterface $keySource,
+        ProfileRegistry $profileRegistry,
         StoreRegistry $storeRegistry,
-        EncryptorRegistry $encrypterRegistry
+        Encryptor $cipherTextGenerator
     ) {
-        $this->keySource = $keySource;
+        $this->profileRegistry = $profileRegistry;
         $this->storeRegistry = $storeRegistry;
-        $this->encrypterRegistry = $encrypterRegistry;
+        $this->cipherTextGenerator = $cipherTextGenerator;
         parent::__construct('keys:migrate');
     }
 
@@ -41,8 +42,7 @@ class MigrateKeyCommand extends Command
     protected function configure()
     {
         $this
-            ->addArgument('new-key-name', InputArgument::REQUIRED, 'The new key the current data is encrypted with.')
-            ->addArgument('encrypter', InputArgument::REQUIRED, 'The encrypter to use.')
+            ->addArgument('new-profile', InputArgument::REQUIRED, 'The new key the current data is encrypted with.')
             ->addArgument('stores', InputArgument::IS_ARRAY|InputArgument::REQUIRED, 'A list of stores to re-encrypt.')
             ->addOption(
                 'no-decrypt',
@@ -68,25 +68,19 @@ class MigrateKeyCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $encrypter = $this->encrypterRegistry->get($input->getArgument('encrypter'));
-        $newKey = $this->keySource->get($input->getArgument('new-key-name'));
+        $newProfile = $this->profileRegistry->get($input->getArgument('new-profile'));
+        $cipherTextGenerator = $this->cipherTextGenerator;
 
         foreach ($input->getArgument('stores') as $storeName) {
             $store = $this->storeRegistry->get($storeName);
-            foreach ($store->load($input->getOption('store-option')) as $encryptedData) {
-                $data = $encryptedData->getData();
-                $oldKey = $encryptedData->getKeyName();
-                if (!$input->getOption('no-decrypt')) {
-                    $data = array_map(function ($value) use ($encrypter, $oldKey) {
-                        return $encrypter->decrypt($value, $oldKey);
-                    }, $data);
-                }
-                if (!$input->getOption('no-encrypt')) {
-                    $data = array_map(function ($value) use ($encrypter, $newKey) {
-                        return $encrypter->encrypt($value, $newKey);
-                    }, $data);
-                }
-                $store->save(new Data($encryptedData->getId(), $data, $newKey));
+            foreach ($store->load($input->getOption('store-option')) as $group) {
+                $cipherTexts = array_map(function (CipherText $cipherText) use ($cipherTextGenerator, $newProfile) {
+                    return $cipherTextGenerator->encrypt(
+                        $this->cipherTextGenerator->decrypt($cipherText),
+                        $newProfile
+                    );
+                }, $group->getCipherTexts());
+                $store->save(new Group($group->getId(), $cipherTexts));
             }
         }
     }

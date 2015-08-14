@@ -6,16 +6,16 @@
  * Time: 6:46 PM
  */
 
-namespace Omni\Encryption\Encryptor;
+namespace Omni\Encryption\Cipher;
 
-class EncryptorNotFoundException extends \InvalidArgumentException
+class CipherNotFoundException extends \InvalidArgumentException
 {
     protected $name;
 
     public function __construct($name)
     {
         $this->name = $name;
-        parent::__construct(sprintf('The encryptor named "%s" was not found.', $name));
+        parent::__construct(sprintf('The cipher named "%s" was not found.', $name));
     }
 
     /**

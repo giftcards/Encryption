@@ -6,50 +6,50 @@
  * Time: 6:41 PM
  */
 
-namespace Omni\Encryption\Encryptor;
+namespace Omni\Encryption\Cipher;
 
-class MysqlAesEncryptor implements EncryptorInterface
+class MysqlAes implements CipherInterface
 {
     public function getName()
     {
         return 'mysql_aes';
     }
     
-    public function encrypt($data, $encryptionKey)
+    public function encipher($clearText, $key)
     {
-        if ($data === null) {
+        if ($clearText === null) {
             return null;
         }
 
-        $pad_value = 16 - (strlen($data) % 16);
-        $data = str_pad($data, (16 * (floor(strlen($data) / 16) + 1)), chr($pad_value));
+        $pad_value = 16 - (strlen($clearText) % 16);
+        $clearText = str_pad($clearText, (16 * (floor(strlen($clearText) / 16) + 1)), chr($pad_value));
         return mcrypt_encrypt(
             MCRYPT_RIJNDAEL_128,
-            $this->mysqlAesKey($encryptionKey),
-            $data,
+            $this->mysqlAesKey($key),
+            $clearText,
             MCRYPT_MODE_ECB,
             mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_ECB), MCRYPT_DEV_URANDOM)
         );
     }
 
-    public function decrypt($data, $encryptionKey)
+    public function decipher($cipherText, $key)
     {
-        if ($data === null) {
+        if ($cipherText === null) {
             return null;
         }
 
-        if (strlen(trim($data)) == 0) {
-            return $data;
+        if (strlen(trim($cipherText)) == 0) {
+            return $cipherText;
         }
 
-        $data = mcrypt_decrypt(
+        $cipherText = mcrypt_decrypt(
             MCRYPT_RIJNDAEL_128,
-            $this->mysqlAesKey($encryptionKey),
-            $data,
+            $this->mysqlAesKey($key),
+            $cipherText,
             MCRYPT_MODE_ECB,
             mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_ECB), MCRYPT_DEV_URANDOM)
         );
-        return rtrim($data, "\x00..\x1F");
+        return rtrim($cipherText, "\x00..\x1F");
     }
 
     /**

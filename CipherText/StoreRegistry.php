@@ -6,7 +6,7 @@
  * Time: 6:17 PM
  */
 
-namespace Omni\Encryption\EncryptedData;
+namespace Omni\Encryption\CipherText;
 
 class StoreRegistry
 {

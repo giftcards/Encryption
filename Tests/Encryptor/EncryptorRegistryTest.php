@@ -8,17 +8,17 @@
 
 namespace Omni\Encryption\Tests\Encryptor;
 
-use Omni\Encryption\Encryptor\EncryptorRegistry;
+use Omni\Encryption\Cipher\CipherRegistry;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class EncryptorRegistryTest extends AbstractExtendableTestCase
 {
-    /** @var  EncryptorRegistry */
+    /** @var  CipherRegistry */
     protected $registry;
 
     public function setUp()
     {
-        $this->registry = new EncryptorRegistry();
+        $this->registry = new CipherRegistry();
     }
 
     public function testGettersSetters()
@@ -59,7 +59,7 @@ class EncryptorRegistryTest extends AbstractExtendableTestCase
     }
 
     /**
-     * @expectedException \Omni\Encryption\Encryptor\EncryptorNotFoundException
+     * @expectedException \Omni\Encryption\Cipher\CipherNotFoundException
      */
     public function testGetWithMissingEncryptor()
     {

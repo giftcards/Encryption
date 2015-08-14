@@ -8,12 +8,12 @@
 
 namespace Omni\Encryption\Tests\Encryptor;
 
-use Omni\Encryption\Encryptor\ContainerAwareEncryptorRegistry;
+use Omni\Encryption\Cipher\ContainerAwareCipherRegistry;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * @property ContainerAwareEncryptorRegistry $registry
+ * @property ContainerAwareCipherRegistry $registry
  */
 class ContainerAwareEncryptorRegistryTest extends EncryptorRegistryTest
 {
@@ -23,7 +23,7 @@ class ContainerAwareEncryptorRegistryTest extends EncryptorRegistryTest
     public function setUp()
     {
         $this->container = new Container();
-        $this->registry = new ContainerAwareEncryptorRegistry($this->container);
+        $this->registry = new ContainerAwareCipherRegistry($this->container);
     }
 
     public function testGettersSettersIncludingServiceIds()
@@ -66,7 +66,7 @@ class ContainerAwareEncryptorRegistryTest extends EncryptorRegistryTest
     }
 
     /**
-     * @expectedException \Omni\Encryption\Encryptor\EncryptorNotFoundException
+     * @expectedException \Omni\Encryption\Cipher\CipherNotFoundException
      */
     public function testGetWithMissingEncryptorIncludingServiceIds()
     {
