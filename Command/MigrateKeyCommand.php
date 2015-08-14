@@ -12,7 +12,6 @@ use Omni\Encryption\CipherText\CipherText;
 use Omni\Encryption\CipherText\Group;
 use Omni\Encryption\CipherText\StoreRegistry;
 use Omni\Encryption\Encryptor;
-use Omni\Encryption\Profile\ProfileRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,18 +20,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MigrateKeyCommand extends Command
 {
-    protected $profileRegistry;
     protected $storeRegistry;
-    protected $cipherTextGenerator;
+    protected $encryptor;
 
     public function __construct(
-        ProfileRegistry $profileRegistry,
         StoreRegistry $storeRegistry,
         Encryptor $cipherTextGenerator
     ) {
-        $this->profileRegistry = $profileRegistry;
         $this->storeRegistry = $storeRegistry;
-        $this->cipherTextGenerator = $cipherTextGenerator;
+        $this->encryptor = $cipherTextGenerator;
         parent::__construct('keys:migrate');
     }
 
@@ -68,15 +64,15 @@ class MigrateKeyCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $newProfile = $this->profileRegistry->get($input->getArgument('new-profile'));
-        $cipherTextGenerator = $this->cipherTextGenerator;
+        $newProfile = $input->getArgument('new-profile');
+        $encryptor = $this->encryptor;
 
         foreach ($input->getArgument('stores') as $storeName) {
             $store = $this->storeRegistry->get($storeName);
             foreach ($store->load($input->getOption('store-option')) as $group) {
-                $cipherTexts = array_map(function (CipherText $cipherText) use ($cipherTextGenerator, $newProfile) {
-                    return $cipherTextGenerator->encrypt(
-                        $this->cipherTextGenerator->decrypt($cipherText),
+                $cipherTexts = array_map(function (CipherText $cipherText) use ($encryptor, $newProfile) {
+                    return $encryptor->encrypt(
+                        $this->encryptor->decrypt($cipherText),
                         $newProfile
                     );
                 }, $group->getCipherTexts());
