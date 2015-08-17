@@ -56,7 +56,7 @@ class Group implements \ArrayAccess, \IteratorAggregate
      */
     public function offsetExists($offset)
     {
-        return isset($this->cipherTexts);
+        return isset($this->cipherTexts[$offset]);
     }
 
     /**

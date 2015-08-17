@@ -9,21 +9,22 @@
 namespace Omni\Encryption\CipherText;
 
 use Omni\Encryption\Encryptor;
+use Omni\Encryption\Profile\Profile;
 
 class DecryptingCipherText implements CipherTextInterface
 {
     protected $innerText;
-    protected $generator;
+    protected $encryptor;
 
     /**
      * DecryptingCipherText constructor.
      * @param $innerText
-     * @param $generator
+     * @param $encryptor
      */
-    public function __construct(CipherTextInterface $innerText, Encryptor $generator)
+    public function __construct(CipherTextInterface $innerText, Encryptor $encryptor)
     {
         $this->innerText = $innerText;
-        $this->generator = $generator;
+        $this->encryptor = $encryptor;
     }
 
     /**
@@ -35,7 +36,7 @@ class DecryptingCipherText implements CipherTextInterface
     }
 
     /**
-     * @return mixed
+     * @return Profile
      */
     public function getProfile()
     {
@@ -44,7 +45,7 @@ class DecryptingCipherText implements CipherTextInterface
 
     public function getClearText()
     {
-        return $this->generator->decrypt($this->innerText);
+        return $this->encryptor->decrypt($this->innerText);
     }
 
     public function __toString()
