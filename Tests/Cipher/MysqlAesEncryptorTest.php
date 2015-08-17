@@ -6,7 +6,7 @@
  * Time: 1:32 PM
  */
 
-namespace Omni\Encryption\Tests\Encryptor;
+namespace Omni\Encryption\Tests\Cipher;
 
 use Omni\Encryption\Cipher\MysqlAes;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;

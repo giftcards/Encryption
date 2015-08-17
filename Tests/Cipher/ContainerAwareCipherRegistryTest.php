@@ -6,7 +6,7 @@
  * Time: 3:24 PM
  */
 
-namespace Omni\Encryption\Tests\Encryptor;
+namespace Omni\Encryption\Tests\Cipher;
 
 use Omni\Encryption\Cipher\ContainerAwareCipherRegistry;
 use Symfony\Component\DependencyInjection\Container;
@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * @property ContainerAwareCipherRegistry $registry
  */
-class ContainerAwareEncryptorRegistryTest extends EncryptorRegistryTest
+class ContainerAwareCipherRegistryTest extends CipherRegistryTest
 {
     /** @var  ContainerInterface */
     protected $container;
@@ -29,19 +29,19 @@ class ContainerAwareEncryptorRegistryTest extends EncryptorRegistryTest
     public function testGettersSettersIncludingServiceIds()
     {
         $encryptor1Name = $this->getFaker()->unique()->word;
-        $encryptor1 = \Mockery::mock('Omni\Encryption\Encryptor\EncryptorInterface')
+        $encryptor1 = \Mockery::mock('Omni\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn($encryptor1Name)
             ->getMock()
         ;
         $encryptor2Name = $this->getFaker()->unique()->word;
-        $encryptor2 = \Mockery::mock('Omni\Encryption\Encryptor\EncryptorInterface')
+        $encryptor2 = \Mockery::mock('Omni\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn($encryptor2Name)
             ->getMock()
         ;
         $encryptor3Name = $this->getFaker()->unique()->word;
-        $encryptor3 = \Mockery::mock('Omni\Encryption\Encryptor\EncryptorInterface')
+        $encryptor3 = \Mockery::mock('Omni\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn($encryptor3Name)
             ->getMock()
@@ -71,13 +71,13 @@ class ContainerAwareEncryptorRegistryTest extends EncryptorRegistryTest
     public function testGetWithMissingEncryptorIncludingServiceIds()
     {
         $encryptor1Name = $this->getFaker()->unique()->word;
-        $encryptor1 = \Mockery::mock('Omni\Encryption\Encryptor\EncryptorInterface')
+        $encryptor1 = \Mockery::mock('Omni\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn($encryptor1Name)
             ->getMock()
         ;
         $encryptor2Name = $this->getFaker()->unique()->word;
-        $encryptor2 = \Mockery::mock('Omni\Encryption\Encryptor\EncryptorInterface')
+        $encryptor2 = \Mockery::mock('Omni\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn($encryptor2Name)
             ->getMock()

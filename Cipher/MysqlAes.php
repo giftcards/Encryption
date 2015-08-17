@@ -21,8 +21,8 @@ class MysqlAes implements CipherInterface
             return null;
         }
 
-        $pad_value = 16 - (strlen($clearText) % 16);
-        $clearText = str_pad($clearText, (16 * (floor(strlen($clearText) / 16) + 1)), chr($pad_value));
+        $padValue = 16 - (strlen($clearText) % 16);
+        $clearText = str_pad($clearText, (16 * (floor(strlen($clearText) / 16) + 1)), chr($padValue));
         return mcrypt_encrypt(
             MCRYPT_RIJNDAEL_128,
             $this->mysqlAesKey($key),
@@ -60,12 +60,12 @@ class MysqlAes implements CipherInterface
      */
     protected function mysqlAesKey($key)
     {
-        $new_key = str_repeat(chr(0), 16);
+        $newKey = str_repeat(chr(0), 16);
 
         for ($i = 0, $len = strlen($key); $i < $len; $i++) {
-            $new_key[$i % 16] = $new_key[$i % 16] ^ $key[$i];
+            $newKey[$i % 16] = $newKey[$i % 16] ^ $key[$i];
         }
 
-        return $new_key;
+        return $newKey;
     }
 }

@@ -33,7 +33,7 @@ abstract class AbstractSourceTest extends AbstractExtendableTestCase
      * @dataProvider gettersHassersProvider
      * @expectedException \Omni\Encryption\Key\KeyNotFoundException
      */
-    public function testGetWhenNonExistent(SourceInterface $source, array $existing, array $notExisting)
+    public function testGetWhenNonExistent(SourceInterface $source, array $_, array $notExisting)
     {
         $source->get($notExisting[0]);
     }

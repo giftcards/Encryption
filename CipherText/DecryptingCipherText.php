@@ -42,14 +42,6 @@ class DecryptingCipherText implements CipherTextInterface
         return $this->innerText->getProfile();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getKeyName()
-    {
-        return $this->innerText->getKeyName();
-    }
-
     public function getClearText()
     {
         return $this->generator->decrypt($this->innerText);
@@ -57,6 +49,6 @@ class DecryptingCipherText implements CipherTextInterface
 
     public function __toString()
     {
-        return (string)$this->getClearText();
+        return (string)$this->getText();
     }
 }

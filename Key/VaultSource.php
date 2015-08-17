@@ -15,21 +15,21 @@ class VaultSource implements SourceInterface
 {
     protected $client;
     protected $mount;
-    protected $keyKey;
+    protected $valueField;
     protected $apiVersion;
 
     /**
      * VaultSource constructor.
      * @param ClientInterface $client
      * @param string $mount
-     * @param string $keyKey
+     * @param string $valueField
      * @param string $apiVersion
      */
-    public function __construct(ClientInterface $client, $mount = 'secret', $keyKey = 'value', $apiVersion = 'v1')
+    public function __construct(ClientInterface $client, $mount = 'secret', $valueField = 'value', $apiVersion = 'v1')
     {
         $this->client = $client;
         $this->mount = $mount;
-        $this->keyKey = $keyKey;
+        $this->valueField = $valueField;
         $this->apiVersion = $apiVersion;
     }
 
@@ -51,13 +51,13 @@ class VaultSource implements SourceInterface
     {
         try {
             $data = $this->client->get(sprintf('/%s/%s/%s', $this->apiVersion, $this->mount, $key))->send()->json();
-            return $data['data'][$this->keyKey];
+            return $data['data'][$this->valueField];
         } catch (ClientErrorResponseException $e) {
             if ($e->getResponse()->getStatusCode() != 404) {
                 throw $e;
             }
         }
 
-        return false;
+        throw new KeyNotFoundException($key);
     }
 }
