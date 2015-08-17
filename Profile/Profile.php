@@ -9,26 +9,26 @@ namespace Omni\Encryption\Profile;
  */
 class Profile
 {
-    protected $algorithm;
+    protected $cipher;
     protected $keyName;
 
     /**
      * Profile constructor.
-     * @param $algorithm
+     * @param $cipher
      * @param $keyName
      */
-    public function __construct($algorithm, $keyName)
+    public function __construct($cipher, $keyName)
     {
-        $this->algorithm = $algorithm;
+        $this->cipher = $cipher;
         $this->keyName = $keyName;
     }
 
     /**
      * @return mixed
      */
-    public function getAlgorithm()
+    public function getCipher()
     {
-        return $this->algorithm;
+        return $this->cipher;
     }
 
     /**

@@ -40,9 +40,9 @@ class Encryptor
     {
         $profile = $this->profileRegistry->get($profile);
         $key = $this->keySource->get($profile->getKeyName());
-        $algorithm = $this->algorithmRegistry->get($profile->getAlgorithm());
+        $algorithm = $this->algorithmRegistry->get($profile->getCipher());
         return new CipherText(
-            $algorithm->encipher($clearText, $key),
+            $algorithm->encipher((string)$clearText, (string)$key),
             $profile
         );
     }
@@ -50,10 +50,10 @@ class Encryptor
     public function decrypt(CipherTextInterface $cipherText)
     {
         $key = $this->keySource->get($cipherText->getProfile()->getKeyName());
-        $algorithm = $this->algorithmRegistry->get($cipherText->getProfile()->getAlgorithm());
+        $algorithm = $this->algorithmRegistry->get($cipherText->getProfile()->getCipher());
         return $this->algorithmRegistry
             ->get($algorithm)
-            ->decipher($cipherText, $key)
+            ->decipher((string)$cipherText->getText(), (string)$key)
         ;
     }
 }

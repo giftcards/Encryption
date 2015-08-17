@@ -16,6 +16,7 @@ class ProfileRegistry
     public function set($name, Profile $profile)
     {
         $this->profiles[$name] = $profile;
+        return $this;
     }
 
     /**

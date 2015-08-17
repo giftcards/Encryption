@@ -60,6 +60,9 @@ class EncryptTransformer implements DataTransformerInterface
      */
     public function transform($value)
     {
+        if ($value instanceof DecryptingCipherText) {
+            return $value->getClearText();
+        }
         return (string)$value;
     }
 
