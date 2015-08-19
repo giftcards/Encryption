@@ -8,7 +8,7 @@
 
 namespace Omni\Encryption\CipherText\Serializer;
 
-class FailedToUnserializeException extends \RuntimeException
+class FailedToDeserializeException extends \RuntimeException
 {
     protected $string;
 

@@ -11,7 +11,7 @@ namespace Omni\Encryption\CipherText\Serializer;
 use Omni\Encryption\CipherText\CipherText;
 use Omni\Encryption\CipherText\CipherTextInterface;
 
-class BasicSerializer implements SerializerInterface
+class BasicSerializer extends AbstractSerializer
 {
     protected $separator;
 
@@ -25,10 +25,10 @@ class BasicSerializer implements SerializerInterface
     }
 
     /**
-     * @param CipherTextInterface $cipherText
+     * @param $cipherText
      * @return string
      */
-    public function serialize(CipherTextInterface $cipherText)
+    protected function doSerialize(CipherTextInterface $cipherText)
     {
         $profile = array(
             'key_name' => $cipherText->getProfile()->getKeyName(),
@@ -38,31 +38,40 @@ class BasicSerializer implements SerializerInterface
     }
 
     /**
-     * @param string
+     * @param $string
      * @return CipherTextInterface
      */
-    public function unserialize($string)
+    protected function doDeserialize($string)
+    {
+        list($profile, $text) = explode($this->separator, $string, 2);
+        return new CipherText(base64_decode($text), json_decode(base64_decode($profile)));
+
+    }
+
+    /**
+     * @param CipherTextInterface $cipherText
+     * @return bool
+     */
+    public function canSerialize(CipherTextInterface $cipherText)
+    {
+        return true;
+    }
+
+    /**
+     * @param $string
+     * @return bool
+     */
+    public function canDeserialize($string)
     {
         if (stripos($string, $this->separator) === false) {
-            throw new FailedToUnserializeException(
-                $string,
-                sprintf('The separator %s is not in the given string.', $this->separator)
-            );
+            return false;
         }
 
         list($profile, $text) = explode($this->separator, $string, 2);
-        
+
         $profile = json_decode(base64_decode($profile));
         $text = base64_decode($text);
-        
-        if (is_null($profile)) {
-            throw new FailedToUnserializeProfileException($string);
-        }
-        
-        if ($text === false) {
-            throw new FailedToUnserializeTextException($string);
-        }
-        
-        return new CipherText($text, $profile);
+
+        return !is_null($profile) && $text !== false;
     }
 }

@@ -22,5 +22,17 @@ interface SerializerInterface
      * @param string $string
      * @return CipherTextInterface
      */
-    public function unserialize($string);
+    public function deserialize($string);
+
+    /**
+     * @param CipherTextInterface $cipherText
+     * @return bool
+     */
+    public function canSerialize(CipherTextInterface $cipherText);
+
+    /**
+     * @param $string
+     * @return bool
+     */
+    public function canDeserialize($string);
 }

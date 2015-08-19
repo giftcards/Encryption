@@ -10,7 +10,7 @@ namespace Omni\Encryption\CipherText\Serializer;
 
 use Omni\Encryption\CipherText\CipherTextInterface;
 
-class FailedToSerializerException extends \RuntimeException
+class FailedToSerializeException extends \RuntimeException
 {
     protected $cipherText;
 
