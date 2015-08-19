@@ -8,6 +8,7 @@
 
 namespace Omni\Encryption\Form\DataTransformer;
 
+use Omni\Encryption\CipherText\CipherTextInterface;
 use Omni\Encryption\CipherText\DecryptingCipherText;
 use Omni\Encryption\Encryptor;
 use Symfony\Component\Form\DataTransformerInterface;
@@ -60,8 +61,8 @@ class EncryptTransformer implements DataTransformerInterface
      */
     public function transform($value)
     {
-        if ($value instanceof DecryptingCipherText) {
-            return $value->getClearText();
+        if ($value instanceof CipherTextInterface) {
+            return $this->encryptor->decrypt($value);
         }
         return (string)$value;
     }
@@ -92,9 +93,6 @@ class EncryptTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
-        return new DecryptingCipherText(
-            $this->encryptor->encrypt($value, $this->profile),
-            $this->encryptor
-        );
+        return $this->encryptor->encrypt($value, $this->profile);
     }
 }

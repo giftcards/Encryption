@@ -10,7 +10,7 @@ namespace Omni\Encryption\Command;
 
 use Omni\Encryption\CipherText\CipherText;
 use Omni\Encryption\CipherText\Group;
-use Omni\Encryption\CipherText\StoreRegistry;
+use Omni\Encryption\CipherText\Store\StoreRegistry;
 use Omni\Encryption\Encryptor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

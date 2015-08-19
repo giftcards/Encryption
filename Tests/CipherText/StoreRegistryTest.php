@@ -8,7 +8,7 @@
 
 namespace Omni\Encryption\Tests\CipherText;
 
-use Omni\Encryption\CipherText\StoreRegistry;
+use Omni\Encryption\CipherText\Store\StoreRegistry;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class StoreRegistryTest extends AbstractExtendableTestCase
