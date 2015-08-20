@@ -18,7 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MigrateKeyCommand extends Command
+class RotateEncryptionCommand extends Command
 {
     protected $storeRegistry;
     protected $encryptor;
@@ -29,7 +29,7 @@ class MigrateKeyCommand extends Command
     ) {
         $this->storeRegistry = $storeRegistry;
         $this->encryptor = $cipherTextGenerator;
-        parent::__construct('keys:migrate');
+        parent::__construct('encryption:migrate');
     }
 
     /**
