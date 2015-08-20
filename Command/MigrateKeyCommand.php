@@ -38,25 +38,12 @@ class MigrateKeyCommand extends Command
     protected function configure()
     {
         $this
-            ->addArgument('new-profile', InputArgument::REQUIRED, 'The new key the current data is encrypted with.')
             ->addArgument('stores', InputArgument::IS_ARRAY|InputArgument::REQUIRED, 'A list of stores to re-encrypt.')
             ->addOption(
-                'no-decrypt',
+                'new-profile',
                 null,
-                InputOption::VALUE_NONE,
-                'Use this option if you dont want the old data decrypted first'
-            )
-            ->addOption(
-                'no-encrypt',
-                null,
-                InputOption::VALUE_NONE,
-                'Use this option if you dont want the old data encrypted after'
-            )
-            ->addOption(
-                'store-option',
-                null,
-                InputOption::VALUE_REQUIRED|InputOption::VALUE_IS_ARRAY,
-                'Options to pass to the source loader',
+                InputOption::VALUE_REQUIRED,
+                'The new profile the current data is encrypted with.',
                 null
             )
         ;
@@ -65,19 +52,10 @@ class MigrateKeyCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $newProfile = $input->getArgument('new-profile');
-        $encryptor = $this->encryptor;
 
         foreach ($input->getArgument('stores') as $storeName) {
             $store = $this->storeRegistry->get($storeName);
-            foreach ($store->load($input->getOption('store-option')) as $group) {
-                $cipherTexts = array_map(function (CipherText $cipherText) use ($encryptor, $newProfile) {
-                    return $encryptor->encrypt(
-                        $this->encryptor->decrypt($cipherText),
-                        $newProfile
-                    );
-                }, $group->getCipherTexts());
-                $store->save(new Group($group->getId(), $cipherTexts));
-            }
+            $store->rotate($this->encryptor, $newProfile);
         }
     }
 }
