@@ -20,12 +20,10 @@ class TextOnlySerializer extends AbstractSerializer
     /**
      * FallbackProfileSerializer constructor.
      * @param $profile
-     * @param $inner
      */
-    public function __construct(Profile $profile, SerializerInterface $inner)
+    public function __construct(Profile $profile)
     {
         $this->profile = $profile;
-        $this->inner = $inner;
     }
 
     /**

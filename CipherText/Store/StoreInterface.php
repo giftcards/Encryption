@@ -8,17 +8,9 @@
 
 namespace Omni\Encryption\CipherText\Store;
 
-use Omni\Encryption\CipherText\Group;
+use Omni\Encryption\Encryptor;
 
 interface StoreInterface
 {
-    /**
-     * @param array $options
-     * @return \Traversable|Group[]
-     */
-    public function load(array $options);
-    /**
-     * @param Group $encryptedData
-     */
-    public function save(Group $encryptedData);
+    public function rotate(Encryptor $encryptor, $newProfile = null);
 }

@@ -48,7 +48,14 @@ class Encryptor
 
     public function encrypt($clearText, $profile = null)
     {
-        $profile = $this->profileRegistry->get($profile ?: $this->defaultProfile);
+        $profile = $profile ?: $this->defaultProfile;
+        
+        if (!$profile) {
+            throw new \RuntimeException(
+                '$profile must either be passed or the $defaultProfile must be defined in the constructor'
+            );
+        }
+        $profile = $this->profileRegistry->get($profile);
         $key = $this->keySource->get($profile->getKeyName());
         $cipher = $this->cipherRegistry->get($profile->getCipher());
         
