@@ -26,20 +26,20 @@ class Encryptor
 
     /**
      * CipherTextGenerator constructor.
-     * @param CipherRegistry $algorithmRegistry
+     * @param CipherRegistry $cipherRegistry
      * @param SourceInterface $keySource
      * @param ProfileRegistry $profileRegistry
      * @param SerializerInterface $serializer
      * @param string|null $defaultProfile
      */
     public function __construct(
-        CipherRegistry $algorithmRegistry,
+        CipherRegistry $cipherRegistry,
         SourceInterface $keySource,
         ProfileRegistry $profileRegistry,
         SerializerInterface $serializer,
         $defaultProfile = null
     ) {
-        $this->cipherRegistry = $algorithmRegistry;
+        $this->cipherRegistry = $cipherRegistry;
         $this->keySource = $keySource;
         $this->profileRegistry = $profileRegistry;
         $this->defaultProfile = $defaultProfile;
@@ -55,6 +55,7 @@ class Encryptor
                 '$profile must either be passed or the $defaultProfile must be defined in the constructor'
             );
         }
+        
         $profile = $this->profileRegistry->get($profile);
         $key = $this->keySource->get($profile->getKeyName());
         $cipher = $this->cipherRegistry->get($profile->getCipher());
