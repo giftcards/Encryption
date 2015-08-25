@@ -12,7 +12,7 @@ use Omni\Encryption\CipherText\CipherText;
 use Omni\Encryption\CipherText\CipherTextInterface;
 use Omni\Encryption\Profile\Profile;
 
-class TextOnlySerializer extends AbstractSerializer
+class NoProfileSerializer extends AbstractSerializer
 {
     protected $profile;
     protected $inner;
@@ -50,7 +50,7 @@ class TextOnlySerializer extends AbstractSerializer
      */
     public function canSerialize(CipherTextInterface $cipherText)
     {
-        return true;
+        return $this->profile->equals($cipherText->getProfile());
     }
 
     /**

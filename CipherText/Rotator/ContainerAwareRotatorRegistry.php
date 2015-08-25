@@ -6,14 +6,13 @@
  * Time: 3:19 PM
  */
 
-namespace Omni\Encryption\CipherText\Store;
+namespace Omni\Encryption\CipherText\Rotator;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class ContainerAwareStoreRegistry extends StoreRegistry
+class ContainerAwareRotatorRegistry extends RotatorRegistry
 {
     protected $container;
-    protected $serviceIds = array();
 
     /**
      * ContainerAwareStoreRegistry constructor.
@@ -26,23 +25,8 @@ class ContainerAwareStoreRegistry extends StoreRegistry
 
     public function setServiceId($name, $serviceId)
     {
-        $this->serviceIds[$name] = $serviceId;
+        $this->rotators[$name] = $serviceId;
         return $this;
-    }
-
-    public function set($name, StoreInterface $store)
-    {
-        unset($this->serviceIds[$name]);
-        return parent::set($name, $store);
-    }
-
-    public function has($name)
-    {
-        if (isset($this->serviceIds[$name])) {
-            return true;
-        }
-        
-        return parent::has($name);
     }
 
     public function get($name)
@@ -53,7 +37,7 @@ class ContainerAwareStoreRegistry extends StoreRegistry
 
     public function all()
     {
-        foreach ($this->serviceIds as $name => $serviceId) {
+        foreach ($this->rotators as $name => $rotator) {
             $this->load($name);
         }
 
@@ -62,10 +46,10 @@ class ContainerAwareStoreRegistry extends StoreRegistry
 
     protected function load($name)
     {
-        if (isset($this->stores[$name]) || !isset($this->serviceIds[$name])) {
+        if (!isset($this->rotators[$name]) || $this->rotators[$name] instanceof RotatorInterface) {
             return;
         }
         
-        $this->stores[$name] = $this->container->get($this->serviceIds[$name]);
+        $this->rotators[$name] = $this->container->get($this->rotators[$name]);
     }
 }

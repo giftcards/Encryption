@@ -6,11 +6,11 @@
  * Time: 5:44 PM
  */
 
-namespace Omni\Encryption\CipherText\Store;
+namespace Omni\Encryption\CipherText\Rotator;
 
 use Omni\Encryption\Encryptor;
 
-class DatabaseTableStore implements StoreInterface
+class DatabaseTableRotator implements RotatorInterface
 {
     protected $pdo;
     protected $table;
@@ -32,7 +32,7 @@ class DatabaseTableStore implements StoreInterface
         $this->idField = $idField;
     }
 
-    public function rotate(Encryptor $encryptor, $newProfile = null)
+    public function rotate(ObserverInterface $observer, Encryptor $encryptor, $newProfile = null)
     {
         $fields = $this->fields;
         $fields[] = $this->idField;
@@ -43,23 +43,26 @@ class DatabaseTableStore implements StoreInterface
         ));
         $stmt->execute();
 
-        foreach ($stmt->fetch(\PDO::FETCH_ASSOC) as $row) {
+        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             $id = $row[$this->idField];
+            $observer->rotating($id);
             unset($row[$this->idField]);
-            $encryptedRow = array_map(
-                array($encryptor, 'encrypt'),
-                array_map(array($encryptor, 'decrypt'), $row)
-            );
+            foreach ($row as $key => $value) {
+                $row[$key] = $encryptor->encrypt($encryptor->decrypt($value), $newProfile);
+            }
             $parameters = array();
             $setFields = array_map(function ($field, $value) use (&$parameters) {
                 $parameters[] = $value;
                 return sprintf('%s = ?', $field);
-            }, array_keys($encryptedRow), $encryptedRow);
+            }, array_keys($row), $row);
+            $parameters[] = $id;
             $this->pdo->prepare(sprintf(
                 'UPDATE %s SET %s WHERE %s = ?',
                 $this->table,
-                implode(',', $setFields)
-            ))->execute(array($id));
+                implode(',', $setFields),
+                $this->idField
+            ))->execute($parameters);
+            $observer->rotated($id);
         }
     }
 }

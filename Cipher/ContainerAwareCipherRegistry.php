@@ -13,7 +13,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ContainerAwareCipherRegistry extends CipherRegistry
 {
     protected $container;
-    protected $serviceIds = array();
 
     /**
      * ContainerAwareEncryptorRegistry constructor.
@@ -26,23 +25,8 @@ class ContainerAwareCipherRegistry extends CipherRegistry
 
     public function setServiceId($name, $serviceId)
     {
-        $this->serviceIds[$name] = $serviceId;
+        $this->ciphers[$name] = $serviceId;
         return $this;
-    }
-
-    public function add(CipherInterface $cipher)
-    {
-        unset($this->serviceIds[$cipher->getName()]);
-        return parent::add($cipher);
-    }
-
-    public function has($name)
-    {
-        if (isset($this->serviceIds[$name])) {
-            return true;
-        }
-        
-        return parent::has($name);
     }
 
     public function get($name)
@@ -53,7 +37,7 @@ class ContainerAwareCipherRegistry extends CipherRegistry
 
     public function all()
     {
-        foreach ($this->serviceIds as $name => $serviceId) {
+        foreach ($this->ciphers as $name => $cipher) {
             $this->load($name);
         }
 
@@ -62,10 +46,10 @@ class ContainerAwareCipherRegistry extends CipherRegistry
 
     protected function load($name)
     {
-        if (isset($this->ciphers[$name]) || !isset($this->serviceIds[$name])) {
+        if (!isset($this->ciphers[$name]) || $this->ciphers[$name] instanceof CipherInterface) {
             return;
         }
         
-        $this->ciphers[$name] = $this->container->get($this->serviceIds[$name]);
+        $this->ciphers[$name] = $this->container->get($this->ciphers[$name]);
     }
 }

@@ -15,7 +15,7 @@ class ChainSerializer implements SerializerInterface
     /** @var SerializerInterface[][] */
     protected $serializers = array();
     /** @var SerializerInterface[] */
-    protected $sorted = false;
+    protected $sorted = array();
 
     public function add(SerializerInterface $serializer, $priority = 0)
     {
@@ -94,7 +94,7 @@ class ChainSerializer implements SerializerInterface
 
     protected function sort()
     {
-        if ($this->sorted) {
+        if ($this->sorted || !$this->serializers) {
             return;
         }
         

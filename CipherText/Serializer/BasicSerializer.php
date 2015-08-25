@@ -10,6 +10,7 @@ namespace Omni\Encryption\CipherText\Serializer;
 
 use Omni\Encryption\CipherText\CipherText;
 use Omni\Encryption\CipherText\CipherTextInterface;
+use Omni\Encryption\Profile\Profile;
 
 class BasicSerializer extends AbstractSerializer
 {
@@ -34,7 +35,12 @@ class BasicSerializer extends AbstractSerializer
             'key_name' => $cipherText->getProfile()->getKeyName(),
             'cipher' => $cipherText->getProfile()->getCipher()
         );
-        return base64_encode(json_encode($profile)) . ':' . base64_encode($cipherText->getText());
+        return sprintf(
+            '%s%s%s',
+            base64_encode(json_encode($profile)),
+            $this->separator,
+            base64_encode($cipherText->getText())
+        );
     }
 
     /**
@@ -44,7 +50,8 @@ class BasicSerializer extends AbstractSerializer
     protected function doDeserialize($string)
     {
         list($profile, $text) = explode($this->separator, $string, 2);
-        return new CipherText(base64_decode($text), json_decode(base64_decode($profile)));
+        $profile = json_decode(base64_decode($profile), true);
+        return new CipherText(base64_decode($text), new Profile($profile['cipher'], $profile['key_name']));
 
     }
 

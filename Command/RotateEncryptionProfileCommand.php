@@ -10,7 +10,8 @@ namespace Omni\Encryption\Command;
 
 use Omni\Encryption\CipherText\CipherText;
 use Omni\Encryption\CipherText\Group;
-use Omni\Encryption\CipherText\Store\StoreRegistry;
+use Omni\Encryption\CipherText\Rotator\ConsoleOutputObserver;
+use Omni\Encryption\CipherText\Rotator\RotatorRegistry;
 use Omni\Encryption\Encryptor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,7 +25,7 @@ class RotateEncryptionProfileCommand extends Command
     protected $encryptor;
 
     public function __construct(
-        StoreRegistry $storeRegistry,
+        RotatorRegistry $storeRegistry,
         Encryptor $cipherTextGenerator
     ) {
         $this->storeRegistry = $storeRegistry;
@@ -51,11 +52,12 @@ class RotateEncryptionProfileCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $newProfile = $input->getArgument('new-profile');
+        $newProfile = $input->getOption('new-profile');
+        $observer = new ConsoleOutputObserver($output);
 
         foreach ($input->getArgument('stores') as $storeName) {
             $store = $this->storeRegistry->get($storeName);
-            $store->rotate($this->encryptor, $newProfile);
+            $store->rotate($observer, $this->encryptor, $newProfile);
         }
     }
 }

@@ -38,4 +38,12 @@ class Profile
     {
         return $this->keyName;
     }
+
+    public function equals(self $profile)
+    {
+        return
+            $this->getCipher() == $profile->getCipher()
+            && $this->getKeyName() == $profile->getKeyName()
+        ;
+    }
 }

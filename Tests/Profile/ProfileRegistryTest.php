@@ -28,17 +28,17 @@ class ProfileRegistryTest extends AbstractExtendableTestCase
             $this->getFaker()->word,
             $this->getFaker()->word
         );
-        $profile1Name = $this->getFaker()->word;
+        $profile1Name = $this->getFaker()->unique()->word;
         $profile2 = new Profile(
             $this->getFaker()->word,
             $this->getFaker()->word
         );
-        $profile2Name = $this->getFaker()->word;
+        $profile2Name = $this->getFaker()->unique()->word;
         $profile3 = new Profile(
             $this->getFaker()->word,
             $this->getFaker()->word
         );
-        $profile3Name = $this->getFaker()->word;
+        $profile3Name = $this->getFaker()->unique()->word;
 
         $this->registry
             ->set($profile1Name, $profile1)
@@ -67,23 +67,23 @@ class ProfileRegistryTest extends AbstractExtendableTestCase
             $this->getFaker()->word,
             $this->getFaker()->word
         );
-        $profile1Name = $this->getFaker()->word;
+        $profile1Name = $this->getFaker()->unique()->word;
         $profile2 = new Profile(
             $this->getFaker()->word,
             $this->getFaker()->word
         );
-        $profile2Name = $this->getFaker()->word;
+        $profile2Name = $this->getFaker()->unique()->word;
         $profile3 = new Profile(
             $this->getFaker()->word,
             $this->getFaker()->word
         );
-        $profile3Name = $this->getFaker()->word;
+        $profile3Name = $this->getFaker()->unique()->word;
 
         $this->registry
             ->set($profile1Name, $profile1)
             ->set($profile2Name, $profile2)
             ->set($profile3Name, $profile3)
-            ->get($this->getFaker()->word)
+            ->get($this->getFaker()->unique()->word)
         ;
     }
 }

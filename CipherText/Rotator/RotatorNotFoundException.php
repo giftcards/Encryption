@@ -6,11 +6,11 @@
  * Time: 6:31 PM
  */
 
-namespace Omni\Encryption\CipherText\Store;
+namespace Omni\Encryption\CipherText\Rotator;
 
 use InvalidArgumentException;
 
-class StoreNotFoundException extends \InvalidArgumentException
+class RotatorNotFoundException extends \InvalidArgumentException
 {
     protected $name;
 

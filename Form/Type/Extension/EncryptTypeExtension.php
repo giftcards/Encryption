@@ -8,7 +8,6 @@
 
 namespace Omni\Encryption\Form\Type\Extension;
 
-
 use Omni\Encryption\Encryptor;
 use Omni\Encryption\Form\DataTransformer\EncryptTransformer;
 use Symfony\Component\Form\AbstractTypeExtension;
@@ -41,7 +40,7 @@ class EncryptTypeExtension extends AbstractTypeExtension
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (!$options['encryption_profile']) {
+        if ($options['encryption_profile'] === false) {
             return;
         }
         
@@ -64,7 +63,7 @@ class EncryptTypeExtension extends AbstractTypeExtension
     {
         $resolver
             ->setDefaults(array(
-                'encrypt' => false
+                'encryption_profile' => false
             ))
             ->setAllowedTypes(array('encryption_profile' => array('false', 'string')))
         ;
