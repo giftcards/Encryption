@@ -28,6 +28,9 @@ class DoctrineDBALRotator implements RotatorInterface
     public function __construct(Connection $connection, $table, array $fields, $idField)
     {
         $this->connection = $connection;
+        $this->table = $table;
+        $this->fields = $fields;
+        $this->idField = $idField;
     }
 
     public function rotate(
