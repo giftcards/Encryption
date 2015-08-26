@@ -8,19 +8,19 @@
 
 namespace Omni\Encryption\Key;
 
-class FallbackKeysSource implements SourceInterface
+class FallbackSource implements SourceInterface
 {
-    protected $fallbackKeys;
+    protected $fallbacks;
     protected $inner;
 
     /**
      * FallbackKeysSource constructor.
-     * @param array $fallbackKeys
+     * @param array $fallbacks
      * @param SourceInterface $inner
      */
-    public function __construct(array $fallbackKeys, SourceInterface $inner)
+    public function __construct(array $fallbacks, SourceInterface $inner)
     {
-        $this->fallbackKeys = $fallbackKeys;
+        $this->fallbacks = $fallbacks;
         $this->inner = $inner;
     }
 
@@ -52,7 +52,7 @@ class FallbackKeysSource implements SourceInterface
      */
     protected function getKeys($key)
     {
-        $keys = isset($this->fallbackKeys[$key]) ? $this->fallbackKeys[$key] : array();
+        $keys = isset($this->fallbacks[$key]) ? $this->fallbacks[$key] : array();
         array_unshift($keys, $key);
         return $keys;
     }

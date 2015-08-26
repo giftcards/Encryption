@@ -8,7 +8,7 @@
 
 namespace Omni\Encryption\Key;
 
-class MapKeySource extends AbstractSource
+class MappingSource extends AbstractSource
 {
     protected $map;
     protected $inner;
