@@ -15,13 +15,16 @@ class ProfileTest extends AbstractExtendableTestCase
 {
     public function testGetters()
     {
-        $cipher = $this->getFaker()->word;
-        $keyName = $this->getFaker()->word;
+        $cipher = $this->getFaker()->unique()->word;
+        $keyName = $this->getFaker()->unique()->word;
         $profile = new Profile(
             $cipher,
             $keyName
         );
         $this->assertEquals($cipher, $profile->getCipher());
         $this->assertEquals($keyName, $profile->getKeyName());
+        $this->assertTrue($profile->equals(new Profile($cipher, $keyName)));
+        $this->assertFalse($profile->equals(new Profile($this->getFaker()->unique()->word, $keyName)));
+        $this->assertFalse($profile->equals(new Profile($cipher, $this->getFaker()->unique()->word)));
     }
 }
