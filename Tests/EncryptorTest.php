@@ -158,6 +158,17 @@ class EncryptorTest extends AbstractExtendableTestCase
             $plainText1,
             $this->encryptor->decrypt($cipherText1)
         );
+        $this->cipherRegistry
+            ->get($this->cipher1Name)
+            ->shouldReceive('decipher')
+            ->once()
+            ->with($cipherText1, $this->keySource->get($this->key1Name))
+            ->andReturn($plainText1)
+        ;
+        $this->assertEquals(
+            $plainText1,
+            $this->encryptor->decrypt($cipherText1, $this->profile1Name)
+        );
         $cipherText2 = $this->getFaker()->unique()->word;
         $plainText2 = $this->getFaker()->unique()->word;
         $this->cipherRegistry
