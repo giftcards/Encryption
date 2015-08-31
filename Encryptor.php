@@ -69,15 +69,12 @@ class Encryptor
     public function decrypt($cipherText, $profile = null)
     {
         if (!$cipherText instanceof CipherTextInterface) {
-            if ($profile) {
-                $cipherText = new CipherText($cipherText, $this->profileRegistry->get($profile));
-            } else {
-                $cipherText = $this->serializer->deserialize($cipherText);
-            }
+            $cipherText = $this->serializer->deserialize($cipherText);
         }
         
-        $key = $this->keySource->get($cipherText->getProfile()->getKeyName());
-        $cipher = $this->cipherRegistry->get($cipherText->getProfile()->getCipher());
+        $profile = $profile ? $this->profileRegistry->get($profile) : $cipherText->getProfile();
+        $key = $this->keySource->get($profile->getKeyName());
+        $cipher = $this->cipherRegistry->get($profile->getCipher());
         
         return $cipher->decipher((string)$cipherText->getText(), (string)$key);
     }
