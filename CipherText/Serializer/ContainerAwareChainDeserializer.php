@@ -10,7 +10,7 @@ namespace Omni\Encryption\CipherText\Serializer;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class ContainerAwareChainSerializerDeserializer extends ChainSerializerDeserializer
+class ContainerAwareChainDeserializer extends ChainDeserializer
 {
     protected $container;
 
@@ -22,28 +22,28 @@ class ContainerAwareChainSerializerDeserializer extends ChainSerializerDeseriali
     public function addServiceId($serviceId, $priority = 0)
     {
         $this->sorted = false;
-        if (!isset($this->serializers[$priority])) {
-            $this->serializers[$priority] = array();
+        if (!isset($this->deserializers[$priority])) {
+            $this->deserializers[$priority] = array();
         }
 
-        $this->serializers[$priority][] = $serviceId;
+        $this->deserializers[$priority][] = $serviceId;
         return $this;
     }
     
     protected function sort()
     {
         $container = $this->container;
-        $this->serializers = array_map(function (array $serializers) use ($container) {
+        $this->deserializers = array_map(function (array $serializers) use ($container) {
             return array_map(
                 function ($serializer) use ($container) {
-                    if (!$serializer instanceof SerializerInterface) {
+                    if (!$serializer instanceof DeserializerInterface) {
                         $serializer = $container->get($serializer);
                     }
                     return $serializer;
                 },
                 $serializers
             );
-        }, $this->serializers);
+        }, $this->deserializers);
         parent::sort();
     }
 }

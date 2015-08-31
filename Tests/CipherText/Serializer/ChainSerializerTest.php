@@ -9,12 +9,12 @@
 namespace Omni\Encryption\Tests\CipherText\Serializer;
 
 use Mockery\MockInterface;
-use Omni\Encryption\CipherText\Serializer\ChainSerializerDeserializer;
+use Omni\Encryption\CipherText\Serializer\ChainSerializer;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class ChainSerializerTest extends AbstractExtendableTestCase
 {
-    /** @var  ChainSerializerDeserializer */
+    /** @var  ChainSerializer */
     protected $chain;
     /** @var  MockInterface */
     protected $serializer1;
@@ -25,7 +25,7 @@ class ChainSerializerTest extends AbstractExtendableTestCase
 
     public function setUp()
     {
-        $this->chain = new ChainSerializerDeserializer();
+        $this->chain = new ChainSerializer();
         $this->chain
             ->add($this->serializer1 = \Mockery::mock('Omni\Encryption\CipherText\Serializer\SerializerInterface'))
             ->add($this->serializer2 = \Mockery::mock('Omni\Encryption\CipherText\Serializer\SerializerInterface'))
@@ -110,84 +110,5 @@ class ChainSerializerTest extends AbstractExtendableTestCase
             ->getMock()
         ;
         $this->chain->serialize($cipherText);
-    }
-
-    public function testCanDeserialize()
-    {
-        $string = $this->getFaker()->word;
-        $this->serializer1
-            ->shouldReceive('canDeserialize')
-            ->twice()
-            ->with($string)
-            ->andReturn(false, false)
-        ;
-        $this->serializer2
-            ->shouldReceive('canDeserialize')
-            ->twice()
-            ->with($string)
-            ->andReturn(true, false)
-        ;
-        $this->serializer3
-            ->shouldReceive('canDeserialize')
-            ->once()
-            ->with($string)
-            ->andReturn(false)
-        ;
-        $this->assertTrue($this->chain->canDeserialize($string));
-        $this->assertFalse($this->chain->canDeserialize($string));
-    }
-
-    public function testDeserialize()
-    {
-        $string = $this->getFaker()->word;
-        $cipherText = \Mockery::mock('Omni\Encryption\CipherText\CipherTextInterface');
-        $this->serializer1
-            ->shouldReceive('canDeserialize')
-            ->once()
-            ->with($string)
-            ->andReturn(false)
-        ;
-        $this->serializer2
-            ->shouldReceive('canDeserialize')
-            ->once()
-            ->with($string)
-            ->andReturn(true)
-            ->getMock()
-            ->shouldReceive('deserialize')
-            ->once()
-            ->with($string)
-            ->andReturn($cipherText)
-            ->getMock()
-        ;
-        $this->assertSame($cipherText, $this->chain->deserialize($string));
-    }
-
-    /**
-     * @expectedException \Omni\Encryption\CipherText\Serializer\FailedToDeserializeException
-     */
-    public function testDeserializeWithNoSerializerAbleToDeserialize()
-    {
-        $string = $this->getFaker()->word;
-        $this->serializer1
-            ->shouldReceive('canDeserialize')
-            ->once()
-            ->with($string)
-            ->andReturn(false)
-        ;
-        $this->serializer2
-            ->shouldReceive('canDeserialize')
-            ->once()
-            ->with($string)
-            ->andReturn(false)
-            ->getMock()
-        ;
-        $this->serializer3
-            ->shouldReceive('canDeserialize')
-            ->once()
-            ->with($string)
-            ->andReturn(false)
-            ->getMock()
-        ;
-        $this->chain->deserialize($string);
     }
 }

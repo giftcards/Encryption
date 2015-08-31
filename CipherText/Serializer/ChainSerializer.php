@@ -10,7 +10,7 @@ namespace Omni\Encryption\CipherText\Serializer;
 
 use Omni\Encryption\CipherText\CipherTextInterface;
 
-class ChainSerializerDeserializer implements SerializerDeserializerInterface
+class ChainSerializer implements SerializerInterface
 {
     /** @var SerializerInterface[][] */
     protected $serializers = array();
@@ -45,22 +45,6 @@ class ChainSerializerDeserializer implements SerializerDeserializerInterface
     }
 
     /**
-     * @param $string
-     * @return CipherTextInterface
-     */
-    public function deserialize($string)
-    {
-        $this->sort();
-        foreach ($this->sorted as $serializer) {
-            if ($serializer->canDeserialize($string)) {
-                return $serializer->deserialize($string);
-            }
-        }
-
-        throw new FailedToDeserializeException($string);
-    }
-
-    /**
      * @param CipherTextInterface $cipherText
      * @return bool
      */
@@ -69,22 +53,6 @@ class ChainSerializerDeserializer implements SerializerDeserializerInterface
         $this->sort();
         foreach ($this->sorted as $serializer) {
             if ($serializer->canSerialize($cipherText)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param $string
-     * @return bool
-     */
-    public function canDeserialize($string)
-    {
-        $this->sort();
-        foreach ($this->sorted as $serializer) {
-            if ($serializer->canDeserialize($string)) {
                 return true;
             }
         }

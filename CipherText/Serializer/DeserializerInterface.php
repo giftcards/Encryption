@@ -19,12 +19,6 @@ interface DeserializerInterface
     public function deserialize($string);
 
     /**
-     * @param CipherTextInterface $cipherText
-     * @return bool
-     */
-    public function canSerialize(CipherTextInterface $cipherText);
-
-    /**
      * @param $string
      * @return bool
      */

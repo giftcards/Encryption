@@ -29,6 +29,8 @@ class EncryptorTest extends AbstractExtendableTestCase
     protected $profileRegistry;
     /** @var  MockInterface */
     protected $serializer;
+    /** @var  MockInterface */
+    protected $deserializer;
     protected $defaultProfile;
     protected $key1Name;
     protected $key2Name;
@@ -43,6 +45,7 @@ class EncryptorTest extends AbstractExtendableTestCase
         $this->keySource = \Mockery::mock('Omni\Encryption\Key\SourceInterface');
         $this->profileRegistry = new ProfileRegistry();
         $this->serializer = \Mockery::mock('Omni\Encryption\CipherText\Serializer\SerializerInterface');
+        $this->deserializer = \Mockery::mock('Omni\Encryption\CipherText\Serializer\DeserializerInterface');
         $this->key1Name = $this->getFaker()->unique()->word;
         $this->key2Name = $this->getFaker()->unique()->word;
         $this->cipher1Name = $this->getFaker()->unique()->word;
@@ -82,6 +85,7 @@ class EncryptorTest extends AbstractExtendableTestCase
             $this->keySource,
             $this->profileRegistry,
             $this->serializer,
+            $this->deserializer,
             $this->defaultProfile = $this->profile2Name
         );
     }
@@ -131,7 +135,8 @@ class EncryptorTest extends AbstractExtendableTestCase
             $this->cipherRegistry,
             $this->keySource,
             $this->profileRegistry,
-            $this->serializer
+            $this->serializer,
+            $this->deserializer
         );
         $plainText = $this->getFaker()->unique()->word;
         $this->encryptor->encrypt($plainText);
@@ -148,7 +153,7 @@ class EncryptorTest extends AbstractExtendableTestCase
             ->with($cipherText1, $this->keySource->get($this->key1Name))
             ->andReturn($plainText1)
         ;
-        $this->serializer
+        $this->deserializer
             ->shouldReceive('deserialize')
             ->once()
             ->with($cipherText1)
@@ -165,7 +170,7 @@ class EncryptorTest extends AbstractExtendableTestCase
             ->with($cipherText1, $this->keySource->get($this->key1Name))
             ->andReturn($plainText1)
         ;
-        $this->serializer
+        $this->deserializer
             ->shouldReceive('deserialize')
             ->once()
             ->with($cipherText1)
