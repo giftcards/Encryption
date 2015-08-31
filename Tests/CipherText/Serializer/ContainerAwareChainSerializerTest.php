@@ -8,7 +8,7 @@
 
 namespace Omni\Encryption\Tests\CipherText\Serializer;
 
-use Omni\Encryption\CipherText\Serializer\ContainerAwareChainSerializer;
+use Omni\Encryption\CipherText\Serializer\ContainerAwareChainSerializerDeserializer;
 use Symfony\Component\DependencyInjection\Container;
 
 class ContainerAwareChainSerializerTest extends ChainSerializerTest
@@ -20,7 +20,7 @@ class ContainerAwareChainSerializerTest extends ChainSerializerTest
         parent::setUp();
         $this->container = new Container();
         $this->container->set('serializer2', $this->serializer2);
-        $this->chain = new ContainerAwareChainSerializer($this->container);
+        $this->chain = new ContainerAwareChainSerializerDeserializer($this->container);
         $this->chain
             ->add($this->serializer1)
             ->addServiceId('serializer2')

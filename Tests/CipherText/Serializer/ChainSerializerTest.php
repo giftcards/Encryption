@@ -9,12 +9,12 @@
 namespace Omni\Encryption\Tests\CipherText\Serializer;
 
 use Mockery\MockInterface;
-use Omni\Encryption\CipherText\Serializer\ChainSerializer;
+use Omni\Encryption\CipherText\Serializer\ChainSerializerDeserializer;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class ChainSerializerTest extends AbstractExtendableTestCase
 {
-    /** @var  ChainSerializer */
+    /** @var  ChainSerializerDeserializer */
     protected $chain;
     /** @var  MockInterface */
     protected $serializer1;
@@ -25,7 +25,7 @@ class ChainSerializerTest extends AbstractExtendableTestCase
 
     public function setUp()
     {
-        $this->chain = new ChainSerializer();
+        $this->chain = new ChainSerializerDeserializer();
         $this->chain
             ->add($this->serializer1 = \Mockery::mock('Omni\Encryption\CipherText\Serializer\SerializerInterface'))
             ->add($this->serializer2 = \Mockery::mock('Omni\Encryption\CipherText\Serializer\SerializerInterface'))

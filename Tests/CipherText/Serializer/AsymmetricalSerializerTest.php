@@ -10,13 +10,13 @@ namespace Omni\Encryption\Tests\CipherText\Serializer;
 
 use Mockery\MockInterface;
 use Omni\Encryption\CipherText\CipherText;
-use Omni\Encryption\CipherText\Serializer\AsymmetricalSerializer;
+use Omni\Encryption\CipherText\Serializer\AsymmetricalSerializerDeserializer;
 use Omni\Encryption\Profile\Profile;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class AsymmetricalSerializerTest extends AbstractExtendableTestCase
 {
-    /** @var  AsymmetricalSerializer */
+    /** @var  AsymmetricalSerializerDeserializer */
     protected $serializer;
     /** @var  MockInterface */
     protected $innerSerializer;
@@ -25,7 +25,7 @@ class AsymmetricalSerializerTest extends AbstractExtendableTestCase
 
     public function setUp()
     {
-        $this->serializer = new AsymmetricalSerializer(
+        $this->serializer = new AsymmetricalSerializerDeserializer(
             $this->innerSerializer = \Mockery::mock('Omni\Encryption\CipherText\Serializer\SerializerInterface'),
             $this->innerDeserializer = \Mockery::mock('Omni\Encryption\CipherText\Serializer\SerializerInterface')
         );

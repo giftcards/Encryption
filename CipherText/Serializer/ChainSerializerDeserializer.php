@@ -10,7 +10,7 @@ namespace Omni\Encryption\CipherText\Serializer;
 
 use Omni\Encryption\CipherText\CipherTextInterface;
 
-class ChainSerializer implements SerializerInterface
+class ChainSerializerDeserializer implements SerializerDeserializerInterface
 {
     /** @var SerializerInterface[][] */
     protected $serializers = array();

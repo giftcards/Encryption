@@ -10,7 +10,7 @@ namespace Omni\Encryption\CipherText\Serializer;
 
 use Omni\Encryption\CipherText\CipherTextInterface;
 
-abstract class AbstractSerializer implements SerializerInterface
+abstract class AbstractSerializerDeserializer implements SerializerDeserializerInterface
 {
     /**
      * @param CipherTextInterface $cipherText

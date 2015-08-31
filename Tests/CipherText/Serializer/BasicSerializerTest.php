@@ -9,19 +9,19 @@
 namespace Omni\Encryption\Tests\CipherText\Serializer;
 
 use Omni\Encryption\CipherText\CipherText;
-use Omni\Encryption\CipherText\Serializer\BasicSerializer;
+use Omni\Encryption\CipherText\Serializer\BasicSerializerDeserializer;
 use Omni\Encryption\Profile\Profile;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class BasicSerializerTest extends AbstractExtendableTestCase
 {
-    /** @var  BasicSerializer */
+    /** @var  BasicSerializerDeserializer */
     protected $serializer;
     protected $separator;
 
     public function setUp()
     {
-        $this->serializer = new BasicSerializer(
+        $this->serializer = new BasicSerializerDeserializer(
             $this->separator = ':'
         );
     }

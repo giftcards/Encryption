@@ -10,7 +10,7 @@ namespace Omni\Encryption\CipherText\Serializer;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class ContainerAwareChainSerializer extends ChainSerializer
+class ContainerAwareChainSerializerDeserializer extends ChainSerializerDeserializer
 {
     protected $container;
 

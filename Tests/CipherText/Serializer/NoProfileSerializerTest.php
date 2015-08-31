@@ -9,20 +9,20 @@
 namespace Omni\Encryption\Tests\CipherText\Serializer;
 
 use Omni\Encryption\CipherText\CipherText;
-use Omni\Encryption\CipherText\Serializer\NoProfileSerializer;
+use Omni\Encryption\CipherText\Serializer\NoProfileSerializerDeserializer;
 use Omni\Encryption\Profile\Profile;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class NoProfileSerializerTest extends AbstractExtendableTestCase
 {
-    /** @var  NoProfileSerializer */
+    /** @var  NoProfileSerializerDeserializer */
     protected $serializer;
     protected $profile;
 
     public function setUp()
     {
         $this->profile = new Profile('', '');
-        $this->serializer = new NoProfileSerializer($this->profile);
+        $this->serializer = new NoProfileSerializerDeserializer($this->profile);
     }
 
     public function testCanners()

@@ -12,7 +12,7 @@ use Omni\Encryption\CipherText\CipherText;
 use Omni\Encryption\CipherText\CipherTextInterface;
 use Omni\Encryption\Profile\Profile;
 
-class NoProfileSerializer extends AbstractSerializer
+class NoProfileSerializerDeserializer extends AbstractSerializerDeserializer
 {
     protected $profile;
     protected $inner;
