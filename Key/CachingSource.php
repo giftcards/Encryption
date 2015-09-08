@@ -36,8 +36,8 @@ class CachingSource implements SourceInterface
             return $this->cache->fetch($key);
         }
         
-        $key = $this->inner->get($key);
-        $this->cache->save($key);
-        return $key;
+        $value = $this->inner->get($key);
+        $this->cache->save($key, $value);
+        return $value;
     }
 }
