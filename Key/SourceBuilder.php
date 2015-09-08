@@ -44,25 +44,25 @@ class SourceBuilder
 
     public function build()
     {
-        $mainSource = new ChainSource();
-
-        foreach ($this->sources as $source) {
-            $mainSource->add($source);
-        }
+        $chainSource = new ChainSource();
         
         if ($this->fallbacks) {
-            $mainSource = new FallbackSource($this->fallbacks, $mainSource);
-        }
-        
-        if ($this->map) {
-            $mainSource = new MappingSource($this->map, $mainSource);
-        }
-        
-        if ($this->combined) {
-            $mainSource = new CombiningSource($mainSource, $this->combined);
+            $chainSource->add(new FallbackSource($this->fallbacks, $chainSource));
         }
 
-        return $mainSource;
+        if ($this->map) {
+            $chainSource->add(new MappingSource($this->map, $chainSource));
+        }
+
+        if ($this->combined) {
+            $chainSource->add(new CombiningSource($chainSource, $this->combined));
+        }
+        
+        foreach ($this->sources as $source) {
+            $chainSource->add($source);
+        }
+
+        return $chainSource;
     }
 
     public function add($source, array $options = array(), $prefix = null)
@@ -96,7 +96,7 @@ class SourceBuilder
         return $this;
     }
 
-    public function allowNone()
+    public function includeNone()
     {
         $this->sources[] = new NoneSource();
         return $this;
