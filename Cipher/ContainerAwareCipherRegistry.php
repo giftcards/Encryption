@@ -6,7 +6,7 @@
  * Time: 3:19 PM
  */
 
-namespace Omni\Encryption\Cipher;
+namespace Giftcards\Encryption\Cipher;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

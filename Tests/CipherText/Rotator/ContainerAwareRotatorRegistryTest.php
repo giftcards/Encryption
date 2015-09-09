@@ -6,9 +6,9 @@
  * Time: 2:21 PM
  */
 
-namespace Omni\Encryption\Tests\CipherText\Rotator;
+namespace Giftcards\Encryption\Tests\CipherText\Rotator;
 
-use Omni\Encryption\CipherText\Rotator\ContainerAwareRotatorRegistry;
+use Giftcards\Encryption\CipherText\Rotator\ContainerAwareRotatorRegistry;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 use Symfony\Component\DependencyInjection\Container;
 
@@ -28,11 +28,11 @@ class ContainerAwareRotatorRegistryTest extends AbstractExtendableTestCase
 
     public function testGettersSetters()
     {
-        $rotator1 = \Mockery::mock('Omni\Encryption\CipherText\Rotator\RotatorInterface');
+        $rotator1 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
         $rotator1Name = $this->getFaker()->unique()->word;
-        $rotator2 = \Mockery::mock('Omni\Encryption\CipherText\Rotator\RotatorInterface');
+        $rotator2 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
         $rotator2Name = $this->getFaker()->unique()->word;
-        $rotator3 = \Mockery::mock('Omni\Encryption\CipherText\Rotator\RotatorInterface');
+        $rotator3 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
         $rotator3Name = $this->getFaker()->unique()->word;
 
         $this->container->set('rotator2', $rotator2);
@@ -56,15 +56,15 @@ class ContainerAwareRotatorRegistryTest extends AbstractExtendableTestCase
     }
 
     /**
-     * @expectedException \Omni\Encryption\CipherText\Rotator\RotatorNotFoundException
+     * @expectedException \Giftcards\Encryption\CipherText\Rotator\RotatorNotFoundException
      */
     public function testGetWhereNotThere()
     {
-        $rotator1 = \Mockery::mock('Omni\Encryption\CipherText\Rotator\RotatorInterface');
+        $rotator1 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
         $rotator1Name = $this->getFaker()->unique()->word;
-        $rotator2 = \Mockery::mock('Omni\Encryption\CipherText\Rotator\RotatorInterface');
+        $rotator2 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
         $rotator2Name = $this->getFaker()->unique()->word;
-        $rotator3 = \Mockery::mock('Omni\Encryption\CipherText\Rotator\RotatorInterface');
+        $rotator3 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
         $rotator3Name = $this->getFaker()->unique()->word;
         $this->container->set('rotator2', $rotator2);
 

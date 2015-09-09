@@ -6,7 +6,7 @@
  * Time: 3:19 PM
  */
 
-namespace Omni\Encryption\CipherText\Rotator;
+namespace Giftcards\Encryption\CipherText\Rotator;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

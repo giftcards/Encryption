@@ -6,7 +6,7 @@
  * Time: 6:05 PM
  */
 
-namespace Omni\Encryption\Key;
+namespace Giftcards\Encryption\Key;
 
 class CombiningSource extends AbstractSource
 {

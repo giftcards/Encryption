@@ -6,9 +6,9 @@
  * Time: 5:44 PM
  */
 
-namespace Omni\Encryption\CipherText\Rotator;
+namespace Giftcards\Encryption\CipherText\Rotator;
 
-use Omni\Encryption\Encryptor;
+use Giftcards\Encryption\Encryptor;
 
 class DatabaseTableRotator implements RotatorInterface
 {

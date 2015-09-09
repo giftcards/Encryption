@@ -6,10 +6,10 @@
  * Time: 5:58 PM
  */
 
-namespace Omni\Encryption\Tests\CipherText;
+namespace Giftcards\Encryption\Tests\CipherText;
 
-use Omni\Encryption\CipherText\CipherText;
-use Omni\Encryption\Profile\Profile;
+use Giftcards\Encryption\CipherText\CipherText;
+use Giftcards\Encryption\Profile\Profile;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class CipherTextTest extends AbstractExtendableTestCase

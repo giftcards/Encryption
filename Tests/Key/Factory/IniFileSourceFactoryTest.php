@@ -6,10 +6,10 @@
  * Time: 6:23 PM
  */
 
-namespace Omni\Encryption\Tests\Key\Factory;
+namespace Giftcards\Encryption\Tests\Key\Factory;
 
-use Omni\Encryption\Key\Factory\IniFileSourceBuilder;
-use Omni\Encryption\Key\IniFileSource;
+use Giftcards\Encryption\Key\Factory\IniFileSourceBuilder;
+use Giftcards\Encryption\Key\IniFileSource;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class IniFileSourceFactoryTest extends AbstractExtendableTestCase

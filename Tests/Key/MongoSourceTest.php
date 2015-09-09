@@ -6,10 +6,10 @@
  * Time: 8:04 PM
  */
 
-namespace Omni\Encryption\Tests\Key;
+namespace Giftcards\Encryption\Tests\Key;
 
 use Faker\Factory;
-use Omni\Encryption\Key\MongoSource;
+use Giftcards\Encryption\Key\MongoSource;
 
 class MongoSourceTest extends AbstractSourceTest
 {

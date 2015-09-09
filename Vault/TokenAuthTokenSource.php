@@ -6,7 +6,7 @@
  * Time: 6:01 PM
  */
 
-namespace Omni\Encryption\Vault;
+namespace Giftcards\Encryption\Vault;
 
 use Guzzle\Http\Message\Request;
 

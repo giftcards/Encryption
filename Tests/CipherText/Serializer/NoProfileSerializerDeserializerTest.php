@@ -6,11 +6,11 @@
  * Time: 1:06 PM
  */
 
-namespace Omni\Encryption\Tests\CipherText\Serializer;
+namespace Giftcards\Encryption\Tests\CipherText\Serializer;
 
-use Omni\Encryption\CipherText\CipherText;
-use Omni\Encryption\CipherText\Serializer\NoProfileSerializerDeserializer;
-use Omni\Encryption\Profile\Profile;
+use Giftcards\Encryption\CipherText\CipherText;
+use Giftcards\Encryption\CipherText\Serializer\NoProfileSerializerDeserializer;
+use Giftcards\Encryption\Profile\Profile;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class NoProfileSerializerDeserializerTest extends AbstractExtendableTestCase
@@ -40,7 +40,7 @@ class NoProfileSerializerDeserializerTest extends AbstractExtendableTestCase
     }
 
     /**
-     * @expectedException \Omni\Encryption\CipherText\Serializer\FailedToSerializeException
+     * @expectedException \Giftcards\Encryption\CipherText\Serializer\FailedToSerializeException
      */
     public function testSerializeWhereCant()
     {

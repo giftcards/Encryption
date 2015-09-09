@@ -6,10 +6,10 @@
  * Time: 5:54 PM
  */
 
-namespace Omni\Encryption\CipherText\Rotator\Factory;
+namespace Giftcards\Encryption\CipherText\Rotator\Factory;
 
-use Omni\Encryption\CipherText\Rotator\DoctrineDBALRotator;
-use Omni\Encryption\Factory\BuilderInterface;
+use Giftcards\Encryption\CipherText\Rotator\DoctrineDBALRotator;
+use Giftcards\Encryption\Factory\BuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DoctrineDBALRotatorBuilder implements BuilderInterface

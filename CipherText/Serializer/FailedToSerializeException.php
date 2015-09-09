@@ -6,9 +6,9 @@
  * Time: 1:17 PM
  */
 
-namespace Omni\Encryption\CipherText\Serializer;
+namespace Giftcards\Encryption\CipherText\Serializer;
 
-use Omni\Encryption\CipherText\CipherTextInterface;
+use Giftcards\Encryption\CipherText\CipherTextInterface;
 
 class FailedToSerializeException extends \RuntimeException
 {

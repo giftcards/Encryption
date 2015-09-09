@@ -5,9 +5,9 @@
  * Date: 8/13/15
  * Time: 11:03 PM
  */
-namespace Omni\Encryption\CipherText;
+namespace Giftcards\Encryption\CipherText;
 
-use Omni\Encryption\Profile\Profile;
+use Giftcards\Encryption\Profile\Profile;
 
 interface CipherTextInterface
 {

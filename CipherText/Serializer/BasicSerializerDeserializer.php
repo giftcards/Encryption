@@ -6,11 +6,11 @@
  * Time: 1:19 PM
  */
 
-namespace Omni\Encryption\CipherText\Serializer;
+namespace Giftcards\Encryption\CipherText\Serializer;
 
-use Omni\Encryption\CipherText\CipherText;
-use Omni\Encryption\CipherText\CipherTextInterface;
-use Omni\Encryption\Profile\Profile;
+use Giftcards\Encryption\CipherText\CipherText;
+use Giftcards\Encryption\CipherText\CipherTextInterface;
+use Giftcards\Encryption\Profile\Profile;
 
 class BasicSerializerDeserializer extends AbstractSerializerDeserializer
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Omni\Encryption\Profile;
+namespace Giftcards\Encryption\Profile;
 
 /**
  * Created by PhpStorm.

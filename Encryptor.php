@@ -6,17 +6,17 @@
  * Time: 9:33 PM
  */
 
-namespace Omni\Encryption;
+namespace Giftcards\Encryption;
 
-use Omni\Encryption\CipherText\CipherText;
-use Omni\Encryption\Cipher\CipherRegistry;
-use Omni\Encryption\CipherText\CipherTextInterface;
-use Omni\Encryption\CipherText\Serializer\DeserializerInterface;
-use Omni\Encryption\CipherText\Serializer\SerializerDeserializerInterface;
-use Omni\Encryption\CipherText\Serializer\SerializerInterface;
-use Omni\Encryption\CipherText\StringableCipherText;
-use Omni\Encryption\Key\SourceInterface;
-use Omni\Encryption\Profile\ProfileRegistry;
+use Giftcards\Encryption\CipherText\CipherText;
+use Giftcards\Encryption\Cipher\CipherRegistry;
+use Giftcards\Encryption\CipherText\CipherTextInterface;
+use Giftcards\Encryption\CipherText\Serializer\DeserializerInterface;
+use Giftcards\Encryption\CipherText\Serializer\SerializerDeserializerInterface;
+use Giftcards\Encryption\CipherText\Serializer\SerializerInterface;
+use Giftcards\Encryption\CipherText\StringableCipherText;
+use Giftcards\Encryption\Key\SourceInterface;
+use Giftcards\Encryption\Profile\ProfileRegistry;
 
 class Encryptor
 {

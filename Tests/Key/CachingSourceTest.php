@@ -6,10 +6,10 @@
  * Time: 2:15 PM
  */
 
-namespace Omni\Encryption\Tests\Key;
+namespace Giftcards\Encryption\Tests\Key;
 
 use Mockery\MockInterface;
-use Omni\Encryption\Key\CachingSource;
+use Giftcards\Encryption\Key\CachingSource;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class CachingSourceTest extends AbstractExtendableTestCase
@@ -25,7 +25,7 @@ class CachingSourceTest extends AbstractExtendableTestCase
     {
         $this->source = new CachingSource(
             $this->cache = \Mockery::mock('Doctrine\Common\Cache\Cache'),
-            $this->inner = \Mockery::mock('Omni\Encryption\Key\SourceInterface')
+            $this->inner = \Mockery::mock('Giftcards\Encryption\Key\SourceInterface')
         );
     }
 

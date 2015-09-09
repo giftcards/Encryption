@@ -6,7 +6,7 @@
  * Time: 1:18 PM
  */
 
-namespace Omni\Encryption\CipherText\Serializer;
+namespace Giftcards\Encryption\CipherText\Serializer;
 
 class FailedToDeserializeException extends \RuntimeException
 {

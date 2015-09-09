@@ -6,10 +6,10 @@
  * Time: 9:56 AM
  */
 
-namespace Omni\Encryption\Key\Factory;
+namespace Giftcards\Encryption\Key\Factory;
 
-use Omni\Encryption\Factory\BuilderInterface;
-use Omni\Encryption\Key\IniFileSource;
+use Giftcards\Encryption\Factory\BuilderInterface;
+use Giftcards\Encryption\Key\IniFileSource;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IniFileSourceBuilder implements BuilderInterface

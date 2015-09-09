@@ -6,9 +6,9 @@
  * Time: 6:17 PM
  */
 
-namespace Omni\Encryption\Tests\Cipher;
+namespace Giftcards\Encryption\Tests\Cipher;
 
-use Omni\Encryption\Cipher\CipherRegistry;
+use Giftcards\Encryption\Cipher\CipherRegistry;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class CipherRegistryTest extends AbstractExtendableTestCase
@@ -24,19 +24,19 @@ class CipherRegistryTest extends AbstractExtendableTestCase
     public function testGettersSetters()
     {
         $encryptor1Name = $this->getFaker()->unique()->word;
-        $encryptor1 = \Mockery::mock('Omni\Encryption\Cipher\CipherInterface')
+        $encryptor1 = \Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn($encryptor1Name)
             ->getMock()
         ;
         $encryptor2Name = $this->getFaker()->unique()->word;
-        $encryptor2 = \Mockery::mock('Omni\Encryption\Cipher\CipherInterface')
+        $encryptor2 = \Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn($encryptor2Name)
             ->getMock()
         ;
         $encryptor3Name = $this->getFaker()->unique()->word;
-        $encryptor3 = \Mockery::mock('Omni\Encryption\Cipher\CipherInterface')
+        $encryptor3 = \Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn($encryptor3Name)
             ->getMock()
@@ -59,18 +59,18 @@ class CipherRegistryTest extends AbstractExtendableTestCase
     }
 
     /**
-     * @expectedException \Omni\Encryption\Cipher\CipherNotFoundException
+     * @expectedException \Giftcards\Encryption\Cipher\CipherNotFoundException
      */
     public function testGetWithMissingEncryptor()
     {
         $encryptor1Name = $this->getFaker()->unique()->word;
-        $encryptor1 = \Mockery::mock('Omni\Encryption\Cipher\CipherInterface')
+        $encryptor1 = \Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn($encryptor1Name)
             ->getMock()
         ;
         $encryptor2Name = $this->getFaker()->unique()->word;
-        $encryptor2 = \Mockery::mock('Omni\Encryption\Cipher\CipherInterface')
+        $encryptor2 = \Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn($encryptor2Name)
             ->getMock()

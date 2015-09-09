@@ -6,10 +6,10 @@
  * Time: 5:48 PM
  */
 
-namespace Omni\Encryption\Tests\Profile;
+namespace Giftcards\Encryption\Tests\Profile;
 
-use Omni\Encryption\Profile\Profile;
-use Omni\Encryption\Profile\ProfileRegistry;
+use Giftcards\Encryption\Profile\Profile;
+use Giftcards\Encryption\Profile\ProfileRegistry;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class ProfileRegistryTest extends AbstractExtendableTestCase
@@ -59,7 +59,7 @@ class ProfileRegistryTest extends AbstractExtendableTestCase
     }
 
     /**
-     * @expectedException \Omni\Encryption\Profile\ProfileNotFoundException
+     * @expectedException \Giftcards\Encryption\Profile\ProfileNotFoundException
      */
     public function testGetWhereNotThere()
     {

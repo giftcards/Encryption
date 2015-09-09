@@ -6,10 +6,10 @@
  * Time: 6:20 PM
  */
 
-namespace Omni\Encryption\Tests\Key;
+namespace Giftcards\Encryption\Tests\Key;
 
 use Faker\Factory;
-use Omni\Encryption\Key\NoneSource;
+use Giftcards\Encryption\Key\NoneSource;
 
 class NoneSourceTest extends AbstractSourceTest
 {

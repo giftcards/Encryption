@@ -6,13 +6,13 @@
  * Time: 9:06 PM
  */
 
-namespace Omni\Encryption\CipherText\Rotator;
+namespace Giftcards\Encryption\CipherText\Rotator;
 
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\Cache;
-use Omni\Encryption\CipherText\Rotator\Factory\DatabaseTableRotatorBuilder;
-use Omni\Encryption\CipherText\Rotator\Factory\DoctrineDBALRotatorBuilder;
-use Omni\Encryption\Factory\Factory;
+use Giftcards\Encryption\CipherText\Rotator\Factory\DatabaseTableRotatorBuilder;
+use Giftcards\Encryption\CipherText\Rotator\Factory\DoctrineDBALRotatorBuilder;
+use Giftcards\Encryption\Factory\Factory;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RotatorRegistryBuilder

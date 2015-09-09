@@ -6,9 +6,9 @@
  * Time: 2:01 PM
  */
 
-namespace Omni\Encryption\Tests\CipherText\Rotator;
+namespace Giftcards\Encryption\Tests\CipherText\Rotator;
 
-use Omni\Encryption\CipherText\Rotator\NullObserver;
+use Giftcards\Encryption\CipherText\Rotator\NullObserver;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class NullObserverTest extends AbstractExtendableTestCase

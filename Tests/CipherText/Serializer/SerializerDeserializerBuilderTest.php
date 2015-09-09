@@ -6,10 +6,10 @@
  * Time: 3:40 PM
  */
 
-namespace Omni\Encryption\Tests\CipherText\Serializer;
+namespace Giftcards\Encryption\Tests\CipherText\Serializer;
 
-use Omni\Encryption\CipherText\Serializer\ChainSerializerDeserializer;
-use Omni\Encryption\CipherText\Serializer\SerializerDeserializerBuilder;
+use Giftcards\Encryption\CipherText\Serializer\ChainSerializerDeserializer;
+use Giftcards\Encryption\CipherText\Serializer\SerializerDeserializerBuilder;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class SerializerDeserializerBuilderTest extends AbstractExtendableTestCase
@@ -29,8 +29,8 @@ class SerializerDeserializerBuilderTest extends AbstractExtendableTestCase
 
     public function testBuild()
     {
-        $serializer = \Mockery::mock('Omni\Encryption\CipherText\Serializer\SerializerInterface');
-        $deserializer = \Mockery::mock('Omni\Encryption\CipherText\Serializer\DeserializerInterface');
+        $serializer = \Mockery::mock('Giftcards\Encryption\CipherText\Serializer\SerializerInterface');
+        $deserializer = \Mockery::mock('Giftcards\Encryption\CipherText\Serializer\DeserializerInterface');
         $this->builder
             ->addSerializer($serializer)
             ->addDeserializer($deserializer)

@@ -6,7 +6,7 @@
  * Time: 7:13 PM
  */
 
-namespace Omni\Encryption\CipherText\Rotator;
+namespace Giftcards\Encryption\CipherText\Rotator;
 
 class NullObserver implements ObserverInterface
 {

@@ -6,9 +6,9 @@
  * Time: 2:33 PM
  */
 
-namespace Omni\Encryption\Tests\Cipher;
+namespace Giftcards\Encryption\Tests\Cipher;
 
-use Omni\Encryption\Cipher\NoOp;
+use Giftcards\Encryption\Cipher\NoOp;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class NoOpTest extends AbstractExtendableTestCase

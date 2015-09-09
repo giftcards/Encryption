@@ -6,13 +6,13 @@
  * Time: 6:10 PM
  */
 
-namespace Omni\Encryption\Command;
+namespace Giftcards\Encryption\Command;
 
-use Omni\Encryption\CipherText\CipherText;
-use Omni\Encryption\CipherText\Group;
-use Omni\Encryption\CipherText\Rotator\ConsoleOutputObserver;
-use Omni\Encryption\CipherText\Rotator\RotatorRegistry;
-use Omni\Encryption\Encryptor;
+use Giftcards\Encryption\CipherText\CipherText;
+use Giftcards\Encryption\CipherText\Group;
+use Giftcards\Encryption\CipherText\Rotator\ConsoleOutputObserver;
+use Giftcards\Encryption\CipherText\Rotator\RotatorRegistry;
+use Giftcards\Encryption\Encryptor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

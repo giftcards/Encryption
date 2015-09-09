@@ -6,16 +6,16 @@
  * Time: 6:00 PM
  */
 
-namespace Omni\Encryption\Tests;
+namespace Giftcards\Encryption\Tests;
 
-use Omni\Encryption\Cipher\CipherRegistry;
-use Omni\Encryption\Cipher\MysqlAes;
-use Omni\Encryption\Cipher\NoOp;
-use Omni\Encryption\CipherText\Serializer\ChainSerializerDeserializer;
-use Omni\Encryption\Encryptor;
-use Omni\Encryption\EncryptorBuilder;
-use Omni\Encryption\Key\ChainSource;
-use Omni\Encryption\Profile\ProfileRegistry;
+use Giftcards\Encryption\Cipher\CipherRegistry;
+use Giftcards\Encryption\Cipher\MysqlAes;
+use Giftcards\Encryption\Cipher\NoOp;
+use Giftcards\Encryption\CipherText\Serializer\ChainSerializerDeserializer;
+use Giftcards\Encryption\Encryptor;
+use Giftcards\Encryption\EncryptorBuilder;
+use Giftcards\Encryption\Key\ChainSource;
+use Giftcards\Encryption\Profile\ProfileRegistry;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class EncryptorBuilderTest extends AbstractExtendableTestCase

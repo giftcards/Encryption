@@ -6,10 +6,10 @@
  * Time: 6:32 PM
  */
 
-namespace Omni\Encryption\CipherText\Rotator;
+namespace Giftcards\Encryption\CipherText\Rotator;
 
 use Doctrine\DBAL\Connection;
-use Omni\Encryption\Encryptor;
+use Giftcards\Encryption\Encryptor;
 
 class DoctrineDBALRotator implements RotatorInterface
 {

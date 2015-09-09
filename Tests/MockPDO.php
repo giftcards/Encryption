@@ -6,7 +6,7 @@
  * Time: 2:44 PM
  */
 
-namespace Omni\Encryption\Tests;
+namespace Giftcards\Encryption\Tests;
 
 class MockPDO extends \PDO
 {

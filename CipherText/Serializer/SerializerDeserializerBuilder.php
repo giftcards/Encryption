@@ -6,7 +6,7 @@
  * Time: 3:34 PM
  */
 
-namespace Omni\Encryption\CipherText\Serializer;
+namespace Giftcards\Encryption\CipherText\Serializer;
 
 class SerializerDeserializerBuilder
 {

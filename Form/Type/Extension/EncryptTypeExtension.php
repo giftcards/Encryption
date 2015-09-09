@@ -6,10 +6,10 @@
  * Time: 9:50 PM
  */
 
-namespace Omni\Encryption\Form\Type\Extension;
+namespace Giftcards\Encryption\Form\Type\Extension;
 
-use Omni\Encryption\Encryptor;
-use Omni\Encryption\Form\DataTransformer\EncryptTransformer;
+use Giftcards\Encryption\Encryptor;
+use Giftcards\Encryption\Form\DataTransformer\EncryptTransformer;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;

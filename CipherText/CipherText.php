@@ -6,9 +6,9 @@
  * Time: 9:36 PM
  */
 
-namespace Omni\Encryption\CipherText;
+namespace Giftcards\Encryption\CipherText;
 
-use Omni\Encryption\Profile\Profile;
+use Giftcards\Encryption\Profile\Profile;
 
 class CipherText implements CipherTextInterface
 {

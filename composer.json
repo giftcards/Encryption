@@ -1,5 +1,5 @@
 {
-  "name": "omni/encryption",
+  "name": "giftcards/encryption",
   "require-dev": {
     "symfony/dependency-injection": "~2.3",
     "symfony/console": "~2.3",
@@ -13,8 +13,8 @@
   },
   "autoload": {
     "psr-0": {
-      "Omni\\Encryption": ""
+      "Giftcards\\Encryption": ""
     }
   },
-  "target-dir": "Omni/Encryption"
+  "target-dir": "Giftcards/Encryption"
 }

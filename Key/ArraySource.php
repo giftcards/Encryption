@@ -6,7 +6,7 @@
  * Time: 7:02 PM
  */
 
-namespace Omni\Encryption\Key;
+namespace Giftcards\Encryption\Key;
 
 class ArraySource extends AbstractSource
 {

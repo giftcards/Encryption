@@ -6,11 +6,11 @@
  * Time: 10:47 PM
  */
 
-namespace Omni\Encryption\Tests\Key;
+namespace Giftcards\Encryption\Tests\Key;
 
 use Faker\Factory;
 use Guzzle\Http\Exception\ClientErrorResponseException;
-use Omni\Encryption\Key\VaultSource;
+use Giftcards\Encryption\Key\VaultSource;
 
 class VaultSourceTest extends AbstractSourceTest
 {

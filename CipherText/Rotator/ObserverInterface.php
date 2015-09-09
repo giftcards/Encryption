@@ -6,7 +6,7 @@
  * Time: 7:11 PM
  */
 
-namespace Omni\Encryption\CipherText\Rotator;
+namespace Giftcards\Encryption\CipherText\Rotator;
 
 interface ObserverInterface
 {

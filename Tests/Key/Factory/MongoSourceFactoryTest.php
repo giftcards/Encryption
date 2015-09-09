@@ -6,16 +6,16 @@
  * Time: 6:23 PM
  */
 
-namespace Omni\Encryption\Tests\Key\Factory;
+namespace Giftcards\Encryption\Tests\Key\Factory;
 
 use Doctrine\MongoDB\Connection;
 use Guzzle\Http\Client;
-use Omni\Encryption\Key\Factory\MongoSourceBuilder;
-use Omni\Encryption\Key\Factory\VaultSourceBuilder;
-use Omni\Encryption\Key\MongoSource;
-use Omni\Encryption\Key\VaultSource;
-use Omni\Encryption\Vault\AddTokenPlugin;
-use Omni\Encryption\Vault\TokenAuthTokenSource;
+use Giftcards\Encryption\Key\Factory\MongoSourceBuilder;
+use Giftcards\Encryption\Key\Factory\VaultSourceBuilder;
+use Giftcards\Encryption\Key\MongoSource;
+use Giftcards\Encryption\Key\VaultSource;
+use Giftcards\Encryption\Vault\AddTokenPlugin;
+use Giftcards\Encryption\Vault\TokenAuthTokenSource;
 use Omni\TestingBundle\Mock\Mockery\Matcher\EqualsMatcher;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;

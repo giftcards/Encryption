@@ -6,15 +6,15 @@
  * Time: 4:33 PM
  */
 
-namespace Omni\Encryption\Tests\CipherText\Rotator;
+namespace Giftcards\Encryption\Tests\CipherText\Rotator;
 
 use Mockery\MockInterface;
-use Omni\Encryption\Cipher\CipherRegistry;
-use Omni\Encryption\CipherText\Rotator\Factory\DatabaseTableRotatorBuilder;
-use Omni\Encryption\CipherText\Rotator\Factory\DoctrineDBALRotatorBuilder;
-use Omni\Encryption\CipherText\Rotator\RotatorRegistry;
-use Omni\Encryption\CipherText\Rotator\RotatorRegistryBuilder;
-use Omni\Encryption\Factory\Factory;
+use Giftcards\Encryption\Cipher\CipherRegistry;
+use Giftcards\Encryption\CipherText\Rotator\Factory\DatabaseTableRotatorBuilder;
+use Giftcards\Encryption\CipherText\Rotator\Factory\DoctrineDBALRotatorBuilder;
+use Giftcards\Encryption\CipherText\Rotator\RotatorRegistry;
+use Giftcards\Encryption\CipherText\Rotator\RotatorRegistryBuilder;
+use Giftcards\Encryption\Factory\Factory;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class RotatorRegistryBuilderTest extends AbstractExtendableTestCase
@@ -30,9 +30,9 @@ class RotatorRegistryBuilderTest extends AbstractExtendableTestCase
 
     public function setUp()
     {
-        $this->rotator1 = \Mockery::mock('Omni\Encryption\CipherText\Rotator\RotatorInterface');
-        $this->rotator2 = \Mockery::mock('Omni\Encryption\CipherText\Rotator\RotatorInterface');
-        $this->factory = \Mockery::mock('Omni\Encryption\Factory\Factory');
+        $this->rotator1 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
+        $this->rotator2 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
+        $this->factory = \Mockery::mock('Giftcards\Encryption\Factory\Factory');
         $this->builder = new RotatorRegistryBuilder(
             $this->factory
         );
@@ -74,7 +74,7 @@ class RotatorRegistryBuilderTest extends AbstractExtendableTestCase
             $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
             $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
         );
-        $source3 = \Mockery::mock('Omni\Encryption\CipherText\Rotator\RotatorInterface');
+        $source3 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
         $this->factory
             ->shouldReceive('create')
             ->once()

@@ -6,7 +6,7 @@
  * Time: 2:09 PM
  */
 
-namespace Omni\Encryption\Key;
+namespace Giftcards\Encryption\Key;
 
 use Doctrine\Common\Cache\Cache;
 

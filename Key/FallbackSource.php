@@ -6,7 +6,7 @@
  * Time: 5:24 PM
  */
 
-namespace Omni\Encryption\Key;
+namespace Giftcards\Encryption\Key;
 
 class FallbackSource implements SourceInterface
 {

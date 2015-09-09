@@ -6,10 +6,10 @@
  * Time: 7:09 PM
  */
 
-namespace Omni\Encryption\CipherText;
+namespace Giftcards\Encryption\CipherText;
 
-use Omni\Encryption\CipherText\Serializer\SerializerInterface;
-use Omni\Encryption\Profile\Profile;
+use Giftcards\Encryption\CipherText\Serializer\SerializerInterface;
+use Giftcards\Encryption\Profile\Profile;
 
 class StringableCipherText implements CipherTextInterface
 {

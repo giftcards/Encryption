@@ -6,7 +6,7 @@
  * Time: 5:21 PM
  */
 
-namespace Omni\Encryption\Key;
+namespace Giftcards\Encryption\Key;
 
 class MappingSource extends AbstractSource
 {

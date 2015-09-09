@@ -6,15 +6,15 @@
  * Time: 4:52 PM
  */
 
-namespace Omni\Encryption\Tests;
+namespace Giftcards\Encryption\Tests;
 
 use Mockery\MockInterface;
-use Omni\Encryption\Cipher\CipherRegistry;
-use Omni\Encryption\CipherText\CipherText;
-use Omni\Encryption\CipherText\StringableCipherText;
-use Omni\Encryption\Encryptor;
-use Omni\Encryption\Profile\Profile;
-use Omni\Encryption\Profile\ProfileRegistry;
+use Giftcards\Encryption\Cipher\CipherRegistry;
+use Giftcards\Encryption\CipherText\CipherText;
+use Giftcards\Encryption\CipherText\StringableCipherText;
+use Giftcards\Encryption\Encryptor;
+use Giftcards\Encryption\Profile\Profile;
+use Giftcards\Encryption\Profile\ProfileRegistry;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class EncryptorTest extends AbstractExtendableTestCase
@@ -40,10 +40,10 @@ class EncryptorTest extends AbstractExtendableTestCase
     public function setUp()
     {
         $this->cipherRegistry = new CipherRegistry();
-        $this->keySource = \Mockery::mock('Omni\Encryption\Key\SourceInterface');
+        $this->keySource = \Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
         $this->profileRegistry = new ProfileRegistry();
         $this->serializerDeserializer = \Mockery::mock(
-            'Omni\Encryption\CipherText\Serializer\SerializerDeserializerInterface'
+            'Giftcards\Encryption\CipherText\Serializer\SerializerDeserializerInterface'
         );
         $this->key1Name = $this->getFaker()->unique()->word;
         $this->key2Name = $this->getFaker()->unique()->word;
@@ -53,13 +53,13 @@ class EncryptorTest extends AbstractExtendableTestCase
         $this->profile2Name = $this->getFaker()->unique()->word;
         $this->cipherRegistry
             ->add(
-                \Mockery::mock('Omni\Encryption\Cipher\CipherInterface')
+                \Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
                     ->shouldReceive('getName')
                     ->andReturn($this->cipher1Name)
                     ->getMock()
             )
             ->add(
-                \Mockery::mock('Omni\Encryption\Cipher\CipherInterface')
+                \Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
                     ->shouldReceive('getName')
                     ->andReturn($this->cipher2Name)
                     ->getMock()

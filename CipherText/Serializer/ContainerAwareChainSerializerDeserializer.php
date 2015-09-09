@@ -6,7 +6,7 @@
  * Time: 12:45 PM
  */
 
-namespace Omni\Encryption\CipherText\Serializer;
+namespace Giftcards\Encryption\CipherText\Serializer;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

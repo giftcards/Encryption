@@ -6,7 +6,7 @@
  * Time: 6:39 PM
  */
 
-namespace Omni\Encryption\Cipher;
+namespace Giftcards\Encryption\Cipher;
 
 interface CipherInterface
 {

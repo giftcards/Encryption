@@ -6,12 +6,12 @@
  * Time: 10:42 PM
  */
 
-namespace Omni\Encryption\Tests\Vault;
+namespace Giftcards\Encryption\Tests\Vault;
 
 use Guzzle\Common\Event;
 use Guzzle\Http\Message\Request;
 use Mockery\MockInterface;
-use Omni\Encryption\Vault\AddTokenPlugin;
+use Giftcards\Encryption\Vault\AddTokenPlugin;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class AddTokenPluginTest extends AbstractExtendableTestCase
@@ -24,7 +24,7 @@ class AddTokenPluginTest extends AbstractExtendableTestCase
     public function setUp()
     {
         $this->plugin = new AddTokenPlugin(
-            $this->tokenSource = \Mockery::mock('Omni\Encryption\Vault\AuthTokenSourceInterface')
+            $this->tokenSource = \Mockery::mock('Giftcards\Encryption\Vault\AuthTokenSourceInterface')
         );
     }
 

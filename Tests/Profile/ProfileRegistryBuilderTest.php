@@ -6,11 +6,11 @@
  * Time: 5:26 PM
  */
 
-namespace Omni\Encryption\Tests\Profile;
+namespace Giftcards\Encryption\Tests\Profile;
 
-use Omni\Encryption\Profile\Profile;
-use Omni\Encryption\Profile\ProfileRegistry;
-use Omni\Encryption\Profile\ProfileRegistryBuilder;
+use Giftcards\Encryption\Profile\Profile;
+use Giftcards\Encryption\Profile\ProfileRegistry;
+use Giftcards\Encryption\Profile\ProfileRegistryBuilder;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class ProfileRegistryBuilderTest extends AbstractExtendableTestCase

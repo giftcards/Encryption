@@ -6,9 +6,9 @@
  * Time: 5:38 PM
  */
 
-namespace Omni\Encryption\Tests\Factory;
+namespace Giftcards\Encryption\Tests\Factory;
 
-use Omni\Encryption\Factory\Registry;
+use Giftcards\Encryption\Factory\Registry;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class RegistryTest extends AbstractExtendableTestCase
@@ -24,19 +24,19 @@ class RegistryTest extends AbstractExtendableTestCase
     public function testGettersSetters()
     {
         $builder1Name = $this->getFaker()->unique()->word;
-        $builder1 = \Mockery::mock('Omni\Encryption\Factory\BuilderInterface')
+        $builder1 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
             ->shouldReceive('getName')
             ->andReturn($builder1Name)
             ->getMock()
         ;
         $builder2Name = $this->getFaker()->unique()->word;
-        $builder2 = \Mockery::mock('Omni\Encryption\Factory\BuilderInterface')
+        $builder2 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
             ->shouldReceive('getName')
             ->andReturn($builder2Name)
             ->getMock()
         ;
         $builder3Name = $this->getFaker()->unique()->word;
-        $builder3 = \Mockery::mock('Omni\Encryption\Factory\BuilderInterface')
+        $builder3 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
             ->shouldReceive('getName')
             ->andReturn($builder3Name)
             ->getMock()
@@ -59,18 +59,18 @@ class RegistryTest extends AbstractExtendableTestCase
     }
 
     /**
-     * @expectedException \Omni\Encryption\Factory\BuilderNotFoundException
+     * @expectedException \Giftcards\Encryption\Factory\BuilderNotFoundException
      */
     public function testGetWithMissingBuilder()
     {
         $builder1Name = $this->getFaker()->unique()->word;
-        $builder1 = \Mockery::mock('Omni\Encryption\Factory\BuilderInterface')
+        $builder1 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
             ->shouldReceive('getName')
             ->andReturn($builder1Name)
             ->getMock()
         ;
         $builder2Name = $this->getFaker()->unique()->word;
-        $builder2 = \Mockery::mock('Omni\Encryption\Factory\BuilderInterface')
+        $builder2 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
             ->shouldReceive('getName')
             ->andReturn($builder2Name)
             ->getMock()

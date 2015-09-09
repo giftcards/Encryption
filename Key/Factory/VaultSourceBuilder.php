@@ -6,13 +6,13 @@
  * Time: 9:11 PM
  */
 
-namespace Omni\Encryption\Key\Factory;
+namespace Giftcards\Encryption\Key\Factory;
 
 use Guzzle\Http\Client;
-use Omni\Encryption\Factory\BuilderInterface;
-use Omni\Encryption\Key\VaultSource;
-use Omni\Encryption\Vault\AddTokenPlugin;
-use Omni\Encryption\Vault\TokenAuthTokenSource;
+use Giftcards\Encryption\Factory\BuilderInterface;
+use Giftcards\Encryption\Key\VaultSource;
+use Giftcards\Encryption\Vault\AddTokenPlugin;
+use Giftcards\Encryption\Vault\TokenAuthTokenSource;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VaultSourceBuilder implements BuilderInterface

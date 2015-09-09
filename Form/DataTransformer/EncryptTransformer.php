@@ -6,9 +6,9 @@
  * Time: 9:51 PM
  */
 
-namespace Omni\Encryption\Form\DataTransformer;
+namespace Giftcards\Encryption\Form\DataTransformer;
 
-use Omni\Encryption\Encryptor;
+use Giftcards\Encryption\Encryptor;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 

@@ -6,9 +6,9 @@
  * Time: 1:32 PM
  */
 
-namespace Omni\Encryption\Tests\Cipher;
+namespace Giftcards\Encryption\Tests\Cipher;
 
-use Omni\Encryption\Cipher\MysqlAes;
+use Giftcards\Encryption\Cipher\MysqlAes;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 use PHPUnit_Framework_TestCase;
 

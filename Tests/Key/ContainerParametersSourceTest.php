@@ -6,10 +6,10 @@
  * Time: 7:59 PM
  */
 
-namespace Omni\Encryption\Tests\Key;
+namespace Giftcards\Encryption\Tests\Key;
 
 use Faker\Factory;
-use Omni\Encryption\Key\ContainerParametersSource;
+use Giftcards\Encryption\Key\ContainerParametersSource;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 

@@ -6,10 +6,10 @@
  * Time: 5:54 PM
  */
 
-namespace Omni\Encryption\CipherText\Rotator\Factory;
+namespace Giftcards\Encryption\CipherText\Rotator\Factory;
 
-use Omni\Encryption\CipherText\Rotator\DatabaseTableRotator;
-use Omni\Encryption\Factory\BuilderInterface;
+use Giftcards\Encryption\CipherText\Rotator\DatabaseTableRotator;
+use Giftcards\Encryption\Factory\BuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DatabaseTableRotatorBuilder implements BuilderInterface

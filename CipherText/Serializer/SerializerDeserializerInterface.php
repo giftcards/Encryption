@@ -6,7 +6,7 @@
  * Time: 7:05 PM
  */
 
-namespace Omni\Encryption\CipherText\Serializer;
+namespace Giftcards\Encryption\CipherText\Serializer;
 
 interface SerializerDeserializerInterface extends SerializerInterface, DeserializerInterface
 {

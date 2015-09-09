@@ -6,7 +6,7 @@
  * Time: 5:49 PM
  */
 
-namespace Omni\Encryption\Factory;
+namespace Giftcards\Encryption\Factory;
 
 class Registry
 {

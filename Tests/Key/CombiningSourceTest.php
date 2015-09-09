@@ -6,11 +6,11 @@
  * Time: 7:49 PM
  */
 
-namespace Omni\Encryption\Tests\Key;
+namespace Giftcards\Encryption\Tests\Key;
 
 use Faker\Factory;
-use Omni\Encryption\Key\ArraySource;
-use Omni\Encryption\Key\CombiningSource;
+use Giftcards\Encryption\Key\ArraySource;
+use Giftcards\Encryption\Key\CombiningSource;
 
 class CombiningSourceTest extends AbstractSourceTest
 {

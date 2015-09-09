@@ -6,7 +6,7 @@
  * Time: 3:05 PM
  */
 
-namespace Omni\Encryption\Cipher;
+namespace Giftcards\Encryption\Cipher;
 
 class CipherRegistryBuilder
 {

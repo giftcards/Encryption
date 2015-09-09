@@ -6,11 +6,11 @@
  * Time: 8:13 PM
  */
 
-namespace Omni\Encryption\Tests\Key;
+namespace Giftcards\Encryption\Tests\Key;
 
 use Faker\Factory;
-use Omni\Encryption\Key\ArraySource;
-use Omni\Encryption\Key\PrefixKeyNameSource;
+use Giftcards\Encryption\Key\ArraySource;
+use Giftcards\Encryption\Key\PrefixKeyNameSource;
 
 class PrefixKeyNameSourceTest extends AbstractSourceTest
 {

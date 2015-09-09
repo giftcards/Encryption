@@ -6,7 +6,7 @@
  * Time: 5:21 PM
  */
 
-namespace Omni\Encryption\Profile;
+namespace Giftcards\Encryption\Profile;
 
 class ProfileRegistryBuilder
 {

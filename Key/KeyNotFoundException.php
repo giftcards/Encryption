@@ -6,7 +6,7 @@
  * Time: 6:03 PM
  */
 
-namespace Omni\Encryption\Key;
+namespace Giftcards\Encryption\Key;
 
 class KeyNotFoundException extends \InvalidArgumentException
 {

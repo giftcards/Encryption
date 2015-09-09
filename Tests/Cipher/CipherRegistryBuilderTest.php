@@ -6,12 +6,12 @@
  * Time: 4:20 PM
  */
 
-namespace Omni\Encryption\Tests\Cipher;
+namespace Giftcards\Encryption\Tests\Cipher;
 
-use Omni\Encryption\Cipher\CipherRegistry;
-use Omni\Encryption\Cipher\CipherRegistryBuilder;
-use Omni\Encryption\Cipher\MysqlAes;
-use Omni\Encryption\Cipher\NoOp;
+use Giftcards\Encryption\Cipher\CipherRegistry;
+use Giftcards\Encryption\Cipher\CipherRegistryBuilder;
+use Giftcards\Encryption\Cipher\MysqlAes;
+use Giftcards\Encryption\Cipher\NoOp;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class CipherRegistryBuilderTest extends AbstractExtendableTestCase
@@ -36,12 +36,12 @@ class CipherRegistryBuilderTest extends AbstractExtendableTestCase
 
     public function testBuild()
     {
-        $cipher1 = \Mockery::mock('Omni\Encryption\Cipher\CipherInterface')
+        $cipher1 = \Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn('cipher1')
             ->getMock()
         ;
-        $cipher2 = \Mockery::mock('Omni\Encryption\Cipher\CipherInterface')
+        $cipher2 = \Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn('cipher2')
             ->getMock()

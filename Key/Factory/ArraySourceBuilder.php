@@ -6,10 +6,10 @@
  * Time: 10:11 AM
  */
 
-namespace Omni\Encryption\Key\Factory;
+namespace Giftcards\Encryption\Key\Factory;
 
-use Omni\Encryption\Factory\BuilderInterface;
-use Omni\Encryption\Key\ArraySource;
+use Giftcards\Encryption\Factory\BuilderInterface;
+use Giftcards\Encryption\Key\ArraySource;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ArraySourceBuilder implements BuilderInterface

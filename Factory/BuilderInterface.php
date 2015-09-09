@@ -6,7 +6,7 @@
  * Time: 9:05 PM
  */
 
-namespace Omni\Encryption\Factory;
+namespace Giftcards\Encryption\Factory;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

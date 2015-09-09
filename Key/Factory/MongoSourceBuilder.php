@@ -6,11 +6,11 @@
  * Time: 9:46 AM
  */
 
-namespace Omni\Encryption\Key\Factory;
+namespace Giftcards\Encryption\Key\Factory;
 
 use Doctrine\MongoDB\Connection;
-use Omni\Encryption\Factory\BuilderInterface;
-use Omni\Encryption\Key\MongoSource;
+use Giftcards\Encryption\Factory\BuilderInterface;
+use Giftcards\Encryption\Key\MongoSource;
 use Symfony\Component\OptionsResolver\Exception\InvalidArgumentException;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;

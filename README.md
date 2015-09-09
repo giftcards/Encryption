@@ -17,7 +17,7 @@ Simple usage:
 
     namespace Omni\Namespace;
 
-    use Omni\Encryption\EncryptionUtility;
+    use Giftcards\Encryption\EncryptionUtility;
     // ....
 
     class SomeClass
@@ -48,7 +48,7 @@ Dependency Injection:
   *services.yml* (or similar file)
 
     omni.encryption.encryption_utility:
-        class: Omni\EncryptionBundle\EncryptionUtility
+        class: Giftcards\EncryptionBundle\EncryptionUtility
         arguments: ['%ENCRYPTION_STRING%']
 
     omni.some.service.class:
@@ -59,7 +59,7 @@ Dependency Injection:
 
     namespace Omni\Namespace;
 
-    use Omni\EncryptionBundle\EncryptionUtility;
+    use Giftcards\EncryptionBundle\EncryptionUtility;
 
     class SomeClass
     {

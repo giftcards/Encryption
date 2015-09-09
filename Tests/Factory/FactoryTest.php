@@ -6,11 +6,11 @@
  * Time: 5:42 PM
  */
 
-namespace Omni\Encryption\Tests\Factory;
+namespace Giftcards\Encryption\Tests\Factory;
 
 use Mockery\MockInterface;
-use Omni\Encryption\Factory\Factory;
-use Omni\Encryption\Factory\Registry;
+use Giftcards\Encryption\Factory\Factory;
+use Giftcards\Encryption\Factory\Registry;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -28,17 +28,17 @@ class FactoryTest extends AbstractExtendableTestCase
     public function setUp()
     {
         $this->factory = new Factory(array(
-            $this->builder1 = \Mockery::mock('Omni\Encryption\Factory\BuilderInterface')
+            $this->builder1 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
                 ->shouldReceive('getName')
                 ->andReturn('builder1')
                 ->getMock()
             ,
-            $this->builder2 = \Mockery::mock('Omni\Encryption\Factory\BuilderInterface')
+            $this->builder2 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
                 ->shouldReceive('getName')
                 ->andReturn('builder2')
                 ->getMock()
             ,
-            $this->builder3 = \Mockery::mock('Omni\Encryption\Factory\BuilderInterface')
+            $this->builder3 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
                 ->shouldReceive('getName')
                 ->andReturn('builder3')
                 ->getMock()

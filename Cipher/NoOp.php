@@ -6,7 +6,7 @@
  * Time: 10:43 PM
  */
 
-namespace Omni\Encryption\Cipher;
+namespace Giftcards\Encryption\Cipher;
 
 class NoOp implements CipherInterface
 {

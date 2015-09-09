@@ -6,7 +6,7 @@
  * Time: 7:06 PM
  */
 
-namespace Omni\Encryption\Key;
+namespace Giftcards\Encryption\Key;
 
 class ChainSource implements SourceInterface
 {

@@ -6,11 +6,11 @@
  * Time: 4:54 PM
  */
 
-namespace Omni\Encryption\Tests\CipherText\Rotator\Factory;
+namespace Giftcards\Encryption\Tests\CipherText\Rotator\Factory;
 
-use Omni\Encryption\CipherText\Rotator\DatabaseTableRotator;
-use Omni\Encryption\CipherText\Rotator\DoctrineDBALRotator;
-use Omni\Encryption\CipherText\Rotator\Factory\DoctrineDBALRotatorBuilder;
+use Giftcards\Encryption\CipherText\Rotator\DatabaseTableRotator;
+use Giftcards\Encryption\CipherText\Rotator\DoctrineDBALRotator;
+use Giftcards\Encryption\CipherText\Rotator\Factory\DoctrineDBALRotatorBuilder;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class DoctrineDBALRotatorBuilderTest extends AbstractExtendableTestCase

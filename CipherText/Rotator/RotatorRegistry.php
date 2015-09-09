@@ -6,7 +6,7 @@
  * Time: 6:17 PM
  */
 
-namespace Omni\Encryption\CipherText\Rotator;
+namespace Giftcards\Encryption\CipherText\Rotator;
 
 class RotatorRegistry
 {

@@ -6,7 +6,7 @@
  * Time: 6:41 PM
  */
 
-namespace Omni\Encryption\Cipher;
+namespace Giftcards\Encryption\Cipher;
 
 class MysqlAes implements CipherInterface
 {

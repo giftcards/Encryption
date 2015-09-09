@@ -6,7 +6,7 @@
  * Time: 5:50 PM
  */
 
-namespace Omni\Encryption\Factory;
+namespace Giftcards\Encryption\Factory;
 
 use InvalidArgumentException;
 

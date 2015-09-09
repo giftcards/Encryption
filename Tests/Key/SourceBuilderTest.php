@@ -6,23 +6,23 @@
  * Time: 3:54 PM
  */
 
-namespace Omni\Encryption\Tests\Key;
+namespace Giftcards\Encryption\Tests\Key;
 
 use Doctrine\Common\Cache\ArrayCache;
 use Mockery\MockInterface;
-use Omni\Encryption\Factory\Factory;
-use Omni\Encryption\Key\CachingSource;
-use Omni\Encryption\Key\ChainSource;
-use Omni\Encryption\Key\CombiningSource;
-use Omni\Encryption\Key\Factory\ArraySourceBuilder;
-use Omni\Encryption\Key\Factory\IniFileSourceBuilder;
-use Omni\Encryption\Key\Factory\MongoSourceBuilder;
-use Omni\Encryption\Key\Factory\VaultSourceBuilder;
-use Omni\Encryption\Key\FallbackSource;
-use Omni\Encryption\Key\MappingSource;
-use Omni\Encryption\Key\NoneSource;
-use Omni\Encryption\Key\PrefixKeyNameSource;
-use Omni\Encryption\Key\SourceBuilder;
+use Giftcards\Encryption\Factory\Factory;
+use Giftcards\Encryption\Key\CachingSource;
+use Giftcards\Encryption\Key\ChainSource;
+use Giftcards\Encryption\Key\CombiningSource;
+use Giftcards\Encryption\Key\Factory\ArraySourceBuilder;
+use Giftcards\Encryption\Key\Factory\IniFileSourceBuilder;
+use Giftcards\Encryption\Key\Factory\MongoSourceBuilder;
+use Giftcards\Encryption\Key\Factory\VaultSourceBuilder;
+use Giftcards\Encryption\Key\FallbackSource;
+use Giftcards\Encryption\Key\MappingSource;
+use Giftcards\Encryption\Key\NoneSource;
+use Giftcards\Encryption\Key\PrefixKeyNameSource;
+use Giftcards\Encryption\Key\SourceBuilder;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class SourceBuilderTest extends AbstractExtendableTestCase
@@ -38,9 +38,9 @@ class SourceBuilderTest extends AbstractExtendableTestCase
 
     public function setUp()
     {
-        $this->source1 = \Mockery::mock('Omni\Encryption\Key\SourceInterface');
-        $this->source2 = \Mockery::mock('Omni\Encryption\Key\SourceInterface');
-        $this->factory = \Mockery::mock('Omni\Encryption\Factory\Factory');
+        $this->source1 = \Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
+        $this->source2 = \Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
+        $this->factory = \Mockery::mock('Giftcards\Encryption\Factory\Factory');
         $this->builder = new SourceBuilder(
             $this->factory
         );
@@ -192,7 +192,7 @@ class SourceBuilderTest extends AbstractExtendableTestCase
             $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
             $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
         );
-        $source3 = \Mockery::mock('Omni\Encryption\Key\SourceInterface');
+        $source3 = \Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
         $this->factory
             ->shouldReceive('create')
             ->once()
@@ -224,7 +224,7 @@ class SourceBuilderTest extends AbstractExtendableTestCase
             $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
         );
         $prefix = $this->getFaker()->unique()->word;
-        $source3 = \Mockery::mock('Omni\Encryption\Key\SourceInterface');
+        $source3 = \Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
         $this->factory
             ->shouldReceive('create')
             ->once()

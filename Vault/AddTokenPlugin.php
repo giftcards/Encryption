@@ -6,7 +6,7 @@
  * Time: 6:03 PM
  */
 
-namespace Omni\Encryption\Vault;
+namespace Giftcards\Encryption\Vault;
 
 use Guzzle\Common\Event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

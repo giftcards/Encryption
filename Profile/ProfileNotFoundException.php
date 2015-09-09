@@ -6,7 +6,7 @@
  * Time: 6:31 PM
  */
 
-namespace Omni\Encryption\Profile;
+namespace Giftcards\Encryption\Profile;
 
 class ProfileNotFoundException extends \InvalidArgumentException
 {

@@ -6,10 +6,10 @@
  * Time: 6:23 PM
  */
 
-namespace Omni\Encryption\Tests\Key\Factory;
+namespace Giftcards\Encryption\Tests\Key\Factory;
 
-use Omni\Encryption\Key\ArraySource;
-use Omni\Encryption\Key\Factory\ArraySourceBuilder;
+use Giftcards\Encryption\Key\ArraySource;
+use Giftcards\Encryption\Key\Factory\ArraySourceBuilder;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class ArraySourceFactoryTest extends AbstractExtendableTestCase

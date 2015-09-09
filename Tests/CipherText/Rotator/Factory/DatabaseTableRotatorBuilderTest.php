@@ -6,10 +6,10 @@
  * Time: 4:54 PM
  */
 
-namespace Omni\Encryption\Tests\CipherText\Rotator\Factory;
+namespace Giftcards\Encryption\Tests\CipherText\Rotator\Factory;
 
-use Omni\Encryption\CipherText\Rotator\DatabaseTableRotator;
-use Omni\Encryption\CipherText\Rotator\Factory\DatabaseTableRotatorBuilder;
+use Giftcards\Encryption\CipherText\Rotator\DatabaseTableRotator;
+use Giftcards\Encryption\CipherText\Rotator\Factory\DatabaseTableRotatorBuilder;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class DatabaseTableRotatorBuilderTest extends AbstractExtendableTestCase
@@ -24,7 +24,7 @@ class DatabaseTableRotatorBuilderTest extends AbstractExtendableTestCase
 
     public function testBuild()
     {
-        $pdo = \Mockery::mock('Omni\Encryption\Tests\MockPDO');
+        $pdo = \Mockery::mock('Giftcards\Encryption\Tests\MockPDO');
         $table = $this->getFaker()->unique()->word;
         $fields = array(
             $this->getFaker()->unique()->word,

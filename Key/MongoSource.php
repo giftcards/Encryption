@@ -6,7 +6,7 @@
  * Time: 5:42 PM
  */
 
-namespace Omni\Encryption\Key;
+namespace Giftcards\Encryption\Key;
 
 use Doctrine\MongoDB\Connection;
 

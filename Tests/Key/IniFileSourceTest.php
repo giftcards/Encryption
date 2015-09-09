@@ -6,9 +6,9 @@
  * Time: 7:34 PM
  */
 
-namespace Omni\Encryption\Tests\Key;
+namespace Giftcards\Encryption\Tests\Key;
 
-use Omni\Encryption\Key\IniFileSource;
+use Giftcards\Encryption\Key\IniFileSource;
 
 class IniFileSourceTest extends AbstractSourceTest
 {

@@ -6,7 +6,7 @@
  * Time: 6:31 PM
  */
 
-namespace Omni\Encryption\CipherText\Rotator;
+namespace Giftcards\Encryption\CipherText\Rotator;
 
 use InvalidArgumentException;
 

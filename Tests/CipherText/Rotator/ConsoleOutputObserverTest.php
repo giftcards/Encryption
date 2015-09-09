@@ -6,10 +6,10 @@
  * Time: 2:03 PM
  */
 
-namespace Omni\Encryption\Tests\CipherText\Rotator;
+namespace Giftcards\Encryption\Tests\CipherText\Rotator;
 
 use Mockery\MockInterface;
-use Omni\Encryption\CipherText\Rotator\ConsoleOutputObserver;
+use Giftcards\Encryption\CipherText\Rotator\ConsoleOutputObserver;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class ConsoleOutputObserverTest extends AbstractExtendableTestCase

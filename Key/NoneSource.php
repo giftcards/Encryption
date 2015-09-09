@@ -6,7 +6,7 @@
  * Time: 6:18 PM
  */
 
-namespace Omni\Encryption\Key;
+namespace Giftcards\Encryption\Key;
 
 class NoneSource extends AbstractSource
 {

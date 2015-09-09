@@ -6,10 +6,10 @@
  * Time: 10:36 PM
  */
 
-namespace Omni\Encryption\Tests\Vault;
+namespace Giftcards\Encryption\Tests\Vault;
 
 use Guzzle\Http\Message\Request;
-use Omni\Encryption\Vault\TokenAuthTokenSource;
+use Giftcards\Encryption\Vault\TokenAuthTokenSource;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class TokenAuthTokenSourceTest extends AbstractExtendableTestCase

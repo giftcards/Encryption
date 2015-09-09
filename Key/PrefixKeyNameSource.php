@@ -6,7 +6,7 @@
  * Time: 6:02 PM
  */
 
-namespace Omni\Encryption\Key;
+namespace Giftcards\Encryption\Key;
 
 class PrefixKeyNameSource extends AbstractSource
 {

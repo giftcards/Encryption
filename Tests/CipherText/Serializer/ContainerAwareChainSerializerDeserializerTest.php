@@ -6,9 +6,9 @@
  * Time: 7:16 PM
  */
 
-namespace Omni\Encryption\Tests\CipherText\Serializer;
+namespace Giftcards\Encryption\Tests\CipherText\Serializer;
 
-use Omni\Encryption\CipherText\Serializer\ContainerAwareChainSerializerDeserializer;
+use Giftcards\Encryption\CipherText\Serializer\ContainerAwareChainSerializerDeserializer;
 use Symfony\Component\DependencyInjection\Container;
 
 class ContainerAwareChainSerializerDeserializerTest extends ChainSerializerDeserializerTest

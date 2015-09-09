@@ -6,9 +6,9 @@
  * Time: 5:45 PM
  */
 
-namespace Omni\Encryption\Tests\Profile;
+namespace Giftcards\Encryption\Tests\Profile;
 
-use Omni\Encryption\Profile\Profile;
+use Giftcards\Encryption\Profile\Profile;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class ProfileTest extends AbstractExtendableTestCase

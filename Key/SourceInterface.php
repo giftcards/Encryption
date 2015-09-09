@@ -6,7 +6,7 @@
  * Time: 5:58 PM
  */
 
-namespace Omni\Encryption\Key;
+namespace Giftcards\Encryption\Key;
 
 interface SourceInterface
 {

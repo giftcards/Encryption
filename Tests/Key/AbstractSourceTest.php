@@ -6,9 +6,9 @@
  * Time: 7:23 PM
  */
 
-namespace Omni\Encryption\Tests\Key;
+namespace Giftcards\Encryption\Tests\Key;
 
-use Omni\Encryption\Key\SourceInterface;
+use Giftcards\Encryption\Key\SourceInterface;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 abstract class AbstractSourceTest extends AbstractExtendableTestCase
@@ -31,7 +31,7 @@ abstract class AbstractSourceTest extends AbstractExtendableTestCase
 
     /**
      * @dataProvider gettersHassersProvider
-     * @expectedException \Omni\Encryption\Key\KeyNotFoundException
+     * @expectedException \Giftcards\Encryption\Key\KeyNotFoundException
      */
     public function testGetWhenNonExistent(SourceInterface $source, array $_, array $notExisting)
     {

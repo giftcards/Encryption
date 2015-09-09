@@ -6,10 +6,10 @@
  * Time: 2:43 PM
  */
 
-namespace Omni\Encryption\Tests\CipherText\Rotator;
+namespace Giftcards\Encryption\Tests\CipherText\Rotator;
 
 use Mockery\MockInterface;
-use Omni\Encryption\CipherText\Rotator\DatabaseTableRotator;
+use Giftcards\Encryption\CipherText\Rotator\DatabaseTableRotator;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class DatabaseTableRotatorTest extends AbstractExtendableTestCase
@@ -25,7 +25,7 @@ class DatabaseTableRotatorTest extends AbstractExtendableTestCase
     public function setUp()
     {
         $this->rotator = new DatabaseTableRotator(
-            $this->pdo = \Mockery::mock('Omni\Encryption\Tests\MockPDO'),
+            $this->pdo = \Mockery::mock('Giftcards\Encryption\Tests\MockPDO'),
             $this->table = $this->getFaker()->unique()->word,
             $this->fields = array(
                 $this->getFaker()->unique()->word,
@@ -39,8 +39,8 @@ class DatabaseTableRotatorTest extends AbstractExtendableTestCase
     public function testRotate()
     {
         $newProfile = $this->getFaker()->word;
-        $encryptor = \Mockery::mock('Omni\Encryption\Encryptor');
-        $observer = \Mockery::mock('Omni\Encryption\CipherText\Rotator\ObserverInterface');
+        $encryptor = \Mockery::mock('Giftcards\Encryption\Encryptor');
+        $observer = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\ObserverInterface');
         $fields = $this->fields;
         $fields[] = $this->idField;
         $faker = $this->getFaker();

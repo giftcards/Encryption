@@ -6,15 +6,15 @@
  * Time: 9:06 PM
  */
 
-namespace Omni\Encryption\Key;
+namespace Giftcards\Encryption\Key;
 
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\Cache;
-use Omni\Encryption\Factory\Factory;
-use Omni\Encryption\Key\Factory\ArraySourceBuilder;
-use Omni\Encryption\Key\Factory\IniFileSourceBuilder;
-use Omni\Encryption\Key\Factory\MongoSourceBuilder;
-use Omni\Encryption\Key\Factory\VaultSourceBuilder;
+use Giftcards\Encryption\Factory\Factory;
+use Giftcards\Encryption\Key\Factory\ArraySourceBuilder;
+use Giftcards\Encryption\Key\Factory\IniFileSourceBuilder;
+use Giftcards\Encryption\Key\Factory\MongoSourceBuilder;
+use Giftcards\Encryption\Key\Factory\VaultSourceBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SourceBuilder

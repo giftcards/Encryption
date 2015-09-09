@@ -6,7 +6,7 @@
  * Time: 7:14 PM
  */
 
-namespace Omni\Encryption\CipherText\Rotator;
+namespace Giftcards\Encryption\CipherText\Rotator;
 
 use Symfony\Component\Console\Output\OutputInterface;
 

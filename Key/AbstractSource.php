@@ -6,7 +6,7 @@
  * Time: 6:07 PM
  */
 
-namespace Omni\Encryption\Key;
+namespace Giftcards\Encryption\Key;
 
 abstract class AbstractSource implements SourceInterface
 {
