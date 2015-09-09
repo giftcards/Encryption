@@ -25,7 +25,7 @@ class EncryptorBuilder
     protected $serializerDeserializerBuilder;
     protected $defaultProfile;
     
-    public static function create()
+    public static function newInstance()
     {
         return new static();
     }
@@ -192,7 +192,7 @@ class EncryptorBuilder
      */
     protected function getDefaultProfileRegistry()
     {
-        return new ProfileRegistryBuilder();
+        return ProfileRegistryBuilder::newInstance();
     }
 
     /**
