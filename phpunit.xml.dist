@@ -31,27 +31,6 @@
     </filter>
     <listeners>
         <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
-        <listener class="\Omni\TestingBundle\Test\Listener\AddTestCaseExtensionsListener">
-            <arguments>
-                <array>
-                    <element>
-                        <string>\Omni\TestingBundle\TestCase\Extension\EntityExtension</string>
-                    </element>
-                    <element>
-                        <string>\Omni\TestingBundle\TestCase\Extension\DatabaseExtension</string>
-                    </element>
-                    <element>
-                        <string>\Omni\TestingBundle\TestCase\Extension\OmniOrmExtension</string>
-                    </element>
-                    <element>
-                        <string>\Omni\TestingBundle\TestCase\Extension\FakerExtension</string>
-                    </element>
-                    <element>
-                        <string>\Omni\TestingBundle\TestCase\Extension\UtilityExtension</string>
-                    </element>
-                </array>
-            </arguments>
-        </listener>
     </listeners>
 
 </phpunit>
