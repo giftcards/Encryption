@@ -9,21 +9,23 @@
 namespace Omni\Encryption;
 
 use Omni\Encryption\Cipher\CipherRegistry;
-use Omni\Encryption\CipherText\Serializer\ChainDeserializer;
+use Omni\Encryption\Cipher\CipherRegistryBuilder;
+use Omni\Encryption\CipherText\Serializer\ChainSerializerDeserializer;
 use Omni\Encryption\CipherText\Serializer\ChainSerializer;
 use Omni\Encryption\CipherText\Serializer\DeserializerInterface;
+use Omni\Encryption\CipherText\Serializer\SerializerDeserializerBuilder;
 use Omni\Encryption\CipherText\Serializer\SerializerInterface;
 use Omni\Encryption\Key\ChainSource;
+use Omni\Encryption\Key\SourceBuilder;
 use Omni\Encryption\Key\SourceInterface;
 use Omni\Encryption\Profile\ProfileRegistry;
 
 class EncryptorBuilder
 {
-    protected $cipherRegistry;
-    protected $keySource;
+    protected $cipherRegistryBuilder;
+    protected $keySourceBuilder;
     protected $profileRegistry;
-    protected $serializer;
-    protected $deserializer;
+    protected $serializerDeserializerBuilder;
     protected $defaultProfile;
     
     public static function create()
@@ -34,56 +36,55 @@ class EncryptorBuilder
     public function build()
     {
         return new Encryptor(
-            $this->getCipherRegistry(),
-            $this->getKeySource(),
+            $this->getCipherRegistryBuilder()->build(),
+            $this->getKeySourceBuilder()->build(),
             $this->getProfileRegistry(),
-            $this->getSerializer(),
-            $this->getDeserializer(),
+            $this->getSerializerDeserializerBuilder()->build(),
             $this->getDefaultProfile()
         );
     }
 
     /**
-     * @return CipherRegistry
+     * @return CipherRegistryBuilder
      */
-    public function getCipherRegistry()
+    public function getCipherRegistryBuilder()
     {
-        if (!$this->cipherRegistry) {
-            $this->cipherRegistry = $this->getDefaultCipherRegistry();
+        if (!$this->cipherRegistryBuilder) {
+            $this->cipherRegistryBuilder = $this->getDefaultCipherRegistryBuilder();
         }
         
-        return $this->cipherRegistry;
+        return $this->cipherRegistryBuilder;
     }
 
     /**
-     * @param CipherRegistry $cipherRegistry
+     * @param CipherRegistryBuilder $cipherRegistryBuilder
      * @return $this
      */
-    public function setCipherRegistry(CipherRegistry $cipherRegistry)
+    public function setCipherRegistryBuilder(CipherRegistryBuilder $cipherRegistryBuilder)
     {
-        $this->cipherRegistry = $cipherRegistry;
+        $this->cipherRegistryBuilder = $cipherRegistryBuilder;
         return $this;
     }
 
     /**
-     * @return SourceInterface
+     * @return SourceBuilder
      */
-    public function getKeySource()
+    public function getKeySourceBuilder()
     {
-        if (!$this->keySource) {
-            $this->keySource = $this->getDefaultKeySource();
+        if (!$this->keySourceBuilder) {
+            $this->keySourceBuilder = $this->getDefaultKeySourceBuilder();
         }
 
-        return $this->keySource;
+        return $this->keySourceBuilder;
     }
 
     /**
-     * @param SourceInterface $keySource
+     * @param SourceBuilder $keySourceBuilder
      * @return $this
      */
-    public function setKeySource(SourceInterface $keySource)
+    public function setKeySourceBuilder(SourceBuilder $keySourceBuilder)
     {
-        $this->keySource = $keySource;
+        $this->keySourceBuilder = $keySourceBuilder;
         return $this;
     }
 
@@ -110,46 +111,24 @@ class EncryptorBuilder
     }
 
     /**
-     * @return SerializerInterface
+     * @return SerializerDeserializerBuilder
      */
-    public function getSerializer()
+    public function getSerializerDeserializerBuilder()
     {
-        if (!$this->serializer) {
-            $this->serializer = $this->getDefaultSerializer();
+        if (!$this->serializerDeserializerBuilder) {
+            $this->serializerDeserializerBuilder = $this->getDefaultSerializerDeserializerBuilder();
         }
 
-        return $this->serializer;
+        return $this->serializerDeserializerBuilder;
     }
 
     /**
-     * @param SerializerInterface $serializer
+     * @param SerializerDeserializerBuilder $serializerDeserializerBuilder
      * @return $this
      */
-    public function setSerializer(SerializerInterface $serializer)
+    public function setSerializerDeserializerBuilder(SerializerDeserializerBuilder $serializerDeserializerBuilder)
     {
-        $this->serializer = $serializer;
-        return $this;
-    }
-
-    /**
-     * @return DeserializerInterface
-     */
-    public function getDeserializer()
-    {
-        if (!$this->deserializer) {
-            $this->deserializer = $this->getDefaultDeserializer();
-        }
-
-        return $this->deserializer;
-    }
-
-    /**
-     * @param DeserializerInterface $deserializer
-     * @return $this
-     */
-    public function setDeserializer(DeserializerInterface $deserializer)
-    {
-        $this->deserializer = $deserializer;
+        $this->serializerDeserializerBuilder = $serializerDeserializerBuilder;
         return $this;
     }
 
@@ -171,14 +150,14 @@ class EncryptorBuilder
         return $this;
     }
 
-    protected function getDefaultCipherRegistry()
+    protected function getDefaultCipherRegistryBuilder()
     {
-        return new CipherRegistry();
+        return CipherRegistryBuilder::newInstance();
     }
 
-    protected function getDefaultKeySource()
+    protected function getDefaultKeySourceBuilder()
     {
-        return new ChainSource();
+        return SourceBuilder::newInstance();
     }
 
     /**
@@ -190,18 +169,10 @@ class EncryptorBuilder
     }
 
     /**
-     * @return ChainSerializer
+     * @return SerializerDeserializerBuilder
      */
-    protected function getDefaultSerializer()
+    protected function getDefaultSerializerDeserializerBuilder()
     {
-        return new ChainSerializer();
-    }
-
-    /**
-     * @return ChainDeserializer
-     */
-    protected function getDefaultDeserializer()
-    {
-        return new ChainDeserializer();
+        return SerializerDeserializerBuilder::newInstance();
     }
 }

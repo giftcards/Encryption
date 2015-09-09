@@ -54,18 +54,6 @@ class SourceBuilderTest extends AbstractExtendableTestCase
             new IniFileSourceBuilder(),
             new ArraySourceBuilder()
         ))), SourceBuilder::newInstance());
-        $this->assertEquals(new SourceBuilder(new Factory(array(
-            new MongoSourceBuilder(),
-            new IniFileSourceBuilder(),
-            new ArraySourceBuilder()
-        ))), SourceBuilder::newInstance(array(
-            new MongoSourceBuilder(),
-            new IniFileSourceBuilder(),
-            new ArraySourceBuilder()
-        )));
-        $factory = new Factory();
-        $this->assertEquals(new SourceBuilder($factory), SourceBuilder::newInstance($factory));
-        $this->assertSame($factory, SourceBuilder::newInstance($factory)->getFactory());
     }
 
     public function testBuildWithFallbacks()

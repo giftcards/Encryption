@@ -13,7 +13,7 @@ use Omni\Encryption\CipherText\Serializer\BasicSerializerDeserializer;
 use Omni\Encryption\Profile\Profile;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class BasicSerializerTest extends AbstractExtendableTestCase
+class BasicSerializerDeserializerTest extends AbstractExtendableTestCase
 {
     /** @var  BasicSerializerDeserializer */
     protected $serializer;

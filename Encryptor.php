@@ -12,6 +12,7 @@ use Omni\Encryption\CipherText\CipherText;
 use Omni\Encryption\Cipher\CipherRegistry;
 use Omni\Encryption\CipherText\CipherTextInterface;
 use Omni\Encryption\CipherText\Serializer\DeserializerInterface;
+use Omni\Encryption\CipherText\Serializer\SerializerDeserializerInterface;
 use Omni\Encryption\CipherText\Serializer\SerializerInterface;
 use Omni\Encryption\CipherText\StringableCipherText;
 use Omni\Encryption\Key\SourceInterface;
@@ -23,32 +24,28 @@ class Encryptor
     protected $keySource;
     protected $profileRegistry;
     protected $defaultProfile;
-    protected $serializer;
-    protected $deserializer;
+    protected $serializerDeserializer;
 
     /**
      * CipherTextGenerator constructor.
      * @param CipherRegistry $cipherRegistry
      * @param SourceInterface $keySource
      * @param ProfileRegistry $profileRegistry
-     * @param SerializerInterface $serializer
-     * @param DeserializerInterface $deserializer
+     * @param SerializerDeserializerInterface $serializerDeserializer
      * @param string|null $defaultProfile
      */
     public function __construct(
         CipherRegistry $cipherRegistry,
         SourceInterface $keySource,
         ProfileRegistry $profileRegistry,
-        SerializerInterface $serializer,
-        DeserializerInterface $deserializer,
+        SerializerDeserializerInterface $serializerDeserializer,
         $defaultProfile = null
     ) {
         $this->cipherRegistry = $cipherRegistry;
         $this->keySource = $keySource;
         $this->profileRegistry = $profileRegistry;
         $this->defaultProfile = $defaultProfile;
-        $this->serializer = $serializer;
-        $this->deserializer = $deserializer;
+        $this->serializerDeserializer = $serializerDeserializer;
     }
 
     public function encrypt($clearText, $profile = null)
@@ -68,13 +65,13 @@ class Encryptor
         return new StringableCipherText(new CipherText(
             $cipher->encipher((string)$clearText, (string)$key),
             $profile
-        ), $this->serializer);
+        ), $this->serializerDeserializer);
     }
 
     public function decrypt($cipherText, $profile = null)
     {
         if (!$cipherText instanceof CipherTextInterface) {
-            $cipherText = $this->deserializer->deserialize($cipherText);
+            $cipherText = $this->serializerDeserializer->deserialize($cipherText);
         }
         
         $profile = $profile ? $this->profileRegistry->get($profile) : $cipherText->getProfile();

@@ -28,9 +28,7 @@ class EncryptorTest extends AbstractExtendableTestCase
     /** @var  ProfileRegistry */
     protected $profileRegistry;
     /** @var  MockInterface */
-    protected $serializer;
-    /** @var  MockInterface */
-    protected $deserializer;
+    protected $serializerDeserializer;
     protected $defaultProfile;
     protected $key1Name;
     protected $key2Name;
@@ -44,8 +42,9 @@ class EncryptorTest extends AbstractExtendableTestCase
         $this->cipherRegistry = new CipherRegistry();
         $this->keySource = \Mockery::mock('Omni\Encryption\Key\SourceInterface');
         $this->profileRegistry = new ProfileRegistry();
-        $this->serializer = \Mockery::mock('Omni\Encryption\CipherText\Serializer\SerializerInterface');
-        $this->deserializer = \Mockery::mock('Omni\Encryption\CipherText\Serializer\DeserializerInterface');
+        $this->serializerDeserializer = \Mockery::mock(
+            'Omni\Encryption\CipherText\Serializer\SerializerDeserializerInterface'
+        );
         $this->key1Name = $this->getFaker()->unique()->word;
         $this->key2Name = $this->getFaker()->unique()->word;
         $this->cipher1Name = $this->getFaker()->unique()->word;
@@ -84,8 +83,7 @@ class EncryptorTest extends AbstractExtendableTestCase
             $this->cipherRegistry,
             $this->keySource,
             $this->profileRegistry,
-            $this->serializer,
-            $this->deserializer,
+            $this->serializerDeserializer,
             $this->defaultProfile = $this->profile2Name
         );
     }
@@ -104,7 +102,7 @@ class EncryptorTest extends AbstractExtendableTestCase
         $this->assertEquals(
             new StringableCipherText(
                 new CipherText($cipherText1, $this->profileRegistry->get($this->profile1Name)),
-                $this->serializer
+                $this->serializerDeserializer
             ),
             $this->encryptor->encrypt($plainText1, $this->profile1Name)
         );
@@ -120,7 +118,7 @@ class EncryptorTest extends AbstractExtendableTestCase
         $this->assertEquals(
             new StringableCipherText(
                 new CipherText($cipherText2, $this->profileRegistry->get($this->profile2Name)),
-                $this->serializer
+                $this->serializerDeserializer
             ),
             $this->encryptor->encrypt($plainText2)
         );
@@ -135,8 +133,7 @@ class EncryptorTest extends AbstractExtendableTestCase
             $this->cipherRegistry,
             $this->keySource,
             $this->profileRegistry,
-            $this->serializer,
-            $this->deserializer
+            $this->serializerDeserializer
         );
         $plainText = $this->getFaker()->unique()->word;
         $this->encryptor->encrypt($plainText);
@@ -153,7 +150,7 @@ class EncryptorTest extends AbstractExtendableTestCase
             ->with($cipherText1, $this->keySource->get($this->key1Name))
             ->andReturn($plainText1)
         ;
-        $this->deserializer
+        $this->serializerDeserializer
             ->shouldReceive('deserialize')
             ->once()
             ->with($cipherText1)
@@ -170,7 +167,7 @@ class EncryptorTest extends AbstractExtendableTestCase
             ->with($cipherText1, $this->keySource->get($this->key1Name))
             ->andReturn($plainText1)
         ;
-        $this->deserializer
+        $this->serializerDeserializer
             ->shouldReceive('deserialize')
             ->once()
             ->with($cipherText1)

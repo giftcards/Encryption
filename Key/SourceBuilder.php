@@ -28,22 +28,14 @@ class SourceBuilder
     protected $combined = array();
     protected $cache;
 
-    public static function newInstance($builders = null)
+    public static function newInstance()
     {
-        if (!$builders) {
-            $builders = new Factory(array(
-                new VaultSourceBuilder(),
-                new MongoSourceBuilder(),
-                new IniFileSourceBuilder(),
-                new ArraySourceBuilder()
-            ));
-        }
-        
-        if (!$builders instanceof Factory) {
-            $builders = new Factory($builders);
-        }
-
-        return new static($builders);
+        return new static(new Factory(array(
+            new VaultSourceBuilder(),
+            new MongoSourceBuilder(),
+            new IniFileSourceBuilder(),
+            new ArraySourceBuilder()
+        )));
     }
 
     public function __construct(Factory $factory)
