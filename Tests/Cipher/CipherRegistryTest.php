@@ -9,9 +9,9 @@
 namespace Giftcards\Encryption\Tests\Cipher;
 
 use Giftcards\Encryption\Cipher\CipherRegistry;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class CipherRegistryTest extends AbstractExtendableTestCase
+class CipherRegistryTest extends AbstractTestCase
 {
     /** @var  CipherRegistry */
     protected $registry;

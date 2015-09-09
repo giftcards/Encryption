@@ -15,9 +15,9 @@ use Giftcards\Encryption\CipherText\StringableCipherText;
 use Giftcards\Encryption\Encryptor;
 use Giftcards\Encryption\Profile\Profile;
 use Giftcards\Encryption\Profile\ProfileRegistry;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class EncryptorTest extends AbstractExtendableTestCase
+class EncryptorTest extends AbstractTestCase
 {
     /** @var  Encryptor */
     protected $encryptor;

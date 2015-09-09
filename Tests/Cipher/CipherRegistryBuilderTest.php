@@ -12,9 +12,9 @@ use Giftcards\Encryption\Cipher\CipherRegistry;
 use Giftcards\Encryption\Cipher\CipherRegistryBuilder;
 use Giftcards\Encryption\Cipher\MysqlAes;
 use Giftcards\Encryption\Cipher\NoOp;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class CipherRegistryBuilderTest extends AbstractExtendableTestCase
+class CipherRegistryBuilderTest extends AbstractTestCase
 {
     /** @var  CipherRegistryBuilder */
     protected $builder;

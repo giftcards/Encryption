@@ -11,9 +11,9 @@ namespace Giftcards\Encryption\Tests\Profile;
 use Giftcards\Encryption\Profile\Profile;
 use Giftcards\Encryption\Profile\ProfileRegistry;
 use Giftcards\Encryption\Profile\ProfileRegistryBuilder;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class ProfileRegistryBuilderTest extends AbstractExtendableTestCase
+class ProfileRegistryBuilderTest extends AbstractTestCase
 {
     /** @var  ProfileRegistryBuilder */
     protected $profileRegistryBuilder;

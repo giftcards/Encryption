@@ -9,9 +9,9 @@
 namespace Giftcards\Encryption\Tests\CipherText;
 
 use Giftcards\Encryption\CipherText\Rotator\RotatorRegistry;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class RotatorRegistryTest extends AbstractExtendableTestCase
+class RotatorRegistryTest extends AbstractTestCase
 {
     /** @var  RotatorRegistry */
     protected $registry;

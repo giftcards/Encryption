@@ -10,9 +10,9 @@ namespace Giftcards\Encryption\Tests\Key;
 
 use Mockery\MockInterface;
 use Giftcards\Encryption\Key\CachingSource;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class CachingSourceTest extends AbstractExtendableTestCase
+class CachingSourceTest extends AbstractTestCase
 {
     /** @var  CachingSource */
     protected $source;

@@ -10,9 +10,9 @@ namespace Giftcards\Encryption\Tests\Profile;
 
 use Giftcards\Encryption\Profile\Profile;
 use Giftcards\Encryption\Profile\ProfileRegistry;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class ProfileRegistryTest extends AbstractExtendableTestCase
+class ProfileRegistryTest extends AbstractTestCase
 {
     /** @var  ProfileRegistry */
     protected $registry;

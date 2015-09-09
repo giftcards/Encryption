@@ -16,9 +16,9 @@ use Giftcards\Encryption\Encryptor;
 use Giftcards\Encryption\EncryptorBuilder;
 use Giftcards\Encryption\Key\ChainSource;
 use Giftcards\Encryption\Profile\ProfileRegistry;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class EncryptorBuilderTest extends AbstractExtendableTestCase
+class EncryptorBuilderTest extends AbstractTestCase
 {
     /** @var  EncryptorBuilder */
     protected $encryptorBuilder;

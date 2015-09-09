@@ -9,9 +9,9 @@
 namespace Giftcards\Encryption\Tests\Factory;
 
 use Giftcards\Encryption\Factory\Registry;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class RegistryTest extends AbstractExtendableTestCase
+class RegistryTest extends AbstractTestCase
 {
     /** @var  Registry */
     protected $registry;

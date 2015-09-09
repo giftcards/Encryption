@@ -10,9 +10,9 @@ namespace Giftcards\Encryption\Tests\CipherText\Rotator;
 
 use Mockery\MockInterface;
 use Giftcards\Encryption\CipherText\Rotator\ConsoleOutputObserver;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class ConsoleOutputObserverTest extends AbstractExtendableTestCase
+class ConsoleOutputObserverTest extends AbstractTestCase
 {
     /** @var  ConsoleOutputObserver */
     protected $observer;

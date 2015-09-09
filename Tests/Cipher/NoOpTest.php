@@ -9,9 +9,9 @@
 namespace Giftcards\Encryption\Tests\Cipher;
 
 use Giftcards\Encryption\Cipher\NoOp;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class NoOpTest extends AbstractExtendableTestCase
+class NoOpTest extends AbstractTestCase
 {
     /** @var  NoOp */
     protected $cipher;

@@ -9,18 +9,13 @@
 namespace Giftcards\Encryption\Tests\Key\Factory;
 
 use Doctrine\MongoDB\Connection;
-use Guzzle\Http\Client;
 use Giftcards\Encryption\Key\Factory\MongoSourceBuilder;
-use Giftcards\Encryption\Key\Factory\VaultSourceBuilder;
 use Giftcards\Encryption\Key\MongoSource;
-use Giftcards\Encryption\Key\VaultSource;
-use Giftcards\Encryption\Vault\AddTokenPlugin;
-use Giftcards\Encryption\Vault\TokenAuthTokenSource;
-use Omni\TestingBundle\Mock\Mockery\Matcher\EqualsMatcher;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\Mock\Mockery\Matcher\EqualsMatcher;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MongoSourceFactoryTest extends AbstractExtendableTestCase
+class MongoSourceFactoryTest extends AbstractTestCase
 {
     /** @var  MongoSourceBuilder */
     protected $factory;

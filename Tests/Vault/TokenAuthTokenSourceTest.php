@@ -10,9 +10,9 @@ namespace Giftcards\Encryption\Tests\Vault;
 
 use Guzzle\Http\Message\Request;
 use Giftcards\Encryption\Vault\TokenAuthTokenSource;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class TokenAuthTokenSourceTest extends AbstractExtendableTestCase
+class TokenAuthTokenSourceTest extends AbstractTestCase
 {
     /** @var  TokenAuthTokenSource */
     protected $source;

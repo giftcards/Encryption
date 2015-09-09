@@ -13,9 +13,9 @@ use Giftcards\Encryption\Key\Factory\VaultSourceBuilder;
 use Giftcards\Encryption\Key\VaultSource;
 use Giftcards\Encryption\Vault\AddTokenPlugin;
 use Giftcards\Encryption\Vault\TokenAuthTokenSource;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class VaultSourceFactoryTest extends AbstractExtendableTestCase
+class VaultSourceFactoryTest extends AbstractTestCase
 {
     /** @var  VaultSourceBuilder */
     protected $factory;

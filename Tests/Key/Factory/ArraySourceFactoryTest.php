@@ -10,9 +10,9 @@ namespace Giftcards\Encryption\Tests\Key\Factory;
 
 use Giftcards\Encryption\Key\ArraySource;
 use Giftcards\Encryption\Key\Factory\ArraySourceBuilder;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class ArraySourceFactoryTest extends AbstractExtendableTestCase
+class ArraySourceFactoryTest extends AbstractTestCase
 {
     /** @var  ArraySourceBuilder */
     protected $factory;

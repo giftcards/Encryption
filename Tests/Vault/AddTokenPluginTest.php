@@ -12,9 +12,9 @@ use Guzzle\Common\Event;
 use Guzzle\Http\Message\Request;
 use Mockery\MockInterface;
 use Giftcards\Encryption\Vault\AddTokenPlugin;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class AddTokenPluginTest extends AbstractExtendableTestCase
+class AddTokenPluginTest extends AbstractTestCase
 {
     /** @var  AddTokenPlugin */
     protected $plugin;

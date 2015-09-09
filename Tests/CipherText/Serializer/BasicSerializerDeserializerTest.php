@@ -11,9 +11,9 @@ namespace Giftcards\Encryption\Tests\CipherText\Serializer;
 use Giftcards\Encryption\CipherText\CipherText;
 use Giftcards\Encryption\CipherText\Serializer\BasicSerializerDeserializer;
 use Giftcards\Encryption\Profile\Profile;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class BasicSerializerDeserializerTest extends AbstractExtendableTestCase
+class BasicSerializerDeserializerTest extends AbstractTestCase
 {
     /** @var  BasicSerializerDeserializer */
     protected $serializer;

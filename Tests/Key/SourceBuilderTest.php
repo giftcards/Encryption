@@ -23,9 +23,9 @@ use Giftcards\Encryption\Key\MappingSource;
 use Giftcards\Encryption\Key\NoneSource;
 use Giftcards\Encryption\Key\PrefixKeyNameSource;
 use Giftcards\Encryption\Key\SourceBuilder;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class SourceBuilderTest extends AbstractExtendableTestCase
+class SourceBuilderTest extends AbstractTestCase
 {
     /** @var  SourceBuilder */
     protected $builder;

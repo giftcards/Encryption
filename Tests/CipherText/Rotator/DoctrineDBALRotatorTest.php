@@ -10,9 +10,9 @@ namespace Giftcards\Encryption\Tests\CipherText\Rotator;
 
 use Mockery\MockInterface;
 use Giftcards\Encryption\CipherText\Rotator\DoctrineDBALRotator;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class DoctrineDBALRotatorTest extends AbstractExtendableTestCase
+class DoctrineDBALRotatorTest extends AbstractTestCase
 {
     /** @var  DoctrineDBALRotator */
     protected $rotator;

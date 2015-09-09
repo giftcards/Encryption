@@ -9,10 +9,10 @@
 namespace Giftcards\Encryption\Tests\CipherText\Rotator;
 
 use Giftcards\Encryption\CipherText\Rotator\ContainerAwareRotatorRegistry;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 use Symfony\Component\DependencyInjection\Container;
 
-class ContainerAwareRotatorRegistryTest extends AbstractExtendableTestCase
+class ContainerAwareRotatorRegistryTest extends AbstractTestCase
 {
     /** @var  Container */
     protected $container;

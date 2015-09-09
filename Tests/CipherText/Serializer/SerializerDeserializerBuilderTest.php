@@ -10,9 +10,9 @@ namespace Giftcards\Encryption\Tests\CipherText\Serializer;
 
 use Giftcards\Encryption\CipherText\Serializer\ChainSerializerDeserializer;
 use Giftcards\Encryption\CipherText\Serializer\SerializerDeserializerBuilder;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class SerializerDeserializerBuilderTest extends AbstractExtendableTestCase
+class SerializerDeserializerBuilderTest extends AbstractTestCase
 {
     /** @var  SerializerDeserializerBuilder */
     protected $builder;

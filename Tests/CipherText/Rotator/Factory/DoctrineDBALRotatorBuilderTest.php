@@ -11,9 +11,9 @@ namespace Giftcards\Encryption\Tests\CipherText\Rotator\Factory;
 use Giftcards\Encryption\CipherText\Rotator\DatabaseTableRotator;
 use Giftcards\Encryption\CipherText\Rotator\DoctrineDBALRotator;
 use Giftcards\Encryption\CipherText\Rotator\Factory\DoctrineDBALRotatorBuilder;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class DoctrineDBALRotatorBuilderTest extends AbstractExtendableTestCase
+class DoctrineDBALRotatorBuilderTest extends AbstractTestCase
 {
     /** @var  DoctrineDBALRotatorBuilder */
     protected $builder;

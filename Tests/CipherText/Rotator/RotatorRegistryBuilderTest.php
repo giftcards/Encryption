@@ -15,9 +15,9 @@ use Giftcards\Encryption\CipherText\Rotator\Factory\DoctrineDBALRotatorBuilder;
 use Giftcards\Encryption\CipherText\Rotator\RotatorRegistry;
 use Giftcards\Encryption\CipherText\Rotator\RotatorRegistryBuilder;
 use Giftcards\Encryption\Factory\Factory;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class RotatorRegistryBuilderTest extends AbstractExtendableTestCase
+class RotatorRegistryBuilderTest extends AbstractTestCase
 {
     /** @var  RotatorRegistryBuilder */
     protected $builder;

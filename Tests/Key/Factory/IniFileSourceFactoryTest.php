@@ -10,9 +10,9 @@ namespace Giftcards\Encryption\Tests\Key\Factory;
 
 use Giftcards\Encryption\Key\Factory\IniFileSourceBuilder;
 use Giftcards\Encryption\Key\IniFileSource;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class IniFileSourceFactoryTest extends AbstractExtendableTestCase
+class IniFileSourceFactoryTest extends AbstractTestCase
 {
     /** @var  IniFileSourceBuilder */
     protected $factory;

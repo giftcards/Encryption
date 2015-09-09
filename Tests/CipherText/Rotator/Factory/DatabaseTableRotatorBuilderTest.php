@@ -10,9 +10,9 @@ namespace Giftcards\Encryption\Tests\CipherText\Rotator\Factory;
 
 use Giftcards\Encryption\CipherText\Rotator\DatabaseTableRotator;
 use Giftcards\Encryption\CipherText\Rotator\Factory\DatabaseTableRotatorBuilder;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class DatabaseTableRotatorBuilderTest extends AbstractExtendableTestCase
+class DatabaseTableRotatorBuilderTest extends AbstractTestCase
 {
     /** @var  DatabaseTableRotatorBuilder */
     protected $builder;

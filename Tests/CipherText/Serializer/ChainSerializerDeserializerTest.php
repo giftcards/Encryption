@@ -10,9 +10,9 @@ namespace Giftcards\Encryption\Tests\CipherText\Serializer;
 
 use Mockery\MockInterface;
 use Giftcards\Encryption\CipherText\Serializer\ChainSerializerDeserializer;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class ChainSerializerDeserializerTest extends AbstractExtendableTestCase
+class ChainSerializerDeserializerTest extends AbstractTestCase
 {
     /** @var  ChainSerializerDeserializer */
     protected $chain;

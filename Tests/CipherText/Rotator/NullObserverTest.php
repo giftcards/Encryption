@@ -9,9 +9,9 @@
 namespace Giftcards\Encryption\Tests\CipherText\Rotator;
 
 use Giftcards\Encryption\CipherText\Rotator\NullObserver;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class NullObserverTest extends AbstractExtendableTestCase
+class NullObserverTest extends AbstractTestCase
 {
     /** @var  NullObserver */
     protected $observer;

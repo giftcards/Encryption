@@ -9,9 +9,9 @@
 namespace Giftcards\Encryption\Tests\Key;
 
 use Giftcards\Encryption\Key\SourceInterface;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 
-abstract class AbstractSourceTest extends AbstractExtendableTestCase
+abstract class AbstractSourceTest extends AbstractTestCase
 {
     /**
      * @dataProvider gettersHassersProvider

@@ -11,10 +11,10 @@ namespace Giftcards\Encryption\Tests\Factory;
 use Mockery\MockInterface;
 use Giftcards\Encryption\Factory\Factory;
 use Giftcards\Encryption\Factory\Registry;
-use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use Giftcards\Encryption\Tests\AbstractTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FactoryTest extends AbstractExtendableTestCase
+class FactoryTest extends AbstractTestCase
 {
     /** @var  Factory */
     protected $factory;
