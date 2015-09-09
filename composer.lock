@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8363dd635b5148fbedf4defeab73e62b",
+    "hash": "d1c449fb6b24768587f9ccfeea18148a",
     "packages": [],
     "packages-dev": [
         {
@@ -903,12 +903,12 @@
         },
         {
             "name": "omni/testing-bundle",
-            "version": "1.9.3",
+            "version": "1.10.0",
             "target-dir": "Omni/TestingBundle",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.wolfe.com/SYB/testingbundle.git",
-                "reference": "f2596e59fe11e5fbe35ea19e5fbe89c6168e637d"
+                "reference": "9cd396f0ce4652da3aa7b4beea96e1dce7514c83"
             },
             "require": {
                 "doctrine/orm": ">=2.2.3",
@@ -933,7 +933,7 @@
                 }
             },
             "notification-url": "http://packagist.wolfe.com/downloads/",
-            "time": "2015-08-18 16:29:25"
+            "time": "2015-09-09 21:08:50"
         },
         {
             "name": "symfony/console",

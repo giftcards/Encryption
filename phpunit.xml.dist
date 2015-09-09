@@ -38,6 +38,9 @@
                         <string>\Omni\TestingBundle\TestCase\Extension\EntityExtension</string>
                     </element>
                     <element>
+                        <string>\Omni\TestingBundle\TestCase\Extension\DatabaseExtension</string>
+                    </element>
+                    <element>
                         <string>\Omni\TestingBundle\TestCase\Extension\OmniOrmExtension</string>
                     </element>
                     <element>
