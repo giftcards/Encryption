@@ -8,23 +8,20 @@
 
 namespace Omni\Encryption;
 
-use Omni\Encryption\Cipher\CipherRegistry;
+use Omni\Encryption\Cipher\CipherInterface;
 use Omni\Encryption\Cipher\CipherRegistryBuilder;
-use Omni\Encryption\CipherText\Serializer\ChainSerializerDeserializer;
-use Omni\Encryption\CipherText\Serializer\ChainSerializer;
 use Omni\Encryption\CipherText\Serializer\DeserializerInterface;
 use Omni\Encryption\CipherText\Serializer\SerializerDeserializerBuilder;
 use Omni\Encryption\CipherText\Serializer\SerializerInterface;
-use Omni\Encryption\Key\ChainSource;
 use Omni\Encryption\Key\SourceBuilder;
-use Omni\Encryption\Key\SourceInterface;
 use Omni\Encryption\Profile\ProfileRegistry;
+use Omni\Encryption\Profile\ProfileRegistryBuilder;
 
 class EncryptorBuilder
 {
     protected $cipherRegistryBuilder;
     protected $keySourceBuilder;
-    protected $profileRegistry;
+    protected $profileRegistryBuilder;
     protected $serializerDeserializerBuilder;
     protected $defaultProfile;
     
@@ -38,7 +35,7 @@ class EncryptorBuilder
         return new Encryptor(
             $this->getCipherRegistryBuilder()->build(),
             $this->getKeySourceBuilder()->build(),
-            $this->getProfileRegistry(),
+            $this->getProfileRegistryBuilder()->build(),
             $this->getSerializerDeserializerBuilder()->build(),
             $this->getDefaultProfile()
         );
@@ -89,24 +86,24 @@ class EncryptorBuilder
     }
 
     /**
-     * @return ProfileRegistry
+     * @return ProfileRegistryBuilder
      */
-    public function getProfileRegistry()
+    public function getProfileRegistryBuilder()
     {
-        if (!$this->profileRegistry) {
-            $this->profileRegistry = $this->getDefaultProfileRegistry();
+        if (!$this->profileRegistryBuilder) {
+            $this->profileRegistryBuilder = $this->getDefaultProfileRegistry();
         }
 
-        return $this->profileRegistry;
+        return $this->profileRegistryBuilder;
     }
 
     /**
-     * @param ProfileRegistry $profileRegistry
+     * @param ProfileRegistryBuilder $profileRegistryBuilder
      * @return $this
      */
-    public function setProfileRegistry(ProfileRegistry $profileRegistry)
+    public function setProfileRegistryBuilder(ProfileRegistryBuilder $profileRegistryBuilder)
     {
-        $this->profileRegistry = $profileRegistry;
+        $this->profileRegistryBuilder = $profileRegistryBuilder;
         return $this;
     }
 
@@ -150,6 +147,36 @@ class EncryptorBuilder
         return $this;
     }
 
+    public function addCipher(CipherInterface $cipher)
+    {
+        $this->getCipherRegistryBuilder()->add($cipher);
+        return $this;
+    }
+
+    public function addKeySource($source, array $options = array(), $prefix = null)
+    {
+        $this->getKeySourceBuilder()->add($source, $options, $prefix);
+        return $this;
+    }
+
+    public function setProfile($name, $profileOrKey, $cipher = null)
+    {
+        $this->getProfileRegistryBuilder()->set($name, $profileOrKey, $cipher);
+        return $this;
+    }
+
+    public function addSerializer(SerializerInterface $serializer)
+    {
+        $this->getSerializerDeserializerBuilder()->addSerializer($serializer);
+        return $this;
+    }
+
+    public function addDeserializer(DeserializerInterface $deserializer)
+    {
+        $this->getSerializerDeserializerBuilder()->addDeserializer($deserializer);
+        return $this;
+    }
+
     protected function getDefaultCipherRegistryBuilder()
     {
         return CipherRegistryBuilder::newInstance();
@@ -165,7 +192,7 @@ class EncryptorBuilder
      */
     protected function getDefaultProfileRegistry()
     {
-        return new ProfileRegistry();
+        return new ProfileRegistryBuilder();
     }
 
     /**

@@ -13,25 +13,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class Factory
 {
     protected $registry;
-    protected $objectType;
     protected $objects = array();
-
-    public static function newInstance($factories = null)
-    {
-        return new static($factories);
-    }
 
     /**
      * Builder constructor.
-     * @param null|array|Registry $factories
+     * @param BuilderInterface[]|Registry $builders
      */
-    public function __construct($factories = null)
+    public function __construct($builders = array())
     {
-        if (is_array($factories)) {
-            $factories = new Registry($factories);
+        if (is_array($builders)) {
+            $builders = new Registry($builders);
         }
 
-        $this->registry = $factories;
+        $this->registry = $builders;
     }
 
     public function create($name, array $options)
@@ -42,9 +36,11 @@ class Factory
         return $factory->build($resolver->resolve($options));
     }
 
-    public function addBuilder(BuilderInterface $builder)
+    /**
+     * @return array|BuilderInterface[]|Registry
+     */
+    public function getRegistry()
     {
-        $this->registry->add($builder);
-        return $this;
+        return $this->registry;
     }
 }

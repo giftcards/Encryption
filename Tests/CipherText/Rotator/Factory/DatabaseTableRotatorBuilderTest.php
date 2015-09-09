@@ -24,7 +24,7 @@ class DatabaseTableRotatorBuilderTest extends AbstractExtendableTestCase
 
     public function testBuild()
     {
-        $pdo = $this->getPdoMock(\Mockery::mock());
+        $pdo = \Mockery::mock('Omni\Encryption\Tests\MockPDO');
         $table = $this->getFaker()->unique()->word;
         $fields = array(
             $this->getFaker()->unique()->word,
