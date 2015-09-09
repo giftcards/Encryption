@@ -1,6 +1,7 @@
 {
   "name": "giftcards/encryption",
   "description": "Library that helps with managing encrypting data.",
+  "license": "MIT",
   "require-dev": {
     "symfony/dependency-injection": "~2.3",
     "symfony/console": "~2.3",
