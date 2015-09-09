@@ -24,8 +24,8 @@ class CachingSourceTest extends AbstractExtendableTestCase
     public function setUp()
     {
         $this->source = new CachingSource(
-            $this->inner = \Mockery::mock('Omni\Encryption\Key\SourceInterface'),
-            $this->cache = \Mockery::mock('Doctrine\Common\Cache\Cache')
+            $this->cache = \Mockery::mock('Doctrine\Common\Cache\Cache'),
+            $this->inner = \Mockery::mock('Omni\Encryption\Key\SourceInterface')
         );
     }
 

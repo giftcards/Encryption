@@ -8,10 +8,11 @@
 
 namespace Omni\Encryption\Key\Factory;
 
+use Omni\Encryption\Factory\BuilderInterface;
 use Omni\Encryption\Key\ArraySource;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ArraySourceFactory implements SourceFactoryInterface
+class ArraySourceBuilder implements BuilderInterface
 {
     public function build(array $options)
     {

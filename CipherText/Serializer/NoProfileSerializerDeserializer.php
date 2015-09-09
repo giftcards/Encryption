@@ -27,24 +27,6 @@ class NoProfileSerializerDeserializer extends AbstractSerializerDeserializer
     }
 
     /**
-     * @param $cipherText
-     * @return string
-     */
-    protected function doSerialize(CipherTextInterface $cipherText)
-    {
-        return $cipherText->getText();
-    }
-
-    /**
-     * @param $string
-     * @return CipherTextInterface
-     */
-    protected function doDeserialize($string)
-    {
-        return new CipherText($string, $this->profile);
-    }
-
-    /**
      * @param CipherTextInterface $cipherText
      * @return bool
      */
@@ -60,5 +42,23 @@ class NoProfileSerializerDeserializer extends AbstractSerializerDeserializer
     public function canDeserialize($string)
     {
         return true;
+    }
+
+    /**
+     * @param $cipherText
+     * @return string
+     */
+    protected function doSerialize(CipherTextInterface $cipherText)
+    {
+        return $cipherText->getText();
+    }
+
+    /**
+     * @param $string
+     * @return CipherTextInterface
+     */
+    protected function doDeserialize($string)
+    {
+        return new CipherText($string, $this->profile);
     }
 }

@@ -15,10 +15,10 @@ class CachingSource implements SourceInterface
     protected $inner;
     protected $cache;
 
-    public function __construct(SourceInterface $inner, Cache $cache)
+    public function __construct(Cache $cache, SourceInterface $inner)
     {
-        $this->inner = $inner;
         $this->cache = $cache;
+        $this->inner = $inner;
     }
 
     public function has($key)

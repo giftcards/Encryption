@@ -8,10 +8,11 @@
 
 namespace Omni\Encryption\Key\Factory;
 
+use Omni\Encryption\Factory\BuilderInterface;
 use Omni\Encryption\Key\IniFileSource;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class IniFileSourceFactory implements SourceFactoryInterface
+class IniFileSourceBuilder implements BuilderInterface
 {
     public function build(array $options)
     {

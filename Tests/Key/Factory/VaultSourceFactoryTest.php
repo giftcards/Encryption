@@ -9,7 +9,7 @@
 namespace Omni\Encryption\Tests\Key\Factory;
 
 use Guzzle\Http\Client;
-use Omni\Encryption\Key\Factory\VaultSourceFactory;
+use Omni\Encryption\Key\Factory\VaultSourceBuilder;
 use Omni\Encryption\Key\VaultSource;
 use Omni\Encryption\Vault\AddTokenPlugin;
 use Omni\Encryption\Vault\TokenAuthTokenSource;
@@ -17,12 +17,12 @@ use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class VaultSourceFactoryTest extends AbstractExtendableTestCase
 {
-    /** @var  VaultSourceFactory */
+    /** @var  VaultSourceBuilder */
     protected $factory;
 
     public function setUp()
     {
-        $this->factory = new VaultSourceFactory();
+        $this->factory = new VaultSourceBuilder();
     }
 
     public function testBuild()

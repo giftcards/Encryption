@@ -9,12 +9,13 @@
 namespace Omni\Encryption\Key\Factory;
 
 use Doctrine\MongoDB\Connection;
+use Omni\Encryption\Factory\BuilderInterface;
 use Omni\Encryption\Key\MongoSource;
 use Symfony\Component\OptionsResolver\Exception\InvalidArgumentException;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MongoSourceFactory implements SourceFactoryInterface
+class MongoSourceBuilder implements BuilderInterface
 {
     public function build(array $options)
     {

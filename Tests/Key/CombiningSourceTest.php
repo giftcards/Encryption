@@ -37,7 +37,6 @@ class CombiningSourceTest extends AbstractSourceTest
         $missingKey2 = $faker->unique()->word;
         $missingKey3 = $faker->unique()->word;
         $source = new CombiningSource(
-            new ArraySource($keys),
             array(
                 $combinedKeysKeys[0] => array(
                     CombiningSource::LEFT => $keysKeys[1],
@@ -67,7 +66,8 @@ class CombiningSourceTest extends AbstractSourceTest
                     CombiningSource::LEFT => $faker->unique()->word,
                     CombiningSource::RIGHT => $keysKeys[3]
                 ),
-            )
+            ),
+            new ArraySource($keys)
         );
         return array(
             array($source, $combinedKeys, array($missingKey1, $missingKey2, $missingKey3))
@@ -83,8 +83,8 @@ class CombiningSourceTest extends AbstractSourceTest
             $this->getFaker()->unique()->word => array('sdfdsf')
         );
         new CombiningSource(
-            new ArraySource(array()),
-            $leftAndRight
+            $leftAndRight,
+            new ArraySource(array())
         );
     }
 }

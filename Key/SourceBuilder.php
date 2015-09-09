@@ -8,67 +8,88 @@
 
 namespace Omni\Encryption\Key;
 
-use Omni\Encryption\Key\Factory\ArraySourceFactory;
-use Omni\Encryption\Key\Factory\IniFileSourceFactory;
-use Omni\Encryption\Key\Factory\MongoSourceFactory;
-use Omni\Encryption\Key\Factory\SourceFactoryInterface;
-use Omni\Encryption\Key\Factory\VaultSourceFactory;
+use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Cache\Cache;
+use Omni\Encryption\Factory\Factory;
+use Omni\Encryption\Key\Factory\ArraySourceBuilder;
+use Omni\Encryption\Key\Factory\IniFileSourceBuilder;
+use Omni\Encryption\Key\Factory\MongoSourceBuilder;
+use Omni\Encryption\Key\Factory\VaultSourceBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SourceBuilder
 {
-    /** @var SourceFactoryInterface[] */
-    protected $factories;
-    /** @var  SourceInterface */
-    protected $sources;
+    /** @var  Factory */
+    protected $factory;
+    /** @var  SourceInterface[] */
+    protected $sources = array();
     protected $map = array();
     protected $fallbacks = array();
     protected $combined = array();
-    
-    public static function create()
+    protected $cache;
+
+    public static function newInstance($builders = null)
     {
-        return new static(array(
-            new VaultSourceFactory(),
-            new MongoSourceFactory(),
-            new IniFileSourceFactory(),
-            new ArraySourceFactory()
-        ));
+        if (!$builders) {
+            $builders = new Factory(array(
+                new VaultSourceBuilder(),
+                new MongoSourceBuilder(),
+                new IniFileSourceBuilder(),
+                new ArraySourceBuilder()
+            ));
+        }
+        
+        if (!$builders instanceof Factory) {
+            $builders = new Factory($builders);
+        }
+
+        return new static($builders);
     }
 
-    public function __construct(array $factories)
+    public function __construct(Factory $factory)
     {
-        $this->factories = array_combine(array_map(function (SourceFactoryInterface $factory) {
-            return $factory->getName();
-        }, $factories), $factories);
+        $this->factory = $factory;
     }
 
     public function build()
     {
-        $chainSource = new ChainSource();
+        $mainSource = new ChainSource();
         
         if ($this->fallbacks) {
-            $chainSource->add(new FallbackSource($this->fallbacks, $chainSource));
+            $mainSource->add(new FallbackSource($this->fallbacks, $mainSource));
         }
 
         if ($this->map) {
-            $chainSource->add(new MappingSource($this->map, $chainSource));
+            $mainSource->add(new MappingSource($this->map, $mainSource));
         }
 
         if ($this->combined) {
-            $chainSource->add(new CombiningSource($chainSource, $this->combined));
+            $mainSource->add(new CombiningSource($this->combined, $mainSource));
         }
         
         foreach ($this->sources as $source) {
-            $chainSource->add($source);
+            $mainSource->add($source);
+        }
+        
+        if ($this->cache) {
+            $mainSource = new CachingSource($this->cache, $mainSource);
         }
 
-        return $chainSource;
+        return $mainSource;
     }
 
     public function add($source, array $options = array(), $prefix = null)
     {
         if (!$source instanceof SourceInterface) {
-            $source = $this->createSource($source, $options, $prefix);
+            if (!$prefix && $prefix !== false) {
+                $prefix = $source;
+            }
+
+            $source = $this->factory->create($source, $options);
+        }
+
+        if ($prefix) {
+            $source = new PrefixKeyNameSource($prefix, $source);
         }
 
         $this->sources[] = $source;
@@ -92,7 +113,10 @@ class SourceBuilder
 
     public function combine($left, $right, $name)
     {
-        $this->combined[$name] = array(CombiningSource::LEFT => $left, CombiningSource::RIGHT => $right);
+        $this->combined[$name] = array(
+            CombiningSource::LEFT => $left,
+            CombiningSource::RIGHT => $right
+        );
         return $this;
     }
 
@@ -102,33 +126,14 @@ class SourceBuilder
         return $this;
     }
 
-    public function createSource($name, array $options, $prefix = null)
+    public function cache(Cache $cache = null)
     {
-        if (!isset($this->factories[$name])) {
-            throw new \InvalidArgumentException(sprintf(
-                'The key source factory named "%s" is not found.',
-                $name
-            ));
-        }
-
-        $resolver = new OptionsResolver();
-        $this->factories[$name]->configureOptionsResolver($resolver);
-        $source = $this->factories[$name]->build($resolver->resolve($options));
-        
-        if (!$prefix && $prefix !== false) {
-            $prefix = $name;
-        }
-        
-        if ($prefix) {
-            $source = new PrefixKeyNameSource($prefix, $source);
-        }
-        
-        return $source;
+        $this->cache = $cache ?: new ArrayCache();
+        return $this;
     }
 
-    public function addFactory(SourceFactoryInterface $factory)
+    public function getFactory()
     {
-        $this->factories[$factory->getName()] = $factory;
-        return $this;
+        return $this->factory;
     }
 }

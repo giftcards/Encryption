@@ -10,8 +10,8 @@ namespace Omni\Encryption\Tests\Key\Factory;
 
 use Doctrine\MongoDB\Connection;
 use Guzzle\Http\Client;
-use Omni\Encryption\Key\Factory\MongoSourceFactory;
-use Omni\Encryption\Key\Factory\VaultSourceFactory;
+use Omni\Encryption\Key\Factory\MongoSourceBuilder;
+use Omni\Encryption\Key\Factory\VaultSourceBuilder;
 use Omni\Encryption\Key\MongoSource;
 use Omni\Encryption\Key\VaultSource;
 use Omni\Encryption\Vault\AddTokenPlugin;
@@ -22,12 +22,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MongoSourceFactoryTest extends AbstractExtendableTestCase
 {
-    /** @var  MongoSourceFactory */
+    /** @var  MongoSourceBuilder */
     protected $factory;
 
     public function setUp()
     {
-        $this->factory = new MongoSourceFactory();
+        $this->factory = new MongoSourceBuilder();
     }
 
     public function testBuild()

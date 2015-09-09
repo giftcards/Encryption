@@ -18,10 +18,10 @@ class CombiningSource extends AbstractSource
 
     /**
      * CombiningSource constructor.
-     * @param SourceInterface $internalSource
      * @param array $leftsAndRights
+     * @param SourceInterface $internalSource
      */
-    public function __construct(SourceInterface $internalSource, array $leftsAndRights)
+    public function __construct(array $leftsAndRights, SourceInterface $internalSource)
     {
         $this->internalSource = $internalSource;
 

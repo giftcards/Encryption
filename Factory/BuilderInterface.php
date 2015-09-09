@@ -6,11 +6,11 @@
  * Time: 9:05 PM
  */
 
-namespace Omni\Encryption\Key\Factory;
+namespace Omni\Encryption\Factory;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-interface SourceFactoryInterface
+interface BuilderInterface
 {
     public function build(array $options);
     public function configureOptionsResolver(OptionsResolver $resolver);

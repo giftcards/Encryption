@@ -8,18 +8,18 @@
 
 namespace Omni\Encryption\Tests\Key\Factory;
 
-use Omni\Encryption\Key\Factory\IniFileSourceFactory;
+use Omni\Encryption\Key\Factory\IniFileSourceBuilder;
 use Omni\Encryption\Key\IniFileSource;
 use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
 class IniFileSourceFactoryTest extends AbstractExtendableTestCase
 {
-    /** @var  IniFileSourceFactory */
+    /** @var  IniFileSourceBuilder */
     protected $factory;
 
     public function setUp()
     {
-        $this->factory = new IniFileSourceFactory();
+        $this->factory = new IniFileSourceBuilder();
     }
 
     public function testBuild()

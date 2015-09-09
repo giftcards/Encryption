@@ -9,12 +9,13 @@
 namespace Omni\Encryption\Key\Factory;
 
 use Guzzle\Http\Client;
+use Omni\Encryption\Factory\BuilderInterface;
 use Omni\Encryption\Key\VaultSource;
 use Omni\Encryption\Vault\AddTokenPlugin;
 use Omni\Encryption\Vault\TokenAuthTokenSource;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class VaultSourceFactory implements SourceFactoryInterface
+class VaultSourceBuilder implements BuilderInterface
 {
     public function build(array $options)
     {
