@@ -12,19 +12,21 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Factory
 {
+    protected $objectType;
     protected $registry;
-    protected $objects = array();
 
     /**
      * Builder constructor.
+     * @param $objectType
      * @param BuilderInterface[]|Registry $builders
      */
-    public function __construct($builders = array())
+    public function __construct($objectType, $builders = array())
     {
         if (is_array($builders)) {
             $builders = new Registry($builders);
         }
 
+        $this->objectType = $objectType;
         $this->registry = $builders;
     }
 
@@ -33,7 +35,13 @@ class Factory
         $factory = $this->registry->get($name);
         $resolver = new OptionsResolver();
         $factory->configureOptionsResolver($resolver);
-        return $factory->build($resolver->resolve($options));
+        $object = $factory->build($resolver->resolve($options));
+        
+        if (!$object instanceof $this->objectType) {
+            throw new WrongTypeBuiltException($this->objectType, $object);
+        }
+        
+        return $object;
     }
 
     /**

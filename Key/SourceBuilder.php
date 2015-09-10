@@ -30,12 +30,15 @@ class SourceBuilder
 
     public static function newInstance()
     {
-        return new static(new Factory(array(
-            new VaultSourceBuilder(),
-            new MongoSourceBuilder(),
-            new IniFileSourceBuilder(),
-            new ArraySourceBuilder()
-        )));
+        return new static(new Factory(
+            'Giftcards\Encryption\Key\SourceInterface',
+            array(
+                new VaultSourceBuilder(),
+                new MongoSourceBuilder(),
+                new IniFileSourceBuilder(),
+                new ArraySourceBuilder()
+            )
+        ));
     }
 
     public function __construct(Factory $factory)

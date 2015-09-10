@@ -24,10 +24,13 @@ class RotatorRegistryBuilder
 
     public static function newInstance()
     {
-        return new static(new Factory(array(
-            new DatabaseTableRotatorBuilder(),
-            new DoctrineDBALRotatorBuilder(),
-        )));
+        return new static(new Factory(
+            'Giftcards\Encryption\CipherText\Rotator\RotatorInterface',
+            array(
+                new DatabaseTableRotatorBuilder(),
+                new DoctrineDBALRotatorBuilder(),
+            )
+        ));
     }
 
     public function __construct(Factory $factory)

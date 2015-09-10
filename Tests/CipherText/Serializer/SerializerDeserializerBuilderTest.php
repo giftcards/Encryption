@@ -9,34 +9,116 @@
 namespace Giftcards\Encryption\Tests\CipherText\Serializer;
 
 use Giftcards\Encryption\CipherText\Serializer\ChainSerializerDeserializer;
+use Giftcards\Encryption\CipherText\Serializer\Factory\BasicSerializerDeserializerBuilder;
+use Giftcards\Encryption\CipherText\Serializer\Factory\NoProfileSerializerDeserializerBuilder;
 use Giftcards\Encryption\CipherText\Serializer\SerializerDeserializerBuilder;
+use Giftcards\Encryption\Factory\Factory;
 use Giftcards\Encryption\Tests\AbstractTestCase;
+use Mockery\MockInterface;
 
 class SerializerDeserializerBuilderTest extends AbstractTestCase
 {
     /** @var  SerializerDeserializerBuilder */
     protected $builder;
+    /** @var  MockInterface */
+    protected $serializerFactory;
+    /** @var  MockInterface */
+    protected $deserializerFactory;
 
     public function setUp()
     {
-        $this->builder = new SerializerDeserializerBuilder();
+        $this->builder = new SerializerDeserializerBuilder(
+            $this->serializerFactory = \Mockery::mock('Giftcards\Encryption\Factory\Factory'),
+            $this->deserializerFactory = \Mockery::mock('Giftcards\Encryption\Factory\Factory')
+        );
     }
 
     public function testNewInstance()
     {
-        $this->assertEquals(new SerializerDeserializerBuilder(), SerializerDeserializerBuilder::newInstance());
+        $this->assertEquals(new SerializerDeserializerBuilder(
+            new Factory(
+                'Giftcards\Encryption\CipherText\Serializer\SerializerInterface',
+                array(
+                    new NoProfileSerializerDeserializerBuilder(),
+                    new BasicSerializerDeserializerBuilder()
+                )
+            ),
+            new Factory(
+                'Giftcards\Encryption\CipherText\Serializer\DeserializerInterface',
+                array(
+                    new NoProfileSerializerDeserializerBuilder(),
+                    new BasicSerializerDeserializerBuilder()
+                )
+            )
+        ), SerializerDeserializerBuilder::newInstance());
+        $profileRegistry = \Mockery::mock('Giftcards\Encryption\Profile\ProfileRegistry');
+        $this->assertEquals(new SerializerDeserializerBuilder(
+            new Factory(
+                'Giftcards\Encryption\CipherText\Serializer\SerializerInterface',
+                array(
+                    new NoProfileSerializerDeserializerBuilder($profileRegistry),
+                    new BasicSerializerDeserializerBuilder()
+                )
+            ),
+            new Factory(
+                'Giftcards\Encryption\CipherText\Serializer\DeserializerInterface',
+                array(
+                    new NoProfileSerializerDeserializerBuilder($profileRegistry),
+                    new BasicSerializerDeserializerBuilder()
+                )
+            )
+        ), SerializerDeserializerBuilder::newInstance($profileRegistry));
     }
 
     public function testBuild()
     {
-        $serializer = \Mockery::mock('Giftcards\Encryption\CipherText\Serializer\SerializerInterface');
-        $deserializer = \Mockery::mock('Giftcards\Encryption\CipherText\Serializer\DeserializerInterface');
+        $serializer1 = \Mockery::mock('Giftcards\Encryption\CipherText\Serializer\SerializerInterface');
+        $deserializer1 = \Mockery::mock('Giftcards\Encryption\CipherText\Serializer\DeserializerInterface');
+        $serializer2 = \Mockery::mock('Giftcards\Encryption\CipherText\Serializer\SerializerInterface');
+        $deserializer2 = \Mockery::mock('Giftcards\Encryption\CipherText\Serializer\DeserializerInterface');
+        $serializerFactoryName = $this->getFaker()->unique()->word;
+        $serializerFactoryOptions = array(
+            $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
+            $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
+            $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
+        );
+        $this->serializerFactory
+            ->shouldReceive('create')
+            ->once()
+            ->with($serializerFactoryName, $serializerFactoryOptions)
+            ->andReturn($serializer2)
+        ;
+        $deserializerFactoryName = $this->getFaker()->unique()->word;
+        $deserializerFactoryOptions = array(
+            $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
+            $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
+            $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
+        );
+        $this->deserializerFactory
+            ->shouldReceive('create')
+            ->once()
+            ->with($deserializerFactoryName, $deserializerFactoryOptions)
+            ->andReturn($deserializer2)
+        ;
         $this->builder
-            ->addSerializer($serializer)
-            ->addDeserializer($deserializer)
+            ->addSerializer($serializer1)
+            ->addDeserializer($deserializer1)
+            ->addSerializer($serializerFactoryName, $serializerFactoryOptions)
+            ->addDeserializer($deserializerFactoryName, $deserializerFactoryOptions)
         ;
         $serializerDeserializer = new ChainSerializerDeserializer();
-        $serializerDeserializer->addSerializer($serializer)->addDeserializer($deserializer);
+        $serializerDeserializer
+            ->addSerializer($serializer1)
+            ->addDeserializer($deserializer1)
+            ->addSerializer($serializer2)
+            ->addDeserializer($deserializer2)
+        ;
         $this->assertEquals($serializerDeserializer, $this->builder->build());
+    }
+
+    public function testFactoryGetters()
+    {
+        $this->assertSame($this->serializerFactory, $this->builder->getSerializerFactory());
+        $this->assertSame($this->deserializerFactory, $this->builder->getDeserializerFactory());
     }
 }

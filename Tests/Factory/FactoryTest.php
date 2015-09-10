@@ -27,23 +27,26 @@ class FactoryTest extends AbstractTestCase
 
     public function setUp()
     {
-        $this->factory = new Factory(array(
-            $this->builder1 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
-                ->shouldReceive('getName')
-                ->andReturn('builder1')
-                ->getMock()
-            ,
-            $this->builder2 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
-                ->shouldReceive('getName')
-                ->andReturn('builder2')
-                ->getMock()
-            ,
-            $this->builder3 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
-                ->shouldReceive('getName')
-                ->andReturn('builder3')
-                ->getMock()
-            ,
-        ));
+        $this->factory = new Factory(
+            get_class(\Mockery::mock()),
+            array(
+                $this->builder1 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
+                    ->shouldReceive('getName')
+                    ->andReturn('builder1')
+                    ->getMock()
+                ,
+                $this->builder2 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
+                    ->shouldReceive('getName')
+                    ->andReturn('builder2')
+                    ->getMock()
+                ,
+                $this->builder3 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
+                    ->shouldReceive('getName')
+                    ->andReturn('builder3')
+                    ->getMock()
+                ,
+            )
+        );
     }
 
     public function testCreate()
@@ -82,10 +85,49 @@ class FactoryTest extends AbstractTestCase
         $this->assertSame($object, $this->factory->create('builder2', $options));
     }
 
+    /**
+     * @expectedException \Giftcards\Encryption\Factory\WrongTypeBuiltException
+     */
+    public function testCreateWhereBadInstaceReturned()
+    {
+        $options = array(
+            $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
+            $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
+            $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
+        );
+        $defaults = array(
+            $this->getFaker()->unique()->word => $this->getFaker()->unique(
+            )->word,
+            $this->getFaker()->unique()->word => $this->getFaker()->unique(
+            )->word,
+        );
+        $resolvedOptions = array_merge($options, $defaults);
+        $object = new \stdClass();
+        $this->builder2
+            ->shouldReceive('configureOptionsResolver')
+            ->once()
+            ->with('Symfony\Component\OptionsResolver\OptionsResolver')
+            ->andReturnUsing(function (OptionsResolver $resolver) use ($options, $defaults) {
+                $resolver
+                    ->setRequired(array_keys($options))
+                    ->setDefaults($defaults)
+                ;
+
+            })
+            ->getMock()
+            ->shouldReceive('build')
+            ->once()
+            ->with($resolvedOptions)
+            ->andReturn($object)
+            ->getMock()
+        ;
+        $this->factory->create('builder2', $options);
+    }
+
     public function testGetRegistry()
     {
         $registry = new Registry();
-        $factory = new Factory($registry);
+        $factory = new Factory('', $registry);
         $this->assertSame($registry, $factory->getRegistry());
     }
 }

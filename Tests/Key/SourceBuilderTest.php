@@ -48,12 +48,15 @@ class SourceBuilderTest extends AbstractTestCase
 
     public function testNewInstance()
     {
-        $this->assertEquals(new SourceBuilder(new Factory(array(
-            new VaultSourceBuilder(),
-            new MongoSourceBuilder(),
-            new IniFileSourceBuilder(),
-            new ArraySourceBuilder()
-        ))), SourceBuilder::newInstance());
+        $this->assertEquals(new SourceBuilder(new Factory(
+            'Giftcards\Encryption\Key\SourceInterface',
+            array(
+                new VaultSourceBuilder(),
+                new MongoSourceBuilder(),
+                new IniFileSourceBuilder(),
+                new ArraySourceBuilder()
+            )
+        )), SourceBuilder::newInstance());
     }
 
     public function testBuildWithFallbacks()

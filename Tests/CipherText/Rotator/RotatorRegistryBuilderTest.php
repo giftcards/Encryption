@@ -9,7 +9,6 @@
 namespace Giftcards\Encryption\Tests\CipherText\Rotator;
 
 use Mockery\MockInterface;
-use Giftcards\Encryption\Cipher\CipherRegistry;
 use Giftcards\Encryption\CipherText\Rotator\Factory\DatabaseTableRotatorBuilder;
 use Giftcards\Encryption\CipherText\Rotator\Factory\DoctrineDBALRotatorBuilder;
 use Giftcards\Encryption\CipherText\Rotator\RotatorRegistry;
@@ -40,13 +39,16 @@ class RotatorRegistryBuilderTest extends AbstractTestCase
 
     public function testNewInstance()
     {
-        $this->assertEquals(new RotatorRegistryBuilder(new Factory(array(
-            new DatabaseTableRotatorBuilder(),
-            new DoctrineDBALRotatorBuilder(),
-        ))), RotatorRegistryBuilder::newInstance());
+        $this->assertEquals(new RotatorRegistryBuilder(new Factory(
+            'Giftcards\Encryption\CipherText\Rotator\RotatorInterface',
+            array(
+                new DatabaseTableRotatorBuilder(),
+                new DoctrineDBALRotatorBuilder(),
+            )
+        )), RotatorRegistryBuilder::newInstance());
     }
     
-    public function testBuildWithBuilders()
+    public function testBuildWithNoBuilders()
     {
         $name1 = $this->getFaker()->unique()->word;
         $name2 = $this->getFaker()->unique()->word;
@@ -63,7 +65,7 @@ class RotatorRegistryBuilderTest extends AbstractTestCase
         $this->assertEquals($registry, $this->builder->build());
     }
 
-    public function testBuildWithNamedBuilders()
+    public function testBuildWithBuilders()
     {
         $name1 = $this->getFaker()->unique()->word;
         $name2 = $this->getFaker()->unique()->word;
