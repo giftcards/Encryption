@@ -165,13 +165,13 @@ class EncryptorBuilder
         return $this;
     }
 
-    public function addSerializer(SerializerInterface $serializer)
+    public function addSerializer($serializer)
     {
         $this->getSerializerDeserializerBuilder()->addSerializer($serializer);
         return $this;
     }
 
-    public function addDeserializer(DeserializerInterface $deserializer)
+    public function addDeserializer($deserializer)
     {
         $this->getSerializerDeserializerBuilder()->addDeserializer($deserializer);
         return $this;
