@@ -15,7 +15,7 @@ use Giftcards\Encryption\Vault\AddTokenPlugin;
 use Giftcards\Encryption\Vault\TokenAuthTokenSource;
 use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class VaultSourceFactoryTest extends AbstractTestCase
+class VaultSourceBuilderTest extends AbstractTestCase
 {
     /** @var  VaultSourceBuilder */
     protected $factory;

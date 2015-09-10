@@ -12,7 +12,7 @@ use Giftcards\Encryption\Key\ArraySource;
 use Giftcards\Encryption\Key\Factory\ArraySourceBuilder;
 use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class ArraySourceFactoryTest extends AbstractTestCase
+class ArraySourceBuilderTest extends AbstractTestCase
 {
     /** @var  ArraySourceBuilder */
     protected $factory;

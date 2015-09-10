@@ -15,7 +15,7 @@ use Giftcards\Encryption\Tests\Mock\Mockery\Matcher\EqualsMatcher;
 use Giftcards\Encryption\Tests\AbstractTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MongoSourceFactoryTest extends AbstractTestCase
+class MongoSourceBuilderTest extends AbstractTestCase
 {
     /** @var  MongoSourceBuilder */
     protected $factory;

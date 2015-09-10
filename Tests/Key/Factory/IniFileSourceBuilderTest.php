@@ -12,7 +12,7 @@ use Giftcards\Encryption\Key\Factory\IniFileSourceBuilder;
 use Giftcards\Encryption\Key\IniFileSource;
 use Giftcards\Encryption\Tests\AbstractTestCase;
 
-class IniFileSourceFactoryTest extends AbstractTestCase
+class IniFileSourceBuilderTest extends AbstractTestCase
 {
     /** @var  IniFileSourceBuilder */
     protected $factory;

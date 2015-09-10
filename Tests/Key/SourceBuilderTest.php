@@ -9,6 +9,7 @@
 namespace Giftcards\Encryption\Tests\Key;
 
 use Doctrine\Common\Cache\ArrayCache;
+use Giftcards\Encryption\Key\Factory\ContainerParametersSourceBuilder;
 use Mockery\MockInterface;
 use Giftcards\Encryption\Factory\Factory;
 use Giftcards\Encryption\Key\CachingSource;
@@ -54,7 +55,8 @@ class SourceBuilderTest extends AbstractTestCase
                 new VaultSourceBuilder(),
                 new MongoSourceBuilder(),
                 new IniFileSourceBuilder(),
-                new ArraySourceBuilder()
+                new ArraySourceBuilder(),
+                new ContainerParametersSourceBuilder()
             )
         )), SourceBuilder::newInstance());
     }

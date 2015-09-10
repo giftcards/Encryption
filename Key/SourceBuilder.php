@@ -12,6 +12,7 @@ use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\Cache;
 use Giftcards\Encryption\Factory\Factory;
 use Giftcards\Encryption\Key\Factory\ArraySourceBuilder;
+use Giftcards\Encryption\Key\Factory\ContainerParametersSourceBuilder;
 use Giftcards\Encryption\Key\Factory\IniFileSourceBuilder;
 use Giftcards\Encryption\Key\Factory\MongoSourceBuilder;
 use Giftcards\Encryption\Key\Factory\VaultSourceBuilder;
@@ -36,7 +37,8 @@ class SourceBuilder
                 new VaultSourceBuilder(),
                 new MongoSourceBuilder(),
                 new IniFileSourceBuilder(),
-                new ArraySourceBuilder()
+                new ArraySourceBuilder(),
+                new ContainerParametersSourceBuilder()
             )
         ));
     }
