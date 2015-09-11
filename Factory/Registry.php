@@ -13,10 +13,10 @@ class Registry
     /** @var BuilderInterface[] */
     protected $builders = array();
 
-    public function __construct(array $factories = array())
+    public function __construct(array $builders = array())
     {
-        foreach ($factories as $factory) {
-            $this->add($factory);
+        foreach ($builders as $builder) {
+            $this->add($builder);
         }
     }
 
