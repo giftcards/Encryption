@@ -10,9 +10,7 @@ namespace Giftcards\Encryption;
 
 use Giftcards\Encryption\Cipher\CipherInterface;
 use Giftcards\Encryption\Cipher\CipherRegistryBuilder;
-use Giftcards\Encryption\CipherText\Serializer\DeserializerInterface;
 use Giftcards\Encryption\CipherText\Serializer\SerializerDeserializerBuilder;
-use Giftcards\Encryption\CipherText\Serializer\SerializerInterface;
 use Giftcards\Encryption\Key\SourceBuilder;
 use Giftcards\Encryption\Profile\ProfileRegistry;
 use Giftcards\Encryption\Profile\ProfileRegistryBuilder;
