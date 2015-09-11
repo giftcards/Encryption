@@ -22,7 +22,7 @@ class MockPDO extends \PDO
         return call_user_func_array(array($this->innerMock, $name), $args);
     }
 
-    public function prepare($statement, array $driver_options = null)
+    public function prepare($statement, $driver_options = null)
     {
         return $this->__call('prepare', func_get_args());
     }
