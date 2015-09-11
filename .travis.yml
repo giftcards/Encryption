@@ -14,3 +14,5 @@ matrix:
   allow_failures:
     - php: hhvm
     - php: 7
+
+sudo: false
