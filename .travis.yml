@@ -7,7 +7,7 @@ php:
   - hhvm
   
 before_script: 
-  - phpenv config-add mongo.ini
+  - phpenv config-add Tests/mongo.ini
   - composer install --dev
 
 matrix:
