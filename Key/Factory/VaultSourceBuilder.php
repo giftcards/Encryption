@@ -19,7 +19,10 @@ class VaultSourceBuilder implements BuilderInterface
 {
     public function build(array $options)
     {
-        $vaultClient = new Client($options['base_url']);
+        $vaultClient = new Client(
+            $options['base_url'],
+            array('curl.options' => array(CURLOPT_SSLVERSION => 6))
+        );
         $vaultClient->addSubscriber(
             new AddTokenPlugin(new TokenAuthTokenSource($options['token']))
         );

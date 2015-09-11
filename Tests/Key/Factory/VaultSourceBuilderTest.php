@@ -33,7 +33,10 @@ class VaultSourceBuilderTest extends AbstractTestCase
         $valueField = $this->getFaker()->unique()->word;
         $apiVersion = $this->getFaker()->unique()->word;
         
-        $client = new Client($baseUrl);
+        $client = new Client(
+            $baseUrl,
+            array('curl.options' => array(CURLOPT_SSLVERSION => 6))
+        );
         $client->addSubscriber(new AddTokenPlugin(new TokenAuthTokenSource($token)));
         $this->assertEquals(new VaultSource(
             $client,
