@@ -7,7 +7,7 @@ php:
   - hhvm
   
 before_script: 
-  - composer install --dev --ignore-platform-reqs
+  - composer install --dev
 
 matrix:
   allow_failures:
