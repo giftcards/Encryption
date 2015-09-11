@@ -11,7 +11,7 @@ namespace Giftcards\Encryption\Key\Factory;
 use Doctrine\MongoDB\Connection;
 use Giftcards\Encryption\Factory\BuilderInterface;
 use Giftcards\Encryption\Key\MongoSource;
-use Symfony\Component\OptionsResolver\Exception\InvalidArgumentException;
+use Symfony\Component\OptionsResolver\Exception\ExceptionInterface;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -66,7 +66,7 @@ class MongoSourceBuilder implements BuilderInterface
                 
                 try {
                     $connection = $resolver->resolve($connection);
-                } catch (Symfony\Component\OptionsResolver\Exception\ExceptionInterface $e) {
+                } catch (ExceptionInterface $e) {
                     throw new InvalidOptionsException(sprintf(
                         'The option "connection" does not have valid values: %s',
                         $e->getMessage()
