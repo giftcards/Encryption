@@ -10,7 +10,20 @@ namespace Giftcards\Encryption\Tests;
 
 class MockPDO extends \PDO
 {
-    public function __construct()
+    protected $innerMock;
+
+    public function __construct($innerMock)
     {
+        $this->innerMock = $innerMock;
+    }
+
+    public function __call($name, $args)
+    {
+        return call_user_func_array(array($this->innerMock, $name), $args);
+    }
+
+    public function prepare($statement, array $driver_options = null)
+    {
+        return $this->__call('prepare', func_get_args());
     }
 }

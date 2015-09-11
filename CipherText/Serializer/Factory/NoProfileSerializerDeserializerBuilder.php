@@ -42,13 +42,13 @@ class NoProfileSerializerDeserializerBuilder implements BuilderInterface
             $allowedProfileTypes[] = 'string';
             $profileRegistry = $this->profileRegistry;
             
-            $resolver->setNormalizer('profile', function ($_, $profile) use ($profileRegistry) {
+            $resolver->setNormalizers(array('profile' => function ($_, $profile) use ($profileRegistry) {
                 if ($profile instanceof Profile) {
                     return $profile;
                 }
                 
                 return $profileRegistry->get((string)$profile);
-            });
+            }));
         }
         
         $resolver->setAllowedTypes(array('profile' => $allowedProfileTypes));

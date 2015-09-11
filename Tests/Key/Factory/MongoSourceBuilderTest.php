@@ -75,10 +75,10 @@ class MongoSourceBuilderTest extends AbstractTestCase
             ))
             ->andReturn(\Mockery::self())
             ->getMock()
-            ->shouldReceive('setNormalizer')
+            ->shouldReceive('setNormalizers')
             ->once()
-            ->with('connection', new EqualsMatcher(function () {
-            }))
+            ->with(new EqualsMatcher(array('connection' => function () {
+            })))
             ->andReturn(\Mockery::self())
             ->getMock()
         ;

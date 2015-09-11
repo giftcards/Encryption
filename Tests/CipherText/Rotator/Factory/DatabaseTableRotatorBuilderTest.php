@@ -11,6 +11,7 @@ namespace Giftcards\Encryption\Tests\CipherText\Rotator\Factory;
 use Giftcards\Encryption\CipherText\Rotator\DatabaseTableRotator;
 use Giftcards\Encryption\CipherText\Rotator\Factory\DatabaseTableRotatorBuilder;
 use Giftcards\Encryption\Tests\AbstractTestCase;
+use Giftcards\Encryption\Tests\MockPDO;
 
 class DatabaseTableRotatorBuilderTest extends AbstractTestCase
 {
@@ -24,7 +25,7 @@ class DatabaseTableRotatorBuilderTest extends AbstractTestCase
 
     public function testBuild()
     {
-        $pdo = \Mockery::mock('Giftcards\Encryption\Tests\MockPDO');
+        $pdo = new MockPDO(\Mockery::mock());
         $table = $this->getFaker()->unique()->word;
         $fields = array(
             $this->getFaker()->unique()->word,

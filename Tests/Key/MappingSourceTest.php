@@ -33,7 +33,7 @@ class MappingSourceTest extends AbstractSourceTest
             $mapKey1 => $key3,
             $mapKey2 => $key1,
         );
-        $existingKeys = array_merge($keys, array($mapKey1 => $keys[$key3], $mapKey2 => $keys[$key1]));
+        $existingKeys = array($mapKey1 => $keys[$key3], $mapKey2 => $keys[$key1]);
         return array(
             array(
                 new MappingSource($map, new ArraySource($keys)),

@@ -26,24 +26,11 @@ class MappingSource extends AbstractSource
 
     public function has($key)
     {
-        return $this->inner->has($this->mapKey($key));
+        return isset($this->map[$key]) && $this->inner->has($this->map[$key]);
     }
 
     protected function getKey($key)
     {
-        return $this->inner->get($this->mapKey($key));
-    }
-
-    /**
-     * @param $key
-     * @return mixed
-     */
-    protected function mapKey($key)
-    {
-        if (isset($this->map[$key])) {
-            $key = $this->map[$key];
-            return $key;
-        }
-        return $key;
+        return $this->inner->get($this->map[$key]);
     }
 }

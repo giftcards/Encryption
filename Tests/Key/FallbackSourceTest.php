@@ -39,7 +39,7 @@ class FallbackSourceTest extends AbstractSourceTest
                 $faker->unique()->word
             )
         );
-        $existingKeys = array_merge($keys, array($fallbackKey1 => $keys[$key3], $fallbackKey2 => $keys[$key1]));
+        $existingKeys = array($fallbackKey1 => $keys[$key3], $fallbackKey2 => $keys[$key1]);
         return array(
             array(
                 new FallbackSource($fallbacks, new ArraySource($keys)),

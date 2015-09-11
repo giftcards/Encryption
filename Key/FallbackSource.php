@@ -52,8 +52,6 @@ class FallbackSource implements SourceInterface
      */
     protected function getKeys($key)
     {
-        $keys = isset($this->fallbacks[$key]) ? $this->fallbacks[$key] : array();
-        array_unshift($keys, $key);
-        return $keys;
+        return isset($this->fallbacks[$key]) ? $this->fallbacks[$key] : array();
     }
 }

@@ -43,7 +43,7 @@ class MongoSourceBuilder implements BuilderInterface
                 'find_by_field' => 'string',
                 'value_field' => 'string'
             ))
-            ->setNormalizer('connection', function ($_, $connection) {
+            ->setNormalizers(array('connection' => function ($_, $connection) {
                 if (!is_array($connection)) {
                     return $connection;
                 }
@@ -66,7 +66,7 @@ class MongoSourceBuilder implements BuilderInterface
                 
                 try {
                     $connection = $resolver->resolve($connection);
-                } catch (InvalidArgumentException $e) {
+                } catch (Symfony\Component\OptionsResolver\Exception\ExceptionInterface $e) {
                     throw new InvalidOptionsException(sprintf(
                         'The option "connection" does not have valid values: %s',
                         $e->getMessage()
@@ -79,7 +79,7 @@ class MongoSourceBuilder implements BuilderInterface
                     $connection['configuration'],
                     $connection['event_manager']
                 );
-            })
+            }))
         ;
     }
 
