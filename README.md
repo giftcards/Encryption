@@ -130,3 +130,9 @@ a list of tables along with the specific columns that need key rotation. All the
                          (usually its primary key) and will rotate those fields when asked to
 - DoctrineDBALRotator - this class will take the same data but instead of a pdo instance you give it a doctrine dbal connection.
 
+Doctrine ORM Integration
+------------------------
+
+There is a listener + annotation you can use for defining entities that have encrypted fields. they will be automatically decrypted
+on load and encrypted on flush. you can define which profile to use in the annotation. if none if defined the default
+profile will be used.
