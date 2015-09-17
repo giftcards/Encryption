@@ -70,12 +70,16 @@ and if not they throw an exception. the current implementations are
 
 - ArraySource - this one takes an array of keys as name value pairs
 - CachingSource - this one takes another source into it and caches the requests for keys
-- ChainSource - takes a chain of key sources and returns the key for the first source to have a value for the given name
 - CombiningSource - this source allows you to make a new key out of 2 other keys it takes an array with the names of the new
                     keys and the values for each being the names of keys to use as the left and right part of this new one
+- ChainSource - takes a chain of key sources and returns the key for the first source to have a value for the given name
 - ContainerAwareChainSource - this one works the same as the ChainSource, however it takes a symfony container and allows you
                               to set the names of services as ket sources to allow for them to only be loaded when requests for
                               keys are made
+- CircularGuardSource - this takes a source to wrap if you have your sources setup to possibly reference each other
+                        and you think they could have the possibility of having a never ending circular key request. It
+                        keeps track of which keys ahve been requested through it and if the same key is requested it
+                        will return false on has and throw a key not found exception without asking its internal source
 - ContainerParametersSource - this one takes a symfony container and looks for parameters named the same as the key requested
 - FallbackSource - this one takes an array of key names and an array of fallbacks if they dont exist and goes through all the fallbacks before throwing
                    an exception
