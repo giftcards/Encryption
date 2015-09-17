@@ -97,12 +97,36 @@ Cipher Text are ment to represent data that has been encrypted. The encryptor re
 and will automatically serialize using the serializers mentioned later on if you cast it to a string. The idea is to allow for the
 encrypted data and the profile used to encrypt it to move together
 
-#### Cipher Text Serializers/Deserializers ####
+### Cipher Text Serializers/Deserializers ###
 
 The cipher text serializers and deserializers are in charge of making a cipher text instance into a string for easy storage
 and deserializing them on the way out before decryption in the encryptor. this allows for them to be stored easily and the encryptor
 to be able to deal just with cipher texts with all the info on how to decrypt them. There are 2 interfaces 
 `Giftcards\Encryption\CipherText\Serializer\SerializerInterface` and `Giftcards\Encryption\CipherText\Serializer\DeserializerInterface`
 there is a combination interface called `SerializerDeserializerInterface` which the encryptor actually uses. Separating the interfaces allows
-for different ways ofr serializing and deserializing.
+for different ways ofr serializing and deserializing. the current implmenentations are
+
+- BasicSerializerDeserializer - takes the profile turns it into an array, json encodes that, base64 encodes that
+                                then joins it to the base64 encoded encrypted data to make one long string. it does the opposite on the
+                                deserializing side
+- NoProfileSerializerDeserializer - this one returns the contents of the encrypted data as the serialized cipher text. it will only do it 
+                                    for cipher texts having a profile matching the profile sent in to its constructor. This adds a little bit
+                                    of safety since on serialization the profile info is lost and will have to be inferred to be the same as
+                                    the one sent to the serializers constructor. on deserialize as mentioned above it takes the encrypted data as is
+                                    and creates a cipher text using it and the profile passed to its constructor
+- ChainSerializerDeserializer - this takes a chain of serializers and a chain of deserializers and passes the cipher text to the first
+                                that can handle it
+- ContainerAwareChainSerializerDeserializer - this does the smae as the chain but it takes a symfony container in its constructor and can pull
+                                              the serializers/deserializers by service names you give it
+
+### Cipher Text Rotators ###
+These classes allow you to define, in a programmatic way, the places that you would need to rotate an encryption key or encryption algorithm
+so that you can just keep a list and go through them when you need to rotate, call rotate giving them an optional new profile to use
+(if no new profile is used the current default encryptor profile will be used to re-encrypt). it allows you to define for exmaple
+a list of tables along with the specific columns that need key rotation. All the rotators must follow the interface
+`Giftcards\Encryption\CipherText\Rotator\RotatorInterface`. implementations currently are
+
+- DatabaseTableRotator - this class you give a pdo instance the name of the table the fields in that table and the way a row is is identified
+                         (usually its primary key) and will rotate those fields when asked to
+- DoctrineDBALRotator - this class will take the same data but instead of a pdo instance you give it a doctrine dbal connection.
 
