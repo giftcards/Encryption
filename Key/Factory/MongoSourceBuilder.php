@@ -50,8 +50,8 @@ class MongoSourceBuilder implements BuilderInterface
                 
                 $resolver = new OptionsResolver();
                 $resolver
+                    ->setRequired(array('server'))
                     ->setDefaults(array(
-                        'server' => null,
                         'options' => array(),
                         'configuration' => null,
                         'event_manager' => null

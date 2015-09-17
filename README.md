@@ -163,3 +163,59 @@ the rotator builder is `Giftcards\Encryption\CipherText\Rotator\RotatorBuilder`.
 all these sub builders rely on a factory that holds a builder for every one of the types it creates they can be found in
 the factory directories under which they are located. they are what allows for them to build based off a $name, $options conbination instead
 of just instances.
+
+the names in the following builder lists can be passed to the first arg for the builder and the options named after that should be passed as the option array
+so for example for a builder named `foo` with options `array('bar' => 'baz')` you can call `addKeySource('foo', array('bar' => 'baz')` on the encryptor
+builder or call `add('foo', array('bar' => 'baz')` on the key source builder. same for the other builders
+
+### Key Source builders ###
+
+#### array ####
+- keys - an array of keys to create the array source out of with the keys being the key names and the value being the key values
+
+#### container_parameter ####
+- container - the symfony container to pass to the source. this may be optional dending on how you instanciated this builder. if you passed
+              in a container then this is not necessary
+              
+#### ini_file ####
+- file - the path to the ini file
+- case_sensitive - if the keys should be case sensitive when called for or not
+
+#### mongo ####
+- connection - the mongo connection to use. this can be an instance of a [doctrine/mongodb]() connection or an array to create one with the following keys
+                'server', 'options', 'configuration', 'event_manager' with all but server being required.
+- database - the database to use
+- collection - the collection to use
+- find_by_field - the field to use to find the correct document. for example if the field is `name` it will try to find a document with the name field
+                  matching the key name given
+- value_field - the field value to pull when the document is found. for example if the value_field is value then it will pull the value field as the key's value
+
+##### vault ####
+- base_url - the main domain + scheme url for vault
+- token - the token to use when requesting from vault
+- mount - the mount to request from
+- value_field - the fivle to pull the key value from. for example if the `value_field` is `value` then it will pull the `value` field as the key's value
+- api_version - the valut api version defaults to v1.
+
+### Serializer/Deserializer builders ###
+
+#### basic ####
+- seperator - the seprator string to use to combine the base64 encoded profile data with the base64 encoded encrypted data
+
+#### no_profile ####
+- profile - th profile to check against before serializing andthe profile to set on deserialized cipher texts. this can be an inatance of 
+            `Giftcards\Encryption\Profile\Profile` or, if you pass the profile registry to its constructor you can give a profile name
+            
+### Cipher text rotator builders ###
+
+#### database_table ####
+- pdo - a pdo instance to use
+- table - the table to rotate
+- fields - the fields within the table that should be rotated
+- id_field - the field used to identify row (for db updates)
+
+#### doctrine_dbal ####
+- connection - a doctrine DBAL connection instance to use
+- table - the table to rotate
+- fields - the fields within the table that should be rotated
+- id_field - the field used to identify row (for db updates)
