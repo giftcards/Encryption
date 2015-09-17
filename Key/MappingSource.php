@@ -8,7 +8,7 @@
 
 namespace Giftcards\Encryption\Key;
 
-class MappingSource extends AbstractSource
+class MappingSource implements SourceInterface
 {
     protected $map;
     protected $inner;
@@ -26,11 +26,20 @@ class MappingSource extends AbstractSource
 
     public function has($key)
     {
-        return isset($this->map[$key]) && $this->inner->has($this->map[$key]);
+        return $this->inner->has($this->mapKey($key));
     }
 
-    protected function getKey($key)
+    public function get($key)
     {
-        return $this->inner->get($this->map[$key]);
+        return $this->inner->get($this->mapKey($key));
+    }
+    
+    /**
+     * @param $key
+     * @return mixed
+     */
+    protected function mapKey($key)
+    {
+        return isset($this->map[$key]) ? $this->map[$key] : $key;
     }
 }

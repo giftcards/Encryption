@@ -9,6 +9,7 @@
 namespace Giftcards\Encryption\Tests\Key;
 
 use Doctrine\Common\Cache\ArrayCache;
+use Giftcards\Encryption\Key\CircularGuardSource;
 use Giftcards\Encryption\Key\Factory\ContainerParametersSourceBuilder;
 use Mockery\MockInterface;
 use Giftcards\Encryption\Factory\Factory;
@@ -86,7 +87,7 @@ class SourceBuilderTest extends AbstractTestCase
 
         $source = new ChainSource();
         $source
-            ->add(new FallbackSource($fallbackses, $source))
+            ->add(new CircularGuardSource(new FallbackSource($fallbackses, $source)))
             ->add($this->source1)
             ->add($this->source2)
         ;
@@ -112,7 +113,7 @@ class SourceBuilderTest extends AbstractTestCase
 
         $source = new ChainSource();
         $source
-            ->add(new MappingSource($map, $source))
+            ->add(new CircularGuardSource(new MappingSource($map, $source)))
             ->add($this->source1)
             ->add($this->source2)
         ;
@@ -150,7 +151,7 @@ class SourceBuilderTest extends AbstractTestCase
 
         $source = new ChainSource();
         $source
-            ->add(new CombiningSource($combined, $source))
+            ->add(new CircularGuardSource(new CombiningSource($combined, $source)))
             ->add($this->source1)
             ->add($this->source2)
         ;

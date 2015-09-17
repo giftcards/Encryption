@@ -53,15 +53,15 @@ class SourceBuilder
         $mainSource = new ChainSource();
         
         if ($this->fallbacks) {
-            $mainSource->add(new FallbackSource($this->fallbacks, $mainSource));
+            $mainSource->add(new CircularGuardSource(new FallbackSource($this->fallbacks, $mainSource)));
         }
 
         if ($this->map) {
-            $mainSource->add(new MappingSource($this->map, $mainSource));
+            $mainSource->add(new CircularGuardSource(new MappingSource($this->map, $mainSource)));
         }
 
         if ($this->combined) {
-            $mainSource->add(new CombiningSource($this->combined, $mainSource));
+            $mainSource->add(new CircularGuardSource(new CombiningSource($this->combined, $mainSource)));
         }
         
         foreach ($this->sources as $source) {
@@ -75,8 +75,12 @@ class SourceBuilder
         return $mainSource;
     }
 
-    public function add($source, array $options = array(), $prefix = null)
-    {
+    public function add(
+        $source,
+        array $options = array(),
+        $prefix = null,
+        $addCircularGuard = false
+    ) {
         if (!$source instanceof SourceInterface) {
             if (!$prefix && $prefix !== false) {
                 $prefix = $source;
@@ -87,6 +91,10 @@ class SourceBuilder
 
         if ($prefix) {
             $source = new PrefixKeyNameSource($prefix, $source);
+        }
+        
+        if ($addCircularGuard) {
+            $source = new CircularGuardSource($source);
         }
 
         $this->sources[] = $source;

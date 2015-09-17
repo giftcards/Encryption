@@ -12,7 +12,6 @@ class FallbackSource implements SourceInterface
 {
     protected $fallbacks;
     protected $inner;
-    protected $checking = array();
 
     /**
      * FallbackKeysSource constructor.
@@ -29,11 +28,9 @@ class FallbackSource implements SourceInterface
     {
         foreach ($this->getKeys($key) as $key) {
             if ($this->inner->has($key)) {
-                unset($this->checking[$key]);
                 return true;
             }
         }
-        unset($this->checking[$key]);
 
         return false;
     }
@@ -42,12 +39,9 @@ class FallbackSource implements SourceInterface
     {
         foreach ($this->getKeys($key) as $key) {
             if ($this->inner->has($key)) {
-                unset($this->checking[$key]);
                 return $this->inner->get($key);
             }
         }
-        
-        unset($this->checking[$key]);
 
         throw new KeyNotFoundException($key);
     }
@@ -59,10 +53,7 @@ class FallbackSource implements SourceInterface
     protected function getKeys($key)
     {
         $keys = isset($this->fallbacks[$key]) ? $this->fallbacks[$key] : array();
-        if (!isset($this->checking[$key])) {
-            array_unshift($keys, $key);
-            $this->checking[$key] = true;
-        }
+        array_unshift($keys, $key);
 
         return $keys;
     }

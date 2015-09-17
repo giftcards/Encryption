@@ -53,42 +53,4 @@ class FallbackSourceTest extends AbstractSourceTest
             )
         );
     }
-
-    public function testCircularLoading()
-    {
-        $faker = Factory::create();
-        $key1 = $faker->unique()->word;
-        $key2 = $faker->unique()->word;
-        $key3 = $faker->unique()->word;
-        $key4 = $faker->unique()->word;
-        $fallbackKey1 = $faker->unique()->word;
-        $fallbackKey2 = $faker->unique()->word;
-        $keys = array(
-            $key1 => $faker->unique()->word,
-            $key2 => $faker->unique()->word,
-            $key3 => $faker->unique()->word,
-            $key4 => $faker->unique()->word,
-        );
-        $fallbacks = array(
-            $key4 => array(
-                $faker->unique()->word,
-                $key3
-            ),
-            $key3 => array(
-                $faker->unique()->word,
-                $key4
-            ),
-            $fallbackKey1 => array(
-                $faker->unique()->word,
-                $key3
-            ),
-            $fallbackKey2 => array(
-                $key1,
-                $faker->unique()->word
-            )
-        );
-        $chainSource = new ChainSource();
-        $chainSource = new FallbackSource($fallbacks, $chainSource);
-        $chainSource->get($key4);
-    }
 }
