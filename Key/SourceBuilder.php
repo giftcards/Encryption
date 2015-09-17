@@ -75,6 +75,16 @@ class SourceBuilder
         return $mainSource;
     }
 
+    /**
+     * @param $source
+     * @param array $options
+     * @param null $prefix
+     * @param bool|false $addCircularGuard
+     * @return $this
+     *
+     * Add a new key source either an instance of the interface or a name and options. i nal cases a prefix can
+     * be given and a boollean stating if they hsould be wrapped in a circular guard
+     */
     public function add(
         $source,
         array $options = array(),
@@ -101,6 +111,13 @@ class SourceBuilder
         return $this;
     }
 
+    /**
+     * @param $name
+     * @param $fallbackName
+     * @return $this
+     *
+     * add a fallback for a certain key name if it doesnt exist
+     */
     public function addFallback($name, $fallbackName)
     {
         if (!isset($this->fallbacks[$name])) {
@@ -110,12 +127,27 @@ class SourceBuilder
         return $this;
     }
 
+    /**
+     * @param string $name name to map from
+     * @param string $mappedName name to map to
+     * @return $this
+     *
+     * add a map for a certain key name to another key name
+     */
     public function map($name, $mappedName)
     {
         $this->map[$name] = $mappedName;
         return $this;
     }
 
+    /**
+     * @param string $left the name of the ey to use for the left side of the combined key
+     * @param string $right the name of the ey to use for the right side of the combined key
+     * @param string $name
+     * @return $this
+     *
+     * add a new combined key made up of 3 other keys named by $left and $right
+     */
     public function combine($left, $right, $name)
     {
         $this->combined[$name] = array(
@@ -125,12 +157,24 @@ class SourceBuilder
         return $this;
     }
 
+    /**
+     * @return $this
+     *
+     * adds the none source so that the key named 'none' will be available
+     */
     public function includeNone()
     {
         $this->sources[] = new NoneSource();
         return $this;
     }
 
+    /**
+     * @param Cache|null $cache
+     * @return $this
+     *
+     * turns on key caching you can optilnailly pass a doctrine cache
+     * impl uf you dont just want to use an in memory cache impl
+     */
     public function cache(Cache $cache = null)
     {
         $this->cache = $cache ?: new ArrayCache();

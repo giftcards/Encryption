@@ -147,4 +147,19 @@ Builders
 there are builder classes that are meant to wrap creation of rotators, serializers, deserializers
 and key sources.
 
-this allows for you to call the `addKeySource($source, $options, $prefix)`
+this allows for you to call the `addKeySource($source, $options, $prefix, $addCircularGuard)` to add a key source
+and internal builders will do the work for you. you can call `addSerializer($serializer, $options)`,
+ `addDeserializer($deserializer, $options)`. there is also a builder for rotators that is separate since they aren't used by the encryptor.
+ 
+the encryptor builder can be instanciated using the `EncryptorBuilder::newInstance()`.
+
+the encryptor builder uses a bunch of sub builders.
+
+- Giftcards\Encryption\Key\Source\SourceBuilder - builds key sources
+- Giftcards\Encryption\CipherText\Serializer\SerializerDeserializerBuilder - builds a chain of serializers and deserializers
+
+the rotator builder is `Giftcards\Encryption\CipherText\Rotator\RotatorBuilder`.
+
+all these sub builders rely on a factory that holds a builder for every one of the types it creates they can be found in
+the factory directories under which they are located. they are what allows for them to build based off a $name, $options conbination instead
+of just instances.
