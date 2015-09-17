@@ -225,9 +225,9 @@ class SourceBuilderTest extends AbstractTestCase
     {
         $factoryName = $this->getFaker()->unique()->word;
         $factoryOptions = array(
-            $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
-            $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
-            $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
+            $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
+            $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
+            $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
         );
         $prefix = $this->getFaker()->unique()->word;
         $source3 = \Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
@@ -249,6 +249,37 @@ class SourceBuilderTest extends AbstractTestCase
             ->add($this->source1)
             ->add(new PrefixKeyNameSource($prefix, $this->source2))
             ->add(new PrefixKeyNameSource($factoryName, $source3))
+        ;
+        $this->assertEquals($source, $this->builder->build());
+    }
+
+    public function testBuildWithCircularGuards()
+    {
+        $factoryName = $this->getFaker()->unique()->word;
+        $factoryOptions = array(
+            $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
+            $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
+            $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
+        );
+        $source3 = \Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
+        $this->factory
+            ->shouldReceive('create')
+            ->once()
+            ->with($factoryName, $factoryOptions)
+            ->andReturn($source3)
+        ;
+        $this->builder
+            ->add($this->source1)
+            ->add($this->source2, array(), false, true)
+            ->add($factoryName, $factoryOptions, null, true)
+        ;
+
+
+        $source = new ChainSource();
+        $source
+            ->add($this->source1)
+            ->add(new CircularGuardSource($this->source2))
+            ->add(new CircularGuardSource(new PrefixKeyNameSource($factoryName, $source3)))
         ;
         $this->assertEquals($source, $this->builder->build());
     }

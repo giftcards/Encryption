@@ -151,9 +151,13 @@ class EncryptorBuilder
         return $this;
     }
 
-    public function addKeySource($source, array $options = array(), $prefix = null)
-    {
-        $this->getKeySourceBuilder()->add($source, $options, $prefix);
+    public function addKeySource(
+        $source,
+        array $options = array(),
+        $prefix = null,
+        $addCircularGuard = false
+    ) {
+        $this->getKeySourceBuilder()->add($source, $options, $prefix, $addCircularGuard);
         return $this;
     }
 

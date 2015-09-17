@@ -140,3 +140,11 @@ Doctrine ORM Integration
 There is a listener + annotation you can use for defining entities that have encrypted fields. they will be automatically decrypted
 on load and encrypted on flush. you can define which profile to use in the annotation. if none if defined the default
 profile will be used.
+
+Builders
+--------
+
+there are builder classes that are meant to wrap creation of rotators, serializers, deserializers
+and key sources.
+
+this allows for you to call the `addKeySource($source, $options, $prefix)`
