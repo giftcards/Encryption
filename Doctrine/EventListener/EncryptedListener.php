@@ -43,7 +43,7 @@ class EncryptedListener implements EventSubscriber
             ->getClassMetadata(get_class($entity))
         ;
 
-        if (!empty($classMetadata->hasEncryptedFields)) {
+        if (!empty($classMetadata->hasEncryptedProperties)) {
             $this->entities[] = $entity;
         }
     }
@@ -55,7 +55,7 @@ class EncryptedListener implements EventSubscriber
         $classMetadata = $event->getEntityManager()->getClassMetadata(
             get_class($entity)
         );
-        if (!empty($classMetadata->hasEncryptedFields)) {
+        if (!empty($classMetadata->hasEncryptedProperties)) {
             $this->entities[] = $entity;
             $this->decrypt(array($entity), $event->getEntityManager());
         }
@@ -92,7 +92,7 @@ class EncryptedListener implements EventSubscriber
             /** @var \Doctrine\ORM\Mapping\ClassMetadataInfo $metadata */
             $metadata = $entityManager->getClassMetadata(get_class($entity));
 
-            foreach ($metadata->encryptedFields as $name => $options) {
+            foreach ($metadata->encryptedProperties as $name => $options) {
                 $metadata->reflFields[$name]->setValue(
                     $entity,
                     $this->encryptor->encrypt(
@@ -114,7 +114,7 @@ class EncryptedListener implements EventSubscriber
             /** @var \Doctrine\ORM\Mapping\ClassMetadataInfo $metadata */
             $metadata = $entityManager->getClassMetadata(get_class($entity));
 
-            foreach ($metadata->encryptedFields as $name => $options) {
+            foreach ($metadata->encryptedProperties as $name => $options) {
                 $metadata->reflFields[$name]->setValue(
                     $entity,
                     $this->encryptor->decrypt(

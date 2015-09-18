@@ -10,11 +10,11 @@ namespace Giftcards\Encryption\Tests\Doctrine;
 
 use Giftcards\Encryption\Doctrine\Configuration\Annotation\Encrypted;
 
-class MockEntityWithEncryptedFieldsAndProfileSet
+class MockEntityWithEncryptedProperties
 {
-    public $normalField;
+    public $normalProperty;
     /**
-     * @Encrypted(profile="foo")
+     * @Encrypted()
      */
-    public $encryptedField;
+    public $encryptedProperty;
 }

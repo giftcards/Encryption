@@ -8,8 +8,8 @@
 
 namespace Giftcards\Encryption\Tests\Doctrine;
 
-class MockEntityWithoutEncryptedFields
+class MockEntityWithoutEncryptedProperties
 {
-    public $normalField;
-    public $otherNormalField;
+    public $normalProperty;
+    public $otherNormalProperty;
 }

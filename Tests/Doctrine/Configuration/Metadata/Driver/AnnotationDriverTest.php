@@ -25,23 +25,23 @@ class AnnotationDriverTest extends AbstractTestCase
 
     public function testLoadMetadataForClass()
     {
-        $metadata = new ClassMetadataInfo('Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedFields');
+        $metadata = new ClassMetadataInfo('Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedProperties');
         $metadata->reflClass = new \ReflectionClass($metadata->getName());
 
         $this->driver->loadMetadataForClass($metadata->getName(), $metadata);
-        $this->assertTrue($metadata->hasEncryptedFields);
-        $this->assertEquals(array('encryptedField' => array(
+        $this->assertTrue($metadata->hasEncryptedProperties);
+        $this->assertEquals(array('encryptedProperty' => array(
             'profile' => null,
-        )), $metadata->encryptedFields);
+        )), $metadata->encryptedProperties);
         $metadata = new ClassMetadataInfo(
-            'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedFieldsAndProfileSet'
+            'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedPropertiesAndProfileSet'
         );
         $metadata->reflClass = new \ReflectionClass($metadata->getName());
 
         $this->driver->loadMetadataForClass($metadata->getName(), $metadata);
-        $this->assertTrue($metadata->hasEncryptedFields);
-        $this->assertEquals(array('encryptedField' => array(
+        $this->assertTrue($metadata->hasEncryptedProperties);
+        $this->assertEquals(array('encryptedProperty' => array(
             'profile' => 'foo',
-        )), $metadata->encryptedFields);
+        )), $metadata->encryptedProperties);
     }
 }

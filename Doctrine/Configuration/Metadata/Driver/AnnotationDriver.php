@@ -24,8 +24,8 @@ class AnnotationDriver extends AbstractAnnotationDriver
     public function loadMetadataForClass($className, ClassMetadata $metadata)
     {
         /* @var $metadata \Doctrine\ORM\Mapping\ClassMetadataInfo */
-        $metadata->hasEncryptedFields = false;
-        $metadata->encryptedFields = array();
+        $metadata->hasEncryptedProperties = false;
+        $metadata->encryptedProperties = array();
         $class = $metadata->getReflectionClass();
         
         foreach ($class->getProperties() as $name => $property) {
@@ -38,8 +38,8 @@ class AnnotationDriver extends AbstractAnnotationDriver
             if (!$annotation) {
                 continue;
             }
-            $metadata->hasEncryptedFields = true;
-            $metadata->encryptedFields[$property->getName()] = array(
+            $metadata->hasEncryptedProperties = true;
+            $metadata->encryptedProperties[$property->getName()] = array(
                 'profile' => $annotation->profile,
             );
         }

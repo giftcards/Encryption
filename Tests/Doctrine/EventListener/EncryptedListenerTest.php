@@ -6,9 +6,9 @@ use Doctrine\ORM\Event\PostFlushEventArgs;
 use Giftcards\Encryption\Doctrine\Configuration\Metadata\Driver\AnnotationDriver;
 use Giftcards\Encryption\Doctrine\EventListener\EncryptedListener;
 use Giftcards\Encryption\Tests\AbstractTestCase;
-use Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedFields;
-use Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedFieldsAndProfileSet;
-use Giftcards\Encryption\Tests\Doctrine\MockEntityWithoutEncryptedFields;
+use Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedProperties;
+use Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedPropertiesAndProfileSet;
+use Giftcards\Encryption\Tests\Doctrine\MockEntityWithoutEncryptedProperties;
 use Giftcards\Encryption\Tests\Doctrine\MockEncryptedEntity;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManager;
@@ -52,82 +52,82 @@ class EncryptedListenerTest extends AbstractTestCase
 
     public function testLifeCycleWithNoErrors()
     {
-        $metadata1 = new ClassMetadataInfo('Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedFields');
+        $metadata1 = new ClassMetadataInfo('Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedProperties');
         $metadata1->reflClass = new \ReflectionClass($metadata1->getName());
-        $metadata1->reflFields['encryptedField'] = new \ReflectionProperty(
-            'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedFields',
-            'encryptedField'
+        $metadata1->reflProperties['encryptedProperty'] = new \ReflectionProperty(
+            'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedProperties',
+            'encryptedProperty'
         );
-        $metadata1->reflFields['encryptedField']->setAccessible(true);
+        $metadata1->reflProperties['encryptedProperty']->setAccessible(true);
         $this->driver->loadMetadataForClass($metadata1->getName(), $metadata1);
         $metadata2 = new ClassMetadataInfo(
-            'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedFieldsAndProfileSet'
+            'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedPropertiesAndProfileSet'
         );
         $metadata2->reflClass = new \ReflectionClass($metadata2->getName());
-        $metadata2->reflFields['encryptedField'] = new \ReflectionProperty(
-            'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedFieldsAndProfileSet',
-            'encryptedField'
+        $metadata2->reflProperties['encryptedProperty'] = new \ReflectionProperty(
+            'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedPropertiesAndProfileSet',
+            'encryptedProperty'
         );
-        $metadata2->reflFields['encryptedField']->setAccessible(true);
+        $metadata2->reflProperties['encryptedProperty']->setAccessible(true);
         $this->driver->loadMetadataForClass($metadata2->getName(), $metadata2);
-        $metadata3 = new ClassMetadataInfo('Giftcards\Encryption\Tests\Doctrine\MockEntityWithoutEncryptedFields');
+        $metadata3 = new ClassMetadataInfo('Giftcards\Encryption\Tests\Doctrine\MockEntityWithoutEncryptedProperties');
         $metadata3->reflClass = new \ReflectionClass($metadata3->getName());
         $this->driver->loadMetadataForClass($metadata3->getName(), $metadata3);
 
-        $entity1EncryptedField = $this->getFaker()->unique()->word;
-        $entity1EncryptedFieldEncrypted = $this->getFaker()->unique()->word;
-        $entity3EncryptedField = $this->getFaker()->unique()->word;
-        $entity3EncryptedFieldEncrypted = $this->getFaker()->unique()->word;
+        $entity1EncryptedProperty = $this->getFaker()->unique()->word;
+        $entity1EncryptedPropertyEncrypted = $this->getFaker()->unique()->word;
+        $entity3EncryptedProperty = $this->getFaker()->unique()->word;
+        $entity3EncryptedPropertyEncrypted = $this->getFaker()->unique()->word;
         
-        $entity1 = new MockEntityWithEncryptedFields();
-        $entity1->encryptedField = $entity1EncryptedField;
-        $entity1->normalField = $this->getFaker()->unique()->word;
+        $entity1 = new MockEntityWithEncryptedProperties();
+        $entity1->encryptedProperty = $entity1EncryptedProperty;
+        $entity1->normalProperty = $this->getFaker()->unique()->word;
         $clonedEntity1 = clone $entity1;
-        $entity2 = new MockEntityWithoutEncryptedFields();
-        $entity2->normalField = $this->getFaker()->unique()->word;
-        $entity2->otherNormalField = $this->getFaker()->unique()->word;
+        $entity2 = new MockEntityWithoutEncryptedProperties();
+        $entity2->normalProperty = $this->getFaker()->unique()->word;
+        $entity2->otherNormalProperty = $this->getFaker()->unique()->word;
         $clonedEntity2 = clone $entity2;
-        $entity3 = new MockEntityWithEncryptedFieldsAndProfileSet();
-        $entity3->encryptedField = $entity3EncryptedFieldEncrypted;
-        $entity3->normalField = $this->getFaker()->unique()->word;
+        $entity3 = new MockEntityWithEncryptedPropertiesAndProfileSet();
+        $entity3->encryptedProperty = $entity3EncryptedPropertyEncrypted;
+        $entity3->normalProperty = $this->getFaker()->unique()->word;
         $clonedEntity3 = clone $entity3;
-        $clonedEntity3->encryptedField = $entity3EncryptedField;
-        $entity4 = new MockEntityWithoutEncryptedFields();
-        $entity4->normalField = $this->getFaker()->unique()->word;
-        $entity4->otherNormalField = $this->getFaker()->unique()->word;
+        $clonedEntity3->encryptedProperty = $entity3EncryptedProperty;
+        $entity4 = new MockEntityWithoutEncryptedProperties();
+        $entity4->normalProperty = $this->getFaker()->unique()->word;
+        $entity4->otherNormalProperty = $this->getFaker()->unique()->word;
         $clonedEntity4 = clone $entity4;
 
         /** @var MockInterface|EntityManager $entityManager */
         $entityManager = \Mockery::mock('Doctrine\ORM\EntityManager')
             ->shouldReceive('getClassMetadata')
-            ->with('Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedFields')
+            ->with('Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedProperties')
             ->andReturn($metadata1)
             ->getMock()
             ->shouldReceive('getClassMetadata')
-            ->with('Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedFieldsAndProfileSet')
+            ->with('Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedPropertiesAndProfileSet')
             ->andReturn($metadata2)
             ->getMock()
             ->shouldReceive('getClassMetadata')
-            ->with('Giftcards\Encryption\Tests\Doctrine\MockEntityWithoutEncryptedFields')
+            ->with('Giftcards\Encryption\Tests\Doctrine\MockEntityWithoutEncryptedProperties')
             ->andReturn($metadata3)
             ->getMock()
         ;
         $this->encryptor
             ->shouldReceive('encrypt')
-            ->with($entity1EncryptedField, null)
-            ->andReturn($entity1EncryptedFieldEncrypted)
+            ->with($entity1EncryptedProperty, null)
+            ->andReturn($entity1EncryptedPropertyEncrypted)
             ->getMock()
             ->shouldReceive('decrypt')
-            ->with($entity1EncryptedFieldEncrypted, null)
-            ->andReturn($entity1EncryptedField)
+            ->with($entity1EncryptedPropertyEncrypted, null)
+            ->andReturn($entity1EncryptedProperty)
             ->getMock()
             ->shouldReceive('encrypt')
-            ->with($entity3EncryptedField, 'foo')
-            ->andReturn($entity3EncryptedFieldEncrypted)
+            ->with($entity3EncryptedProperty, 'foo')
+            ->andReturn($entity3EncryptedPropertyEncrypted)
             ->getMock()
             ->shouldReceive('decrypt')
-            ->with($entity3EncryptedFieldEncrypted, 'foo')
-            ->andReturn($entity3EncryptedField)
+            ->with($entity3EncryptedPropertyEncrypted, 'foo')
+            ->andReturn($entity3EncryptedProperty)
             ->getMock()
         ;
         
@@ -147,7 +147,7 @@ class EncryptedListenerTest extends AbstractTestCase
 
     public function testLoadClassMetadata()
     {
-        $metadata = new ClassMetadataInfo('Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedFields');
+        $metadata = new ClassMetadataInfo('Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedProperties');
         $metadata->reflClass = new \ReflectionClass($metadata->getName());
 
         /** @var MockInterface|EntityManager $entityManager */
@@ -155,21 +155,21 @@ class EncryptedListenerTest extends AbstractTestCase
 
         $this->listener->loadClassMetadata(new LoadClassMetadataEventArgs($metadata, $entityManager));
         
-        $this->assertTrue($metadata->hasEncryptedFields);
+        $this->assertTrue($metadata->hasEncryptedProperties);
         $this->assertEquals(array(
-            'encryptedField' => array(
+            'encryptedProperty' => array(
                 'profile' => null,
             )
-        ), $metadata->encryptedFields);
+        ), $metadata->encryptedProperties);
         
-        $metadata = new ClassMetadataInfo('Giftcards\Encryption\Tests\Doctrine\MockEntityWithoutEncryptedFields');
+        $metadata = new ClassMetadataInfo('Giftcards\Encryption\Tests\Doctrine\MockEntityWithoutEncryptedProperties');
         $metadata->reflClass = new \ReflectionClass($metadata->getName());
 
         /** @var MockInterface|EntityManager $entityManager */
         $entityManager = \Mockery::mock('Doctrine\ORM\EntityManager');
 
         $this->listener->loadClassMetadata(new LoadClassMetadataEventArgs($metadata, $entityManager));
-        $this->assertFalse($metadata->hasEncryptedFields);
-        $this->assertEquals(array(), $metadata->encryptedFields);
+        $this->assertFalse($metadata->hasEncryptedProperties);
+        $this->assertEquals(array(), $metadata->encryptedProperties);
     }
 }
