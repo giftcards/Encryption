@@ -54,21 +54,21 @@ class EncryptedListenerTest extends AbstractTestCase
     {
         $metadata1 = new ClassMetadataInfo('Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedProperties');
         $metadata1->reflClass = new \ReflectionClass($metadata1->getName());
-        $metadata1->reflProperties['encryptedProperty'] = new \ReflectionProperty(
+        $metadata1->reflFields['encryptedProperty'] = new \ReflectionProperty(
             'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedProperties',
             'encryptedProperty'
         );
-        $metadata1->reflProperties['encryptedProperty']->setAccessible(true);
+        $metadata1->reflFields['encryptedProperty']->setAccessible(true);
         $this->driver->loadMetadataForClass($metadata1->getName(), $metadata1);
         $metadata2 = new ClassMetadataInfo(
             'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedPropertiesAndProfileSet'
         );
         $metadata2->reflClass = new \ReflectionClass($metadata2->getName());
-        $metadata2->reflProperties['encryptedProperty'] = new \ReflectionProperty(
+        $metadata2->reflFields['encryptedProperty'] = new \ReflectionProperty(
             'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedPropertiesAndProfileSet',
             'encryptedProperty'
         );
-        $metadata2->reflProperties['encryptedProperty']->setAccessible(true);
+        $metadata2->reflFields['encryptedProperty']->setAccessible(true);
         $this->driver->loadMetadataForClass($metadata2->getName(), $metadata2);
         $metadata3 = new ClassMetadataInfo('Giftcards\Encryption\Tests\Doctrine\MockEntityWithoutEncryptedProperties');
         $metadata3->reflClass = new \ReflectionClass($metadata3->getName());
