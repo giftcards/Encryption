@@ -32,7 +32,8 @@ class CircularGuardSource implements SourceInterface
             unset($this->checking[$key]);
             throw $e;
         }
-        
+        unset($this->checking[$key]);
+
         return $has;
     }
 
@@ -50,6 +51,7 @@ class CircularGuardSource implements SourceInterface
             unset($this->checking[$key]);
             throw $e;
         }
+        unset($this->checking[$key]);
 
         return $value;
     }

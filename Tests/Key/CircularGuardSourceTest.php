@@ -20,7 +20,7 @@ class CircularGuardSourceTest extends AbstractTestCase
         $value = $this->getFaker()->unique()->word;
         $source = new CircularGuardSource(new ArraySource(array($key => $value)));
         $this->assertTrue($source->has($key));
-        $this->assertFalse($source->has($key));
+        $this->assertTrue($source->has($key));
     }
 
     public function testNonCircularGet()
@@ -28,6 +28,7 @@ class CircularGuardSourceTest extends AbstractTestCase
         $key = $this->getFaker()->unique()->word;
         $value = $this->getFaker()->unique()->word;
         $source = new CircularGuardSource(new ArraySource(array($key => $value)));
+        $this->assertEquals($value, $source->get($key));
         $this->assertEquals($value, $source->get($key));
     }
     
