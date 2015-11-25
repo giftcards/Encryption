@@ -1,6 +1,7 @@
 <?php
 namespace Giftcards\Encryption\Tests\Doctrine\EventListener;
 
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo as ODMClassMetadataInfo;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Giftcards\Encryption\Doctrine\Configuration\Metadata\Driver\AnnotationDriver;
@@ -9,13 +10,11 @@ use Giftcards\Encryption\Tests\AbstractTestCase;
 use Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedProperties;
 use Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedPropertiesAndProfileSet;
 use Giftcards\Encryption\Tests\Doctrine\MockEntityWithoutEncryptedProperties;
-use Giftcards\Encryption\Tests\Doctrine\MockEncryptedEntity;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreFlushEventArgs;
-use Doctrine\ORM\Events;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadataInfo as ORMClassMetadataInfo;
 use Mockery\MockInterface;
 
 class EncryptedListenerTest extends AbstractTestCase
@@ -40,19 +39,25 @@ class EncryptedListenerTest extends AbstractTestCase
         $this->assertEquals(
             $this->listener->getSubscribedEvents(),
             array(
-                Events::prePersist,
-                Events::postLoad,
-                Events::preFlush,
-                Events::postFlush,
-                Events::onClear,
-                Events::loadClassMetadata,
+                'prePersist',
+                'postLoad',
+                'preFlush',
+                'postFlush',
+                'onClear',
+                'loadClassMetadata',
             )
         );
     }
 
-    public function testLifeCycleWithNoErrors()
+    /**
+     * @dataProvider useOrmProvider
+     */
+    public function testLifeCycleWithNoErrors($orm)
     {
-        $metadata1 = new ClassMetadataInfo('Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedProperties');
+        $metadata1 = $this->getClassMetadata(
+            'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedProperties',
+            $orm
+        );
         $metadata1->reflClass = new \ReflectionClass($metadata1->getName());
         $metadata1->reflFields['encryptedProperty'] = new \ReflectionProperty(
             'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedProperties',
@@ -60,8 +65,9 @@ class EncryptedListenerTest extends AbstractTestCase
         );
         $metadata1->reflFields['encryptedProperty']->setAccessible(true);
         $this->driver->loadMetadataForClass($metadata1->getName(), $metadata1);
-        $metadata2 = new ClassMetadataInfo(
-            'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedPropertiesAndProfileSet'
+        $metadata2 = $this->getClassMetadata(
+            'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedPropertiesAndProfileSet',
+            $orm
         );
         $metadata2->reflClass = new \ReflectionClass($metadata2->getName());
         $metadata2->reflFields['encryptedProperty'] = new \ReflectionProperty(
@@ -70,7 +76,10 @@ class EncryptedListenerTest extends AbstractTestCase
         );
         $metadata2->reflFields['encryptedProperty']->setAccessible(true);
         $this->driver->loadMetadataForClass($metadata2->getName(), $metadata2);
-        $metadata3 = new ClassMetadataInfo('Giftcards\Encryption\Tests\Doctrine\MockEntityWithoutEncryptedProperties');
+        $metadata3 = $this->getClassMetadata(
+            'Giftcards\Encryption\Tests\Doctrine\MockEntityWithoutEncryptedProperties',
+            $orm
+        );
         $metadata3->reflClass = new \ReflectionClass($metadata3->getName());
         $this->driver->loadMetadataForClass($metadata3->getName(), $metadata3);
 
@@ -131,29 +140,37 @@ class EncryptedListenerTest extends AbstractTestCase
             ->getMock()
         ;
         
-        $this->listener->prePersist(new LifecycleEventArgs($entity1, $entityManager));
-        $this->listener->prePersist(new LifecycleEventArgs($entity2, $entityManager));
-        $this->listener->postLoad(new LifecycleEventArgs($entity3, $entityManager));
-        $this->listener->postLoad(new LifecycleEventArgs($entity4, $entityManager));
-        $this->listener->preFlush(new PreFlushEventArgs($entityManager));
-        $this->listener->postFlush(new PostFlushEventArgs($entityManager));
+        $this->listener->prePersist($this->getLifecycleEvent($entity1, $entityManager, $orm));
+        $this->listener->prePersist($this->getLifecycleEvent($entity2, $entityManager, $orm));
+        $this->listener->postLoad($this->getLifecycleEvent($entity3, $entityManager, $orm));
+        $this->listener->postLoad($this->getLifecycleEvent($entity4, $entityManager, $orm));
+        $this->listener->preFlush($this->getPreFlushEvent($entityManager, $orm));
+        $this->listener->postFlush($this->getPostFlushEvent($entityManager, $orm));
         $this->listener->onClear();
-        $this->listener->preFlush(new PreFlushEventArgs($entityManager));
+        $this->listener->preFlush($this->getPreFlushEvent($entityManager, $orm));
         $this->assertEquals($clonedEntity1, $entity1);
         $this->assertEquals($clonedEntity2, $entity2);
         $this->assertEquals($clonedEntity3, $entity3);
         $this->assertEquals($clonedEntity4, $entity4);
     }
 
-    public function testLoadClassMetadata()
+    /**
+     * @dataProvider useOrmProvider
+     */
+    public function testLoadClassMetadata($orm)
     {
-        $metadata = new ClassMetadataInfo('Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedProperties');
+        $metadata = $this->getClassMetadata(
+            'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedProperties',
+            $orm
+        );
         $metadata->reflClass = new \ReflectionClass($metadata->getName());
 
         /** @var MockInterface|EntityManager $entityManager */
         $entityManager = \Mockery::mock('Doctrine\ORM\EntityManager');
 
-        $this->listener->loadClassMetadata(new LoadClassMetadataEventArgs($metadata, $entityManager));
+        $this->listener->loadClassMetadata(
+            $this->getLoadClassMetadataEvent($metadata, $entityManager, $orm)
+        );
         
         $this->assertTrue($metadata->hasEncryptedProperties);
         $this->assertEquals(array(
@@ -162,14 +179,94 @@ class EncryptedListenerTest extends AbstractTestCase
             )
         ), $metadata->encryptedProperties);
         
-        $metadata = new ClassMetadataInfo('Giftcards\Encryption\Tests\Doctrine\MockEntityWithoutEncryptedProperties');
+        $metadata = $this->getClassMetadata(
+            'Giftcards\Encryption\Tests\Doctrine\MockEntityWithoutEncryptedProperties',
+            $orm
+        );
         $metadata->reflClass = new \ReflectionClass($metadata->getName());
 
         /** @var MockInterface|EntityManager $entityManager */
         $entityManager = \Mockery::mock('Doctrine\ORM\EntityManager');
 
-        $this->listener->loadClassMetadata(new LoadClassMetadataEventArgs($metadata, $entityManager));
+        $this->listener->loadClassMetadata(
+            $this->getLoadClassMetadataEvent($metadata, $entityManager, $orm)
+        );
         $this->assertFalse($metadata->hasEncryptedProperties);
         $this->assertEquals(array(), $metadata->encryptedProperties);
+    }
+
+    public function useOrmProvider()
+    {
+        return array(
+            array(true),
+            array(false)
+        );
+    }
+
+    /**
+     * @return ORMClassMetadataInfo|ODMClassMetadataInfo
+     */
+    protected function getClassMetadata($class, $orm)
+    {
+        if ($orm) {
+            return new ORMClassMetadataInfo($class);
+        }
+        
+        return new ODMClassMetadataInfo($class);
+    }
+
+    /**
+     * @param $entity1
+     * @param $entityManager
+     * @return LifecycleEventArgs
+     */
+    protected function getLifecycleEvent($entity, $entityManager, $orm)
+    {
+        if ($orm) {
+            return new LifecycleEventArgs($entity, $entityManager);
+        }
+        
+        return new \Doctrine\ODM\MongoDB\Event\LifecycleEventArgs($entity, $entityManager);
+    }
+
+    /**
+     * @param $entityManager
+     * @return PreFlushEventArgs
+     */
+    protected function getPreFlushEvent($entityManager, $orm)
+    {
+        if ($orm) {
+            return new PreFlushEventArgs($entityManager);
+        }
+        
+        return new \Doctrine\ODM\MongoDB\Event\PreFlushEventArgs($entityManager);
+    }
+
+    /**
+     * @param $orm
+     * @param $entityManager
+     * @return PostFlushEventArgs
+     */
+    protected function getPostFlushEvent($entityManager, $orm)
+    {
+        if ($orm) {
+            return new PostFlushEventArgs($entityManager);
+        }
+        
+        return new \Doctrine\ODM\MongoDB\Event\PostFlushEventArgs($entityManager);
+    }
+
+    /**
+     * @param $metadata
+     * @param $entityManager
+     * @return LoadClassMetadataEventArgs
+     */
+    protected function getLoadClassMetadataEvent($metadata, $entityManager, $orm)
+    {
+        if ($orm) {
+            return new LoadClassMetadataEventArgs($metadata, $entityManager);
+        }
+        
+        return new \Doctrine\ODM\MongoDB\Event\LoadClassMetadataEventArgs($metadata, $entityManager);
     }
 }

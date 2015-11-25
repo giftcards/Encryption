@@ -2,13 +2,16 @@
 namespace Giftcards\Encryption\Doctrine\EventListener;
 
 use Doctrine\Common\EventSubscriber;
+use Doctrine\Common\Persistence\Event\LoadClassMetadataEventArgs;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
+use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs as ODMLifecycleEventArgs;
+use Doctrine\ODM\MongoDB\Event\PostFlushEventArgs as ODMPostFlushEventArgs;
+use Doctrine\ODM\MongoDB\Event\PreFlushEventArgs as ODMPreFlushEventArgs;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
-use Doctrine\ORM\Event\PostFlushEventArgs;
-use Doctrine\ORM\Event\PreFlushEventArgs;
-use Doctrine\ORM\Events;
+use Doctrine\ORM\Event\LifecycleEventArgs as ORMLifecycleEventArgs;
+use Doctrine\ORM\Event\PostFlushEventArgs as ORMPostFlushEventArgs;
+use Doctrine\ORM\Event\PreFlushEventArgs as ORMPreFlushEventArgs;
 use Giftcards\Encryption\Encryptor;
 
 class EncryptedListener implements EventSubscriber
@@ -20,12 +23,12 @@ class EncryptedListener implements EventSubscriber
     public function getSubscribedEvents()
     {
         return array(
-            Events::prePersist,
-            Events::postLoad,
-            Events::preFlush,
-            Events::postFlush,
-            Events::onClear,
-            Events::loadClassMetadata,
+            'prePersist',
+            'postLoad',
+            'preFlush',
+            'postFlush',
+            'onClear',
+            'loadClassMetadata',
         );
     }
 
@@ -35,40 +38,36 @@ class EncryptedListener implements EventSubscriber
         $this->driver = $driver;
     }
 
-    public function prePersist(LifecycleEventArgs $event)
+    public function prePersist($event)
     {
-        $entity = $event->getEntity();
+        $entity = $this->getObject($event);
 
-        $classMetadata = $event->getEntityManager()
-            ->getClassMetadata(get_class($entity))
-        ;
+        $classMetadata = $this->getObjectManager($event)->getClassMetadata(get_class($entity));
 
         if (!empty($classMetadata->hasEncryptedProperties)) {
             $this->entities[] = $entity;
         }
     }
 
-    public function postLoad(LifecycleEventArgs $event)
+    public function postLoad($event)
     {
-        $entity = $event->getEntity();
+        $entity = $this->getObject($event);
 
-        $classMetadata = $event->getEntityManager()->getClassMetadata(
-            get_class($entity)
-        );
-        if (!empty($classMetadata->hasEncryptedProperties)) {
+        $objectManager = $this->getObjectManager($event);
+        if (!empty($objectManager->getClassMetadata(get_class($entity))->hasEncryptedProperties)) {
             $this->entities[] = $entity;
-            $this->decrypt(array($entity), $event->getEntityManager());
+            $this->decrypt(array($entity), $objectManager);
         }
     }
 
-    public function preFlush(PreFlushEventArgs $event)
+    public function preFlush($event)
     {
-        $this->encrypt($this->entities, $event->getEntityManager());
+        $this->encrypt($this->entities, $this->getObjectManager($event));
     }
 
-    public function postFlush(PostFlushEventArgs $event)
+    public function postFlush($event)
     {
-        $this->decrypt($this->entities, $event->getEntityManager());
+        $this->decrypt($this->entities, $this->getObjectManager($event));
     }
 
     public function onClear()
@@ -76,6 +75,9 @@ class EncryptedListener implements EventSubscriber
         $this->entities = array();
     }
 
+    /**
+     * @param LoadClassMetadataEventArgs $eventArgs
+     */
     public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs)
     {
         $metadata = $eventArgs->getClassMetadata();
@@ -84,13 +86,13 @@ class EncryptedListener implements EventSubscriber
 
     /**
      * @param array $entities
-     * @param $entityManager
+     * @param EntityManager|DocumentManager $objectManager
      */
-    protected function encrypt(array $entities, EntityManager $entityManager)
+    protected function encrypt(array $entities, $objectManager)
     {
         foreach ($entities as $entity) {
             /** @var \Doctrine\ORM\Mapping\ClassMetadataInfo $metadata */
-            $metadata = $entityManager->getClassMetadata(get_class($entity));
+            $metadata = $objectManager->getClassMetadata(get_class($entity));
 
             foreach ($metadata->encryptedProperties as $name => $options) {
                 $metadata->reflFields[$name]->setValue(
@@ -106,13 +108,13 @@ class EncryptedListener implements EventSubscriber
 
     /**
      * @param array $entities
-     * @param $entityManager
+     * @param EntityManager|DocumentManager $objectManager
      */
-    protected function decrypt(array $entities, EntityManager $entityManager)
+    protected function decrypt(array $entities, $objectManager)
     {
         foreach ($entities as $entity) {
             /** @var \Doctrine\ORM\Mapping\ClassMetadataInfo $metadata */
-            $metadata = $entityManager->getClassMetadata(get_class($entity));
+            $metadata = $objectManager->getClassMetadata(get_class($entity));
 
             foreach ($metadata->encryptedProperties as $name => $options) {
                 $metadata->reflFields[$name]->setValue(
@@ -123,6 +125,44 @@ class EncryptedListener implements EventSubscriber
                     )
                 );
             }
+        }
+    }
+
+    /**
+     * @param $event
+     * @return DocumentManager|EntityManager
+     */
+    protected function getObjectManager($event)
+    {
+        if (
+            $event instanceof ORMLifecycleEventArgs
+            || $event instanceof ORMPreFlushEventArgs
+            || $event instanceof ORMPostFlushEventArgs
+        ) {
+            return $event->getEntityManager();
+        }
+        
+        if (
+            $event instanceof ODMLifecycleEventArgs
+            || $event instanceof ODMPreFlushEventArgs
+            || $event instanceof ODMPostFlushEventArgs
+        ) {
+            return $event->getDocumentManager();
+        }
+    }
+
+    /**
+     * @param $event
+     * @return object
+     */
+    protected function getObject($event)
+    {
+        if ($event instanceof ORMLifecycleEventArgs) {
+            return $event->getEntity();
+        }
+        
+        if ($event instanceof ODMLifecycleEventArgs) {
+            return $event->getDocument();
         }
     }
 }
