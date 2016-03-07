@@ -44,7 +44,7 @@ class EncryptedListener implements EventSubscriber
 
         $classMetadata = $this->getObjectManager($event)->getClassMetadata(get_class($entity));
 
-        if (!empty($classMetadata->hasEncryptedProperties)) {
+        if (!empty($classMetadata->hasEncryptedProperties) && array_search($entity, $this->entities, true) === false) {
             $this->entities[] = $entity;
         }
     }
@@ -55,7 +55,9 @@ class EncryptedListener implements EventSubscriber
 
         $objectManager = $this->getObjectManager($event);
         if (!empty($objectManager->getClassMetadata(get_class($entity))->hasEncryptedProperties)) {
-            $this->entities[] = $entity;
+            if (array_search($entity, $this->entities, true) === false) {
+                $this->entities[] = $entity;
+            }
             $this->decrypt(array($entity), $objectManager);
         }
     }

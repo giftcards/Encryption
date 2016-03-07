@@ -141,7 +141,10 @@ class EncryptedListenerTest extends AbstractTestCase
         ;
         
         $this->listener->prePersist($this->getLifecycleEvent($entity1, $entityManager, $orm));
+        $this->listener->prePersist($this->getLifecycleEvent($entity1, $entityManager, $orm));
         $this->listener->prePersist($this->getLifecycleEvent($entity2, $entityManager, $orm));
+        $this->listener->postLoad($this->getLifecycleEvent($entity3, $entityManager, $orm));
+        $entity3->encryptedProperty = $entity3EncryptedPropertyEncrypted;
         $this->listener->postLoad($this->getLifecycleEvent($entity3, $entityManager, $orm));
         $this->listener->postLoad($this->getLifecycleEvent($entity4, $entityManager, $orm));
         $this->listener->preFlush($this->getPreFlushEvent($entityManager, $orm));
