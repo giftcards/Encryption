@@ -10,6 +10,7 @@ namespace Giftcards\Encryption\CipherText\Serializer;
 
 use Giftcards\Encryption\CipherText\CipherText;
 use Giftcards\Encryption\CipherText\CipherTextInterface;
+use Giftcards\Encryption\CipherText\ProfilelessChipherText;
 use Giftcards\Encryption\Profile\Profile;
 
 class NoProfileSerializerDeserializer extends AbstractSerializerDeserializer
@@ -21,7 +22,7 @@ class NoProfileSerializerDeserializer extends AbstractSerializerDeserializer
      * FallbackProfileSerializer constructor.
      * @param $profile
      */
-    public function __construct(Profile $profile)
+    public function __construct(Profile $profile = null)
     {
         $this->profile = $profile;
     }
@@ -32,7 +33,7 @@ class NoProfileSerializerDeserializer extends AbstractSerializerDeserializer
      */
     public function canSerialize(CipherTextInterface $cipherText)
     {
-        return $this->profile->equals($cipherText->getProfile());
+        return !$this->profile || $this->profile->equals($cipherText->getProfile());
     }
 
     /**
@@ -59,6 +60,10 @@ class NoProfileSerializerDeserializer extends AbstractSerializerDeserializer
      */
     protected function doDeserialize($string)
     {
+        if (!$this->profile) {
+            return new ProfilelessChipherText($string);
+        }
+        
         return new CipherText($string, $this->profile);
     }
 }

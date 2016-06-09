@@ -35,10 +35,10 @@ class NoProfileSerializerDeserializerBuilderTest extends AbstractTestCase
 
     public function testBuild()
     {
-        $profile = new Profile(
+        $profile = $this->getFaker()->boolean ? new Profile(
             $this->getFaker()->unique()->word,
             $this->getFaker()->unique()->word
-        );
+        ) : null;
         $this->assertEquals(
             new NoProfileSerializerDeserializer($profile),
             $this->builder->build(array('profile' => $profile))
@@ -49,32 +49,33 @@ class NoProfileSerializerDeserializerBuilderTest extends AbstractTestCase
     {
         $this->builder->configureOptionsResolver(
             \Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolver')
-                ->shouldReceive('setRequired')
+                ->shouldReceive('setDefaults')
                 ->once()
-                ->with(array('profile'))
+                ->with(array('profile' => null))
                 ->andReturn(\Mockery::self())
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
-                ->with(array('profile' => array('Giftcards\Encryption\Profile\Profile')))
+                ->with(array('profile' => array('Giftcards\Encryption\Profile\Profile', 'null')))
                 ->andReturn(\Mockery::self())
                 ->getMock()
         );
         $this->builderWithProfileRegistry->configureOptionsResolver(
             \Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolver')
-                ->shouldReceive('setRequired')
+                ->shouldReceive('setDefaults')
                 ->once()
-                ->with(array('profile'))
+                ->with(array('profile' => null))
                 ->andReturn(\Mockery::self())
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
-                ->with(array('profile' => array('Giftcards\Encryption\Profile\Profile', 'string')))
+                ->with(array('profile' => array('Giftcards\Encryption\Profile\Profile', 'null', 'string')))
                 ->andReturn(\Mockery::self())
                 ->getMock()
                 ->shouldReceive('setNormalizers')
                 ->once()
-                ->with(new EqualsMatcher(array('profile' => function () {})))
+                ->with(new EqualsMatcher(array('profile' => function () {
+                })))
                 ->andReturn(\Mockery::self())
                 ->getMock()
         );
@@ -89,6 +90,8 @@ class NoProfileSerializerDeserializerBuilderTest extends AbstractTestCase
         $options = $resolver->resolve(array('profile' => $profileName));
         $this->assertSame($options, $resolver->resolve(array('profile' => $profile)));
         $this->assertSame($profile, $options['profile']);
+        $options = $resolver->resolve();
+        $this->assertNull($options['profile']);
     }
 
     public function testGetName()

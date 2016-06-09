@@ -8,7 +8,6 @@
 
 namespace Giftcards\Encryption\CipherText\Serializer\Factory;
 
-use Giftcards\Encryption\CipherText\Serializer\BasicSerializerDeserializer;
 use Giftcards\Encryption\CipherText\Serializer\NoProfileSerializerDeserializer;
 use Giftcards\Encryption\Factory\BuilderInterface;
 use Giftcards\Encryption\Profile\Profile;
@@ -35,14 +34,18 @@ class NoProfileSerializerDeserializerBuilder implements BuilderInterface
 
     public function configureOptionsResolver(OptionsResolver $resolver)
     {
-        $allowedProfileTypes = array('Giftcards\Encryption\Profile\Profile');
-        $resolver->setRequired(array('profile'));
+        $allowedProfileTypes = array('Giftcards\Encryption\Profile\Profile', 'null');
+        $resolver->setDefaults(array('profile' => null));
         
         if ($this->profileRegistry) {
             $allowedProfileTypes[] = 'string';
             $profileRegistry = $this->profileRegistry;
             
             $resolver->setNormalizers(array('profile' => function ($_, $profile) use ($profileRegistry) {
+                if (is_null($profile)) {
+                    return $profile;
+                }
+                
                 if ($profile instanceof Profile) {
                     return $profile;
                 }

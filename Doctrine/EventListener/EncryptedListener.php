@@ -78,9 +78,9 @@ class EncryptedListener implements EventSubscriber
     }
 
     /**
-     * @param LoadClassMetadataEventArgs $eventArgs
+     * @param \Doctrine\ORM\Event\LoadClassMetadataEventArgs|LoadClassMetadataEventArgs $eventArgs
      */
-    public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs)
+    public function loadClassMetadata($eventArgs)
     {
         $metadata = $eventArgs->getClassMetadata();
         $this->driver->loadMetadataForClass($metadata->getName(), $metadata);
