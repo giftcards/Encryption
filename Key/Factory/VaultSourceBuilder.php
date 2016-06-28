@@ -44,13 +44,11 @@ class VaultSourceBuilder implements BuilderInterface
                 'value_field' => 'value',
                 'api_version' => 'v1'
             ))
-            ->setAllowedTypes(array(
-                'base_url' => 'string',
-                'token' => 'string',
-                'mount' => 'string',
-                'value_field' => 'string',
-                'api_version' => 'string',
-            ))
+            ->setAllowedTypes('base_url', 'string')
+            ->setAllowedTypes('token', 'string')
+            ->setAllowedTypes('mount', 'string')
+            ->setAllowedTypes('value_field', 'string')
+            ->setAllowedTypes('api_version', 'string')
         ;
     }
 

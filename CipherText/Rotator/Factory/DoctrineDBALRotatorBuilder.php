@@ -33,12 +33,10 @@ class DoctrineDBALRotatorBuilder implements BuilderInterface
                 'fields',
                 'id_field'
             ))
-            ->setAllowedTypes(array(
-                'connection' => 'Doctrine\DBAL\Connection',
-                'table' => 'string',
-                'fields' => 'array',
-                'id_field' => 'string'
-            ))
+            ->setAllowedTypes('connection', 'Doctrine\DBAL\Connection')
+            ->setAllowedTypes('table', 'string')
+            ->setAllowedTypes('fields', 'array')
+            ->setAllowedTypes('id_field', 'string')
         ;
     }
 

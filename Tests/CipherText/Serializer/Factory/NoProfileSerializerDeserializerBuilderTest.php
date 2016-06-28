@@ -56,7 +56,7 @@ class NoProfileSerializerDeserializerBuilderTest extends AbstractTestCase
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
-                ->with(array('profile' => array('Giftcards\Encryption\Profile\Profile', 'null')))
+                ->with('profile', array('Giftcards\Encryption\Profile\Profile', 'null'))
                 ->andReturn(\Mockery::self())
                 ->getMock()
         );
@@ -69,7 +69,7 @@ class NoProfileSerializerDeserializerBuilderTest extends AbstractTestCase
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
-                ->with(array('profile' => array('Giftcards\Encryption\Profile\Profile', 'null', 'string')))
+                ->with('profile', array('Giftcards\Encryption\Profile\Profile', 'null', 'string'))
                 ->andReturn(\Mockery::self())
                 ->getMock()
                 ->shouldReceive('setNormalizers')

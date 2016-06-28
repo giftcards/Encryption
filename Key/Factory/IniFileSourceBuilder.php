@@ -24,10 +24,8 @@ class IniFileSourceBuilder implements BuilderInterface
         $resolver
             ->setRequired(array('file'))
             ->setDefaults(array('case_sensitive' => false))
-            ->setAllowedTypes(array(
-                'file' => 'string',
-                'case_sensitive' => 'bool'
-            ))
+            ->setAllowedTypes('file', 'string')
+            ->setAllowedTypes('case_sensitive', 'bool')
         ;
     }
 

@@ -66,13 +66,27 @@ class MongoSourceBuilderTest extends AbstractTestCase
             ->getMock()
             ->shouldReceive('setAllowedTypes')
             ->once()
-            ->with(array(
-                'connection' => array('Doctrine\MongoDB\Connection', 'array'),
-                'database' => 'string',
-                'collection' => 'string',
-                'find_by_field' => 'string',
-                'value_field' => 'string'
-            ))
+            ->with('connection', array('Doctrine\MongoDB\Connection', 'array'))
+            ->andReturn(\Mockery::self())
+            ->getMock()
+            ->shouldReceive('setAllowedTypes')
+            ->once()
+            ->with('database', 'string')
+            ->andReturn(\Mockery::self())
+            ->getMock()
+            ->shouldReceive('setAllowedTypes')
+            ->once()
+            ->with('collection', 'string')
+            ->andReturn(\Mockery::self())
+            ->getMock()
+            ->shouldReceive('setAllowedTypes')
+            ->once()
+            ->with('find_by_field', 'string')
+            ->andReturn(\Mockery::self())
+            ->getMock()
+            ->shouldReceive('setAllowedTypes')
+            ->once()
+            ->with('value_field', 'string')
             ->andReturn(\Mockery::self())
             ->getMock()
             ->shouldReceive('setNormalizers')

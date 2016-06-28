@@ -36,13 +36,11 @@ class MongoSourceBuilder implements BuilderInterface
                 'find_by_field' => 'name',
                 'value_field' => 'value'
             ))
-            ->setAllowedTypes(array(
-                'connection' => array('Doctrine\MongoDB\Connection', 'array'),
-                'database' => 'string',
-                'collection' => 'string',
-                'find_by_field' => 'string',
-                'value_field' => 'string'
-            ))
+            ->setAllowedTypes('connection', array('Doctrine\MongoDB\Connection', 'array'))
+            ->setAllowedTypes('database', 'string')
+            ->setAllowedTypes('collection', 'string')
+            ->setAllowedTypes('find_by_field', 'string')
+            ->setAllowedTypes('value_field', 'string')
             ->setNormalizers(array('connection' => function ($_, $connection) {
                 if (!is_array($connection)) {
                     return $connection;
@@ -56,12 +54,10 @@ class MongoSourceBuilder implements BuilderInterface
                         'configuration' => null,
                         'event_manager' => null
                     ))
-                    ->setAllowedTypes(array(
-                        'server' => array('string', 'MongoClient', 'Mongo'),
-                        'options' => 'array',
-                        'configuration' => 'Doctrine\MongoDB\Configuration',
-                        'event_manager' => 'Doctrine\Common\EventManager'
-                    ))
+                    ->setAllowedTypes('server', array('string', 'MongoClient', 'Mongo'))
+                    ->setAllowedTypes('options', 'array')
+                    ->setAllowedTypes('configuration', 'Doctrine\MongoDB\Configuration')
+                    ->setAllowedTypes('event_manager', 'Doctrine\Common\EventManager')
                 ;
                 
                 try {

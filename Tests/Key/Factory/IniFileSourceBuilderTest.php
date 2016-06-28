@@ -51,10 +51,12 @@ class IniFileSourceBuilderTest extends AbstractTestCase
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
-                ->with(array(
-                    'file' => 'string',
-                    'case_sensitive' => 'bool'
-                ))
+                ->with('file', 'string')
+                ->andReturn(\Mockery::self())
+                ->getMock()
+                ->shouldReceive('setAllowedTypes')
+                ->once()
+                ->with('case_sensitive', 'bool')
                 ->andReturn(\Mockery::self())
                 ->getMock()
         );

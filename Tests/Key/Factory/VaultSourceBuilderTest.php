@@ -72,13 +72,27 @@ class VaultSourceBuilderTest extends AbstractTestCase
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
-                ->with(array(
-                    'base_url' => 'string',
-                    'token' => 'string',
-                    'mount' => 'string',
-                    'value_field' => 'string',
-                    'api_version' => 'string',
-                ))
+                ->with('base_url', 'string')
+                ->andReturn(\Mockery::self())
+                ->getMock()
+                ->shouldReceive('setAllowedTypes')
+                ->once()
+                ->with('token', 'string')
+                ->andReturn(\Mockery::self())
+                ->getMock()
+                ->shouldReceive('setAllowedTypes')
+                ->once()
+                ->with('mount', 'string')
+                ->andReturn(\Mockery::self())
+                ->getMock()
+                ->shouldReceive('setAllowedTypes')
+                ->once()
+                ->with('value_field', 'string')
+                ->andReturn(\Mockery::self())
+                ->getMock()
+                ->shouldReceive('setAllowedTypes')
+                ->once()
+                ->with('api_version', 'string')
                 ->andReturn(\Mockery::self())
                 ->getMock()
         );

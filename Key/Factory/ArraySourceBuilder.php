@@ -23,7 +23,7 @@ class ArraySourceBuilder implements BuilderInterface
     {
         $resolver
             ->setRequired(array('keys'))
-            ->setAllowedTypes(array('keys' => 'array'))
+            ->setAllowedTypes('keys', 'array')
         ;
     }
 

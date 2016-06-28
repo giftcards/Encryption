@@ -35,7 +35,7 @@ class ContainerParametersSourceBuilder implements BuilderInterface
     {
         $resolver
             ->setRequired(array('container'))
-            ->setAllowedTypes(array('container' => 'Symfony\Component\DependencyInjection\ContainerInterface'))
+            ->setAllowedTypes('container', 'Symfony\Component\DependencyInjection\ContainerInterface')
         ;
         
         if ($this->container) {

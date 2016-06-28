@@ -4,22 +4,22 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d5cf9cceb94111ff91f6c4e5f2a6dc02",
-    "content-hash": "be9657c5ddbd1a2ac87273b0f4633a2a",
+    "hash": "97264846acbfb9d34fad3df281d482f8",
+    "content-hash": "263c1a0bf37745f3f655a3e1c7a81aea",
     "packages": [
         {
             "name": "symfony/options-resolver",
-            "version": "v2.3.0",
+            "version": "v2.6.0",
             "target-dir": "Symfony/Component/OptionsResolver",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "81182b796ac738ad16026a91302ca4e55964265c"
+                "reference": "007d41188680f7ea78afc2d9ffea18f4274146ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/81182b796ac738ad16026a91302ca4e55964265c",
-                "reference": "81182b796ac738ad16026a91302ca4e55964265c",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/007d41188680f7ea78afc2d9ffea18f4274146ca",
+                "reference": "007d41188680f7ea78afc2d9ffea18f4274146ca",
                 "shasum": ""
             },
             "require": {
@@ -28,7 +28,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -57,7 +57,7 @@
                 "configuration",
                 "options"
             ],
-            "time": "2013-04-11 06:50:46"
+            "time": "2014-11-03 09:04:37"
         }
     ],
     "packages-dev": [

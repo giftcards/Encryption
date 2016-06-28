@@ -44,7 +44,7 @@ class ArraySourceBuilderTest extends AbstractTestCase
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
-                ->with(array('keys' => 'array'))
+                ->with('keys', 'array')
                 ->andReturn(\Mockery::self())
                 ->getMock()
         );

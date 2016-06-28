@@ -66,12 +66,22 @@ class DoctrineDBALRotatorBuilderTest extends AbstractTestCase
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
-                ->with(array(
-                    'connection' => 'Doctrine\DBAL\Connection',
-                    'table' => 'string',
-                    'fields' => 'array',
-                    'id_field' => 'string'
-                ))
+                ->with('connection', 'Doctrine\DBAL\Connection')
+                ->andReturn(\Mockery::self())
+                ->getMock()
+                ->shouldReceive('setAllowedTypes')
+                ->once()
+                ->with('table', 'string')
+                ->andReturn(\Mockery::self())
+                ->getMock()
+                ->shouldReceive('setAllowedTypes')
+                ->once()
+                ->with('fields', 'array')
+                ->andReturn(\Mockery::self())
+                ->getMock()
+                ->shouldReceive('setAllowedTypes')
+                ->once()
+                ->with('id_field', 'string')
                 ->andReturn(\Mockery::self())
                 ->getMock()
         );

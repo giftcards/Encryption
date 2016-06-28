@@ -33,12 +33,10 @@ class DatabaseTableRotatorBuilder implements BuilderInterface
                 'fields',
                 'id_field'
             ))
-            ->setAllowedTypes(array(
-                'pdo' => 'PDO',
-                'table' => 'string',
-                'fields' => 'array',
-                'id_field' => 'string'
-            ))
+            ->setAllowedTypes('pdo', 'PDO')
+            ->setAllowedTypes('table', 'string')
+            ->setAllowedTypes('fields', 'array')
+            ->setAllowedTypes('id_field', 'string')
         ;
     }
 

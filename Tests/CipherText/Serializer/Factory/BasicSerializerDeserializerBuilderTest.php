@@ -42,7 +42,7 @@ class BasicSerializerDeserializerBuilderTest extends AbstractTestCase
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
-                ->with(array('separator' => 'string'))
+                ->with('separator', 'string')
                 ->andReturn(\Mockery::self())
                 ->getMock()
         );

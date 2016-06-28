@@ -54,7 +54,7 @@ class NoProfileSerializerDeserializerBuilder implements BuilderInterface
             }));
         }
         
-        $resolver->setAllowedTypes(array('profile' => $allowedProfileTypes));
+        $resolver->setAllowedTypes('profile', $allowedProfileTypes);
     }
 
     public function getName()

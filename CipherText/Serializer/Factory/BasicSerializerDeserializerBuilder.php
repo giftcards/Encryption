@@ -23,7 +23,7 @@ class BasicSerializerDeserializerBuilder implements BuilderInterface
     {
         $resolver
             ->setDefaults(array('separator' => ':'))
-            ->setAllowedTypes(array('separator' => 'string'))
+            ->setAllowedTypes('separator', 'string')
         ;
     }
 

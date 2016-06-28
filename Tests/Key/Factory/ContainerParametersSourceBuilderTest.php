@@ -43,7 +43,7 @@ class ContainerParametersSourceBuilderTest extends AbstractTestCase
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
-                ->with(array('container' => 'Symfony\Component\DependencyInjection\ContainerInterface'))
+                ->with('container', 'Symfony\Component\DependencyInjection\ContainerInterface')
                 ->andReturn(\Mockery::self())
                 ->getMock()
         );
@@ -58,7 +58,7 @@ class ContainerParametersSourceBuilderTest extends AbstractTestCase
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
-                ->with(array('container' => 'Symfony\Component\DependencyInjection\ContainerInterface'))
+                ->with('container', 'Symfony\Component\DependencyInjection\ContainerInterface')
                 ->andReturn(\Mockery::self())
                 ->getMock()
                 ->shouldReceive('setDefaults')
