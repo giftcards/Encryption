@@ -72,10 +72,10 @@ class NoProfileSerializerDeserializerBuilderTest extends AbstractTestCase
                 ->with('profile', array('Giftcards\Encryption\Profile\Profile', 'null', 'string'))
                 ->andReturn(\Mockery::self())
                 ->getMock()
-                ->shouldReceive('setNormalizers')
+                ->shouldReceive('setNormalizer')
                 ->once()
-                ->with(new EqualsMatcher(array('profile' => function () {
-                })))
+                ->with('profile', new EqualsMatcher(function () {
+                }))
                 ->andReturn(\Mockery::self())
                 ->getMock()
         );

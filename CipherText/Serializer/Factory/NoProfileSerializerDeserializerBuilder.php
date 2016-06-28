@@ -41,7 +41,7 @@ class NoProfileSerializerDeserializerBuilder implements BuilderInterface
             $allowedProfileTypes[] = 'string';
             $profileRegistry = $this->profileRegistry;
             
-            $resolver->setNormalizers(array('profile' => function ($_, $profile) use ($profileRegistry) {
+            $resolver->setNormalizer('profile', function ($_, $profile) use ($profileRegistry) {
                 if (is_null($profile)) {
                     return $profile;
                 }
@@ -51,7 +51,7 @@ class NoProfileSerializerDeserializerBuilder implements BuilderInterface
                 }
                 
                 return $profileRegistry->get((string)$profile);
-            }));
+            });
         }
         
         $resolver->setAllowedTypes('profile', $allowedProfileTypes);

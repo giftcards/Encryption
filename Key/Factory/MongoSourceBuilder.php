@@ -41,7 +41,7 @@ class MongoSourceBuilder implements BuilderInterface
             ->setAllowedTypes('collection', 'string')
             ->setAllowedTypes('find_by_field', 'string')
             ->setAllowedTypes('value_field', 'string')
-            ->setNormalizers(array('connection' => function ($_, $connection) {
+            ->setNormalizer('connection', function ($_, $connection) {
                 if (!is_array($connection)) {
                     return $connection;
                 }
@@ -75,7 +75,7 @@ class MongoSourceBuilder implements BuilderInterface
                     $connection['configuration'],
                     $connection['event_manager']
                 );
-            }))
+            })
         ;
     }
 
