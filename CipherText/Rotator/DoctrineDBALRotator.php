@@ -36,7 +36,7 @@ class DoctrineDBALRotator implements RotatorInterface
     public function rotate(
         ObserverInterface $observer,
         Encryptor $encryptor,
-        $newProfile = null
+        RotateRequest $request
     ) {
         $fields = $this->fields;
         $fields[] = $this->idField;
@@ -51,7 +51,10 @@ class DoctrineDBALRotator implements RotatorInterface
             $observer->rotating($id);
             unset($row[$this->idField]);
             foreach ($row as $key => $value) {
-                $row[$key] = $encryptor->encrypt($encryptor->decrypt($value), $newProfile);
+                $row[$key] = $encryptor->encrypt(
+                    $encryptor->decrypt($value, $request->getOldProfile()),
+                    $request->getNewProfile()
+                );
             }
             $this->connection->update(
                 $this->table,

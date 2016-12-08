@@ -89,7 +89,7 @@ class EncryptorBuilder
     public function getProfileRegistryBuilder()
     {
         if (!$this->profileRegistryBuilder) {
-            $this->profileRegistryBuilder = $this->getDefaultProfileRegistry();
+            $this->profileRegistryBuilder = $this->getDefaultProfileRegistryBuilder();
         }
 
         return $this->profileRegistryBuilder;
@@ -161,21 +161,21 @@ class EncryptorBuilder
         return $this;
     }
 
-    public function setProfile($name, $profileOrKey, $cipher = null)
+    public function setProfile($name, $profileOrCipher, $key = null)
     {
-        $this->getProfileRegistryBuilder()->set($name, $profileOrKey, $cipher);
+        $this->getProfileRegistryBuilder()->set($name, $profileOrCipher, $key);
         return $this;
     }
 
-    public function addSerializer($serializer)
+    public function addSerializer($serializer, array $options = array())
     {
-        $this->getSerializerDeserializerBuilder()->addSerializer($serializer);
+        $this->getSerializerDeserializerBuilder()->addSerializer($serializer, $options);
         return $this;
     }
 
-    public function addDeserializer($deserializer)
+    public function addDeserializer($deserializer, array $options = array())
     {
-        $this->getSerializerDeserializerBuilder()->addDeserializer($deserializer);
+        $this->getSerializerDeserializerBuilder()->addDeserializer($deserializer, $options);
         return $this;
     }
 
@@ -190,9 +190,9 @@ class EncryptorBuilder
     }
 
     /**
-     * @return ProfileRegistry
+     * @return ProfileRegistryBuilder
      */
-    protected function getDefaultProfileRegistry()
+    protected function getDefaultProfileRegistryBuilder()
     {
         return ProfileRegistryBuilder::newInstance();
     }

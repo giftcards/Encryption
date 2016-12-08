@@ -21,14 +21,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RotateEncryptionProfileCommand extends Command
 {
-    protected $storeRegistry;
+    protected $rotatorRegistry;
     protected $encryptor;
 
     public function __construct(
         RotatorRegistry $storeRegistry,
         Encryptor $cipherTextGenerator
     ) {
-        $this->storeRegistry = $storeRegistry;
+        $this->rotatorRegistry = $storeRegistry;
         $this->encryptor = $cipherTextGenerator;
         parent::__construct('encryption_profile:rotate');
     }
@@ -44,7 +44,21 @@ class RotateEncryptionProfileCommand extends Command
                 'new-profile',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'The new profile the current data is encrypted with.',
+                'The new profile to encrypt the data with.',
+                null
+            )
+            ->addOption(
+                'old-profile',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'The profile the current data is encrypted with.',
+                null
+            )
+            ->addOption(
+                'starting-id',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'The id in the store to start in.',
                 null
             )
         ;
@@ -53,11 +67,17 @@ class RotateEncryptionProfileCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $newProfile = $input->getOption('new-profile');
+        $oldProfile = $input->getOption('new-profile');
+        $startingId = $input->getOption('new-profile');
         $observer = new ConsoleOutputObserver($output);
 
         foreach ($input->getArgument('stores') as $storeName) {
-            $store = $this->storeRegistry->get($storeName);
-            $store->rotate($observer, $this->encryptor, $newProfile);
+            $store = $this->rotatorRegistry->get($storeName);
+            $store->rotate(
+                $observer,
+                $this->encryptor,
+                $newProfile
+            );
         }
     }
 }

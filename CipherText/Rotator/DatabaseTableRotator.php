@@ -32,8 +32,11 @@ class DatabaseTableRotator implements RotatorInterface
         $this->idField = $idField;
     }
 
-    public function rotate(ObserverInterface $observer, Encryptor $encryptor, $newProfile = null)
-    {
+    public function rotate(
+        ObserverInterface $observer,
+        Encryptor $encryptor,
+        RotateRequest $request
+    ) {
         $fields = $this->fields;
         $fields[] = $this->idField;
         $stmt = $this->pdo->prepare(sprintf(
@@ -48,7 +51,10 @@ class DatabaseTableRotator implements RotatorInterface
             $observer->rotating($id);
             unset($row[$this->idField]);
             foreach ($row as $key => $value) {
-                $row[$key] = $encryptor->encrypt($encryptor->decrypt($value), $newProfile);
+                $row[$key] = $encryptor->encrypt(
+                    $encryptor->decrypt($value, $request->getOldProfile()),
+                    $request->getNewProfile()
+                );
             }
             $parameters = array();
             $setFields = array_map(function ($field, $value) use (&$parameters) {

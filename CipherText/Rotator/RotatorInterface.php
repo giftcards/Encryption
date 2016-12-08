@@ -12,5 +12,9 @@ use Giftcards\Encryption\Encryptor;
 
 interface RotatorInterface
 {
-    public function rotate(ObserverInterface $observer, Encryptor $encryptor, $newProfile = null);
+    public function rotate(
+        ObserverInterface $observer,
+        Encryptor $encryptor,
+        RotateRequest $request
+    );
 }
