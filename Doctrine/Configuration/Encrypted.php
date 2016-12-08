@@ -11,4 +11,5 @@ namespace Giftcards\Encryption\Doctrine\Configuration;
 class Encrypted
 {
     public $profile;
+    public $ignoredValues = array(null);
 }

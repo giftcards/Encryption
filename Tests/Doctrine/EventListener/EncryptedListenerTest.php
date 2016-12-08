@@ -21,14 +21,22 @@ class EncryptedListenerTest extends AbstractTestCase
 {
     /** @var EncryptedListener */
     protected $listener;
+    /** @var  EncryptedListener */
+    protected $listenerWithJustEncryptor;
     /** @var  MockInterface */
     protected $encryptor;
     /** @var  AnnotationDriver */
     protected $driver;
+    /** @var  MockInterface */
+    protected $fieldEncryptor;
 
     public function setUp()
     {
         $this->listener = new EncryptedListener(
+            $this->fieldEncryptor = \Mockery::mock('Giftcards\Encryption\Doctrine\FieldEncryptor'),
+            $this->driver = new AnnotationDriver(new AnnotationReader())
+        );
+        $this->listenerWithJustEncryptor = new EncryptedListener(
             $this->encryptor = \Mockery::mock('Giftcards\Encryption\Encryptor'),
             $this->driver = new AnnotationDriver(new AnnotationReader())
         );
@@ -50,9 +58,9 @@ class EncryptedListenerTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider useOrmProvider
+     * @dataProvider lifecycleTestProvider
      */
-    public function testLifeCycleWithNoErrors($orm)
+    public function testLifeCycleWithNoErrors($orm, $justEncryptor)
     {
         $metadata1 = $this->getClassMetadata(
             'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedProperties',
@@ -121,44 +129,91 @@ class EncryptedListenerTest extends AbstractTestCase
             ->andReturn($metadata3)
             ->getMock()
         ;
-        $this->encryptor
-            ->shouldReceive('encrypt')
-            ->with($entity1EncryptedProperty, null)
-            ->andReturn($entity1EncryptedPropertyEncrypted)
-            ->getMock()
-            ->shouldReceive('decrypt')
-            ->with($entity1EncryptedPropertyEncrypted, null)
-            ->andReturn($entity1EncryptedProperty)
-            ->getMock()
-            ->shouldReceive('encrypt')
-            ->with($entity3EncryptedProperty, 'foo')
-            ->andReturn($entity3EncryptedPropertyEncrypted)
-            ->getMock()
-            ->shouldReceive('decrypt')
-            ->with($entity3EncryptedPropertyEncrypted, 'foo')
-            ->andReturn($entity3EncryptedProperty)
-            ->getMock()
-        ;
-        
-        $this->listener->prePersist($this->getLifecycleEvent($entity1, $entityManager, $orm));
-        $this->listener->prePersist($this->getLifecycleEvent($entity1, $entityManager, $orm));
-        $this->listener->prePersist($this->getLifecycleEvent($entity2, $entityManager, $orm));
-        $this->listener->postLoad($this->getLifecycleEvent($entity3, $entityManager, $orm));
+        if ($justEncryptor) {
+            $this->encryptor
+                ->shouldReceive('encrypt')
+                ->with($entity1EncryptedProperty, null)
+                ->andReturn($entity1EncryptedPropertyEncrypted)
+                ->getMock()
+                ->shouldReceive('decrypt')
+                ->with($entity1EncryptedPropertyEncrypted, null)
+                ->andReturn($entity1EncryptedProperty)
+                ->getMock()
+                ->shouldReceive('encrypt')
+                ->with($entity3EncryptedProperty, 'foo')
+                ->andReturn($entity3EncryptedPropertyEncrypted)
+                ->getMock()
+                ->shouldReceive('decrypt')
+                ->with($entity3EncryptedPropertyEncrypted, 'foo')
+                ->andReturn($entity3EncryptedProperty)
+                ->getMock()
+            ;
+        } else {
+            $this->fieldEncryptor
+                ->shouldReceive('encryptField')
+                ->with(
+                    $entity1,
+                    $metadata1->reflFields['encryptedProperty'],
+                    null,
+                    array(null)
+                )
+                ->andReturn($entity1EncryptedPropertyEncrypted)
+                ->getMock()
+                ->shouldReceive('decryptField')
+                ->with(
+                    $entity1,
+                    $metadata1->reflFields['encryptedProperty'],
+                    null,
+                    array(null)
+                )
+                ->andReturn($entity1EncryptedProperty)
+                ->getMock()
+                ->shouldReceive('encryptField')
+                ->with(
+                    $entity3,
+                    $metadata2->reflFields['encryptedProperty'],
+                    'foo',
+                    array(null, 'sdf')
+                )
+                ->andReturn($entity3EncryptedPropertyEncrypted)
+                ->getMock()
+                ->shouldReceive('decryptField')
+                ->with(
+                    $entity3,
+                    $metadata2->reflFields['encryptedProperty'],
+                    'foo',
+                    array(null, 'sdf')
+                )
+                ->andReturn($entity3EncryptedProperty)
+                ->getMock()
+                ->shouldReceive('clearFieldCache')
+                ->once()
+                ->getMock()
+            ;
+        }
+
+        $listener = $justEncryptor ? $this->listenerWithJustEncryptor : $this->listener;
+        $listener->prePersist($this->getLifecycleEvent($entity1, $entityManager, $orm));
+        $listener->prePersist($this->getLifecycleEvent($entity1, $entityManager, $orm));
+        $listener->prePersist($this->getLifecycleEvent($entity2, $entityManager, $orm));
+        $listener->postLoad($this->getLifecycleEvent($entity3, $entityManager, $orm));
         $entity3->encryptedProperty = $entity3EncryptedPropertyEncrypted;
-        $this->listener->postLoad($this->getLifecycleEvent($entity3, $entityManager, $orm));
-        $this->listener->postLoad($this->getLifecycleEvent($entity4, $entityManager, $orm));
-        $this->listener->preFlush($this->getPreFlushEvent($entityManager, $orm));
-        $this->listener->postFlush($this->getPostFlushEvent($entityManager, $orm));
-        $this->listener->onClear();
-        $this->listener->preFlush($this->getPreFlushEvent($entityManager, $orm));
-        $this->assertEquals($clonedEntity1, $entity1);
-        $this->assertEquals($clonedEntity2, $entity2);
-        $this->assertEquals($clonedEntity3, $entity3);
-        $this->assertEquals($clonedEntity4, $entity4);
+        $listener->postLoad($this->getLifecycleEvent($entity3, $entityManager, $orm));
+        $listener->postLoad($this->getLifecycleEvent($entity4, $entityManager, $orm));
+        $listener->preFlush($this->getPreFlushEvent($entityManager, $orm));
+        $listener->postFlush($this->getPostFlushEvent($entityManager, $orm));
+        $listener->onClear();
+        $listener->preFlush($this->getPreFlushEvent($entityManager, $orm));
+        if ($justEncryptor) {
+            $this->assertEquals($clonedEntity1, $entity1);
+            $this->assertEquals($clonedEntity2, $entity2);
+            $this->assertEquals($clonedEntity3, $entity3);
+            $this->assertEquals($clonedEntity4, $entity4);
+        }
     }
 
     /**
-     * @dataProvider useOrmProvider
+     * @dataProvider loadClassMetadata
      */
     public function testLoadClassMetadata($orm)
     {
@@ -179,6 +234,7 @@ class EncryptedListenerTest extends AbstractTestCase
         $this->assertEquals(array(
             'encryptedProperty' => array(
                 'profile' => null,
+                'ignored_values' => array(null)
             )
         ), $metadata->encryptedProperties);
         
@@ -198,11 +254,21 @@ class EncryptedListenerTest extends AbstractTestCase
         $this->assertEquals(array(), $metadata->encryptedProperties);
     }
 
-    public function useOrmProvider()
+    public function loadClassMetadata()
     {
         return array(
             array(true),
             array(false)
+        );
+    }
+
+    public function lifecycleTestProvider()
+    {
+        return array(
+            array(true, true),
+            array(true, false),
+            array(false, true),
+            array(false, false),
         );
     }
 

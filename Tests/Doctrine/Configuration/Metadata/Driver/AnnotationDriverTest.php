@@ -32,6 +32,7 @@ class AnnotationDriverTest extends AbstractTestCase
         $this->assertTrue($metadata->hasEncryptedProperties);
         $this->assertEquals(array('encryptedProperty' => array(
             'profile' => null,
+            'ignored_values' => array(null)
         )), $metadata->encryptedProperties);
         $metadata = new ClassMetadataInfo(
             'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedPropertiesAndProfileSet'
@@ -42,6 +43,7 @@ class AnnotationDriverTest extends AbstractTestCase
         $this->assertTrue($metadata->hasEncryptedProperties);
         $this->assertEquals(array('encryptedProperty' => array(
             'profile' => 'foo',
+            'ignored_values' => array(null, 'sdf')
         )), $metadata->encryptedProperties);
     }
 }

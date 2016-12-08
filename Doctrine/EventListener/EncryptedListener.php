@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs as ORMLifecycleEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs as ORMPostFlushEventArgs;
 use Doctrine\ORM\Event\PreFlushEventArgs as ORMPreFlushEventArgs;
+use Giftcards\Encryption\Doctrine\FieldEncryptor;
 use Giftcards\Encryption\Encryptor;
 
 class EncryptedListener implements EventSubscriber
@@ -32,8 +33,15 @@ class EncryptedListener implements EventSubscriber
         );
     }
 
-    public function __construct(Encryptor $encryptor, MappingDriver $driver)
+    public function __construct($encryptor, MappingDriver $driver)
     {
+        if (!$encryptor instanceof Encryptor && !$encryptor instanceof FieldEncryptor) {
+            throw new \InvalidArgumentException('$encryptor must be an instance of
+                Giftcards\Encryption\Encryptor
+                or Giftcards\Encryption\Doctrine\FieldEncryptor
+            ');
+        }
+        
         $this->encryptor = $encryptor;
         $this->driver = $driver;
     }
@@ -74,6 +82,9 @@ class EncryptedListener implements EventSubscriber
 
     public function onClear()
     {
+        if ($this->encryptor instanceof FieldEncryptor) {
+            $this->encryptor->clearFieldCache();
+        }
         $this->entities = array();
     }
 
@@ -97,12 +108,10 @@ class EncryptedListener implements EventSubscriber
             $metadata = $objectManager->getClassMetadata(get_class($entity));
 
             foreach ($metadata->encryptedProperties as $name => $options) {
-                $metadata->reflFields[$name]->setValue(
+                $this->encryptField(
                     $entity,
-                    $this->encryptor->encrypt(
-                        $metadata->reflFields[$name]->getValue($entity),
-                        $options['profile']
-                    )
+                    $metadata->reflFields[$name],
+                    $options
                 );
             }
         }
@@ -119,12 +128,10 @@ class EncryptedListener implements EventSubscriber
             $metadata = $objectManager->getClassMetadata(get_class($entity));
 
             foreach ($metadata->encryptedProperties as $name => $options) {
-                $metadata->reflFields[$name]->setValue(
+                $this->decryptField(
                     $entity,
-                    $this->encryptor->decrypt(
-                        $metadata->reflFields[$name]->getValue($entity),
-                        $options['profile']
-                    )
+                    $metadata->reflFields[$name],
+                    $options
                 );
             }
         }
@@ -166,5 +173,54 @@ class EncryptedListener implements EventSubscriber
         if ($event instanceof ODMLifecycleEventArgs) {
             return $event->getDocument();
         }
+    }
+
+    protected function encryptField(
+        $entity,
+        \ReflectionProperty $field,
+        array $options
+    ) {
+        if ($this->encryptor instanceof Encryptor) {
+            $field->setValue(
+                $entity,
+                $this->encryptor->encrypt(
+                    $field->getValue($entity),
+                    $options['profile']
+
+                )
+            );
+            return;
+        }
+        
+        $this->encryptor->encryptField(
+            $entity,
+            $field,
+            $options['profile'],
+            $options['ignored_values']
+        );
+    }
+
+    protected function decryptField(
+        $entity,
+        \ReflectionProperty $field,
+        array $options
+    ) {
+        if ($this->encryptor instanceof Encryptor) {
+            $field->setValue(
+                $entity,
+                $this->encryptor->decrypt(
+                    $field->getValue($entity),
+                    $options['profile']
+                )
+            );
+            return;
+        }
+
+        $this->encryptor->decryptField(
+            $entity,
+            $field,
+            $options['profile'],
+            $options['ignored_values']
+        );
     }
 }

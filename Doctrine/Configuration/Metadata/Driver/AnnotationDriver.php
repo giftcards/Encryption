@@ -41,6 +41,7 @@ class AnnotationDriver extends AbstractAnnotationDriver
             $metadata->hasEncryptedProperties = true;
             $metadata->encryptedProperties[$property->getName()] = array(
                 'profile' => $annotation->profile,
+                'ignored_values' => $annotation->ignoredValues
             );
         }
     }

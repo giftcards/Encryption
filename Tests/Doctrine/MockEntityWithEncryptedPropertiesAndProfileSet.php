@@ -14,7 +14,7 @@ class MockEntityWithEncryptedPropertiesAndProfileSet
 {
     public $normalProperty;
     /**
-     * @Encrypted(profile="foo")
+     * @Encrypted(profile="foo", ignoredValues={null, "sdf"})
      */
     public $encryptedProperty;
 }
