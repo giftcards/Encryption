@@ -139,7 +139,8 @@ Doctrine ORM Integration
 
 There is a listener + annotation you can use for defining entities that have encrypted fields. they will be automatically decrypted
 on load and encrypted on flush. you can define which profile to use in the annotation. if none if defined the default
-profile will be used.
+profile will be used. You can also define an array of ignored values using the `ignoredValues` option in the annotation.
+The default value is `array(null)`
 
 Builders
 --------
