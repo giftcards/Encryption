@@ -53,7 +53,7 @@ class FieldEncryptor
             );
         }
 
-        $field->setValue($entity, $fieldData->getCipherText());
+        $field->setValue($entity, (string)$fieldData->getCipherText());
     }
 
     public function decryptField(
