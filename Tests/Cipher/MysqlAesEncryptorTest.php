@@ -31,7 +31,11 @@ class MysqlAesEncryptorTest extends AbstractTestCase
     {
         $key = "This=1trulySecr3tKey!";
         $message = "My computer beats me at chess, but I sure beat it at kickboxing.";
+        set_error_handler(function () {
+            return func_get_arg(1) === 'Function mcrypt_get_iv_size() is deprecated';
+        });
         $encrypted = $this->encryptor->encipher($message, $key);
+
         $decrypted = $this->encryptor->decipher($encrypted, $key);
         $this->assertEquals($message, $decrypted);
         $this->assertNotEquals($message, $encrypted);
@@ -39,5 +43,6 @@ class MysqlAesEncryptorTest extends AbstractTestCase
         $this->assertNull($this->encryptor->decipher(null, $key));
         $this->assertEquals('', $this->encryptor->decipher('', $key));
         $this->assertEquals(' ', $this->encryptor->decipher(' ', $key));
+        restore_error_handler();
     }
 }
