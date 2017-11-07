@@ -30,12 +30,12 @@ class Bounds implements \Iterator
     /**
      * @var int
      */
-    private $lowerBound;
+    private $currentOffset;
 
     /**
      * @var int
      */
-    private $upperBound;
+    private $currentLimit;
 
     /**
      * Bounds constructor.
@@ -48,7 +48,6 @@ class Bounds implements \Iterator
         $this->offset = $offset;
         $this->limit = $limit;
         $this->batchSize = $batchSize;
-        $this->calculateBounds();
     }
 
     public function key()
@@ -64,28 +63,24 @@ class Bounds implements \Iterator
 
     public function valid()
     {
-        return ($this->limit == null) || ($this->limit > $this->lowerBound);
+        return ($this->limit == null) || ($this->limit > $this->currentOffset);
     }
 
     public function current()
     {
-        return [$this->lowerBound, $this->upperBound];
+        return [$this->currentOffset, $this->currentLimit];
     }
 
     public function rewind()
     {
         $this->key = 0;
+        $this->calculateBounds();
     }
 
     private function calculateBounds()
     {
-        $this->lowerBound = $this->offset + ($this->batchSize * $this->key());
-        $this->upperBound = $this->batchSize;
-        if ($this->limit == null) {
-            return;
-        }
-        if ($this->lowerBound + $this->upperBound > $this->limit) {
-            $this->upperBound = $this->limit - $this->lowerBound;
-        }
+        $this->currentOffset = $this->offset + ($this->batchSize * $this->key());
+        $this->currentLimit = ($this->limit === null) ? $this->batchSize :
+            min($this->limit - $this->currentOffset, $this->batchSize);
     }
 }
