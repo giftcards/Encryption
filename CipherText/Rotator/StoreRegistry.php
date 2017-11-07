@@ -11,8 +11,27 @@ namespace Giftcards\Encryption\CipherText\Rotator;
 class StoreRegistry
 {
 
-    public function getStoreByName($storeName):StoreInterface
+    /**
+     * @var StoreInterface
+     */
+    private $stores = [];
+
+    /**
+     * @param string $storeName
+     * @param StoreInterface $store
+     */
+    public function put(string $storeName, StoreInterface $store)
     {
+        $this->stores[$storeName] = $store;
+    }
+
+    /**
+     * @param $storeName
+     * @return StoreInterface
+     */
+    public function get($storeName):StoreInterface
+    {
+        return $this->stores[$storeName];
     }
 
 }
