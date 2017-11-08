@@ -49,22 +49,17 @@ class DoctrineDBALStore implements StoreInterface
      * @param int $offset
      * @param int $limit
      * @return array
-     * @throws StoreException
      */
     public function fetch(int $offset, int $limit): array
     {
         $fields = $this->fields;
         $fields[] = $this->idField;
-        try {
-            $stmt = $this->connection->createQueryBuilder()
-                ->select($fields)
-                ->from($this->table)
-                ->setFirstResult($offset)
-                ->setMaxResults($offset)
-                ->execute();
-        } catch (Exception $e) {
-            throw new StoreException("Error occurred while fetching records", $e);
-        }
+        $stmt = $this->connection->createQueryBuilder()
+            ->select($fields)
+            ->from($this->table)
+            ->setFirstResult($offset)
+            ->setMaxResults($offset)
+            ->execute();
 
         $records = [];
         while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
@@ -79,7 +74,7 @@ class DoctrineDBALStore implements StoreInterface
     /**
      * @param Record[] $rotatedRecords
      * @return void
-     * @throws StoreException
+     * @throws Exception
      */
     public function save(array $rotatedRecords)
     {
@@ -95,7 +90,7 @@ class DoctrineDBALStore implements StoreInterface
             $this->connection->commit();
         } catch (Exception $e) {
             $this->connection->rollBack();
-            throw new StoreException("Error occurred while saving updated records", $e);
+            throw $e;
         }
     }
 }
