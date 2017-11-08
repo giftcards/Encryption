@@ -24,7 +24,7 @@ class Record
      * @param mixed $id Unique id for this record
      * @param array $data Array of data to be rotated
      */
-    public function __construct($id, $data)
+    public function __construct($id, array $data)
     {
         $this->id = $id;
         $this->data = $data;
