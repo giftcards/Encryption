@@ -20,7 +20,7 @@ class StoreRegistry
      * @param string $storeName
      * @param StoreInterface $store
      */
-    public function put(string $storeName, StoreInterface $store)
+    public function set(string $storeName, StoreInterface $store)
     {
         $this->stores[$storeName] = $store;
     }

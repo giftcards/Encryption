@@ -8,10 +8,11 @@
 
 namespace Giftcards\Encryption\Command;
 
-use Giftcards\Encryption\CipherText\CipherText;
 use Giftcards\Encryption\CipherText\Group;
+use Giftcards\Encryption\CipherText\Rotator\Bounds;
 use Giftcards\Encryption\CipherText\Rotator\ConsoleOutputObserver;
-use Giftcards\Encryption\CipherText\Rotator\RotatorRegistry;
+use Giftcards\Encryption\CipherText\Rotator\Rotator;
+use Giftcards\Encryption\CipherText\Rotator\StoreRegistry;
 use Giftcards\Encryption\Encryptor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,15 +22,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RotateEncryptionProfileCommand extends Command
 {
-    protected $storeRegistry;
-    protected $encryptor;
+    private $rotator;
 
     public function __construct(
-        RotatorRegistry $storeRegistry,
+        StoreRegistry $storeRegistry,
         Encryptor $cipherTextGenerator
     ) {
-        $this->storeRegistry = $storeRegistry;
-        $this->encryptor = $cipherTextGenerator;
+        $this->rotator = new Rotator($cipherTextGenerator, $storeRegistry);
         parent::__construct('encryption_profile:rotate');
     }
 
@@ -39,7 +38,8 @@ class RotateEncryptionProfileCommand extends Command
     protected function configure()
     {
         $this
-            ->addArgument('stores', InputArgument::IS_ARRAY|InputArgument::REQUIRED, 'A list of stores to re-encrypt.')
+            ->addArgument('stores', InputArgument::IS_ARRAY | InputArgument::REQUIRED,
+                'A list of stores to re-encrypt.')
             ->addOption(
                 'new-profile',
                 null,
@@ -47,17 +47,41 @@ class RotateEncryptionProfileCommand extends Command
                 'The new profile the current data is encrypted with.',
                 null
             )
-        ;
+            ->addOption(
+                'start',
+                null,
+                InputOption::OPTIONAL,
+                'Starting record',
+                0
+            )
+            ->addOption(
+                'limit',
+                null,
+                InputOption::OPTIONAL,
+                'Max records to process',
+                null
+            )
+            ->addOption(
+                'batch-size',
+                null,
+                InputOption::OPTIONAL,
+                'Records per batch to process',
+                1
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $newProfile = $input->getOption('new-profile');
+        $bounds = new Bounds(
+            $input->getOption('start'),
+            $input->getOption('limit'),
+            $input->getOption('batch-size')
+        );
         $observer = new ConsoleOutputObserver($output);
 
         foreach ($input->getArgument('stores') as $storeName) {
-            $store = $this->storeRegistry->get($storeName);
-            $store->rotate($observer, $this->encryptor, $newProfile);
+            $this->rotator->rotate($storeName, $newProfile, $bounds, $observer);
         }
     }
 }

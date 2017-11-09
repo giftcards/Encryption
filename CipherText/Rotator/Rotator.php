@@ -27,7 +27,7 @@ class Rotator
         $this->storeRegistry = $storeRegistry;
     }
 
-    public function rotate($newProfile, $storeName, Bounds $bounds, ObserverInterface $observer)
+    public function rotate($storeName, $newProfile, Bounds $bounds, ObserverInterface $observer)
     {
         $store = $this->storeRegistry->getStoreByName($storeName);
         /** @var int $offset */
