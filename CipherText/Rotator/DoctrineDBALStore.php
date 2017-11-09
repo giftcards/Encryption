@@ -61,14 +61,13 @@ class DoctrineDBALStore implements StoreInterface
             ->setMaxResults($offset)
             ->execute();
 
-        $records = [];
-        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-            new Record(
+
+        return array_map(function ($row) {
+            return new Record(
                 $row[$this->idField],
                 array_intersect_key($row, array_flip($this->fields))
             );
-        }
-        return $records;
+        }, $stmt->fetchAll(\PDO::FETCH_ASSOC));
     }
 
     /**
