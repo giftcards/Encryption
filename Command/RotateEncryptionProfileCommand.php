@@ -48,23 +48,23 @@ class RotateEncryptionProfileCommand extends Command
                 null
             )
             ->addOption(
-                'start',
+                'offset',
                 null,
-                InputOption::OPTIONAL,
+                InputOption::VALUE_OPTIONAL,
                 'Starting record',
                 0
             )
             ->addOption(
                 'limit',
                 null,
-                InputOption::OPTIONAL,
+                InputOption::VALUE_OPTIONAL,
                 'Max records to process',
                 null
             )
             ->addOption(
                 'batch-size',
                 null,
-                InputOption::OPTIONAL,
+                InputOption::VALUE_OPTIONAL,
                 'Records per batch to process',
                 1
             );
@@ -74,7 +74,7 @@ class RotateEncryptionProfileCommand extends Command
     {
         $newProfile = $input->getOption('new-profile');
         $bounds = new Bounds(
-            $input->getOption('start'),
+            $input->getOption('offset'),
             $input->getOption('limit'),
             $input->getOption('batch-size')
         );
