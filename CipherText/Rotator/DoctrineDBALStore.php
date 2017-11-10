@@ -56,9 +56,9 @@ class DoctrineDBALStore implements StoreInterface
         $fields[] = $this->idField;
         $stmt = $this->connection->createQueryBuilder()
             ->select($fields)
-            ->from($this->table)
+            ->from($this->table,"t")
             ->setFirstResult($offset)
-            ->setMaxResults($offset)
+            ->setMaxResults($limit)
             ->execute();
 
 
@@ -79,13 +79,13 @@ class DoctrineDBALStore implements StoreInterface
     {
         $this->connection->beginTransaction();
         try {
-            foreach ($rotatedRecords as $rotatedRecord) {
+            array_walk($rotatedRecords,function(Record $rotatedRecord) {
                 $this->connection->update(
                     $this->table,
                     $rotatedRecord->getData(),
                     array($this->idField => $rotatedRecord->getId())
                 );
-            }
+            });
             $this->connection->commit();
         } catch (Exception $e) {
             $this->connection->rollBack();
