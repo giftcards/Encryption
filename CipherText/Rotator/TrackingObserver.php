@@ -8,7 +8,7 @@
 
 namespace Giftcards\Encryption\CipherText\Rotator;
 
-class TrackingObserver implements RotatorObserverInterface
+class TrackingObserver extends NullObserver
 {
 
     /**
@@ -24,18 +24,6 @@ class TrackingObserver implements RotatorObserverInterface
     {
         $this->tracker = $tracker;
         $this->storeName = $storeName;
-    }
-
-    public function fetchedRecords($offset, $limit, array $records)
-    {
-    }
-
-    public function rotatingRecord(Record $record)
-    {
-    }
-
-    public function rotatedRecord(Record $record)
-    {
     }
 
     public function savedRecords($offset, $limit, array $records)

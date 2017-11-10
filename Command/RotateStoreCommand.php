@@ -11,6 +11,7 @@ namespace Giftcards\Encryption\Command;
 use Giftcards\Encryption\CipherText\Group;
 use Giftcards\Encryption\CipherText\Rotator\Bounds;
 use Giftcards\Encryption\CipherText\Rotator\ConsoleOutputObserver;
+use Giftcards\Encryption\CipherText\Rotator\ConsoleOutputRotatorObserver;
 use Giftcards\Encryption\CipherText\Rotator\Rotator;
 use Giftcards\Encryption\CipherText\Rotator\RotatorObserverChain;
 use Giftcards\Encryption\CipherText\Rotator\StoreRegistry;
@@ -94,7 +95,8 @@ class RotateStoreCommand extends Command
                     $batchSize
                 ),
                 new RotatorObserverChain(
-                    new TrackingObserver($this->tracker, $storeName)
+                    new TrackingObserver($this->tracker, $storeName),
+                    new ConsoleOutputRotatorObserver($output)
                 )
             );
         }
