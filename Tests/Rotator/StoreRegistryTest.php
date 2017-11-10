@@ -22,6 +22,6 @@ class StoreRegistryTest extends AbstractTestCase
         $store = Mockery::mock(StoreInterface::class);
         $registry = new StoreRegistry();
         $registry->set($storeName, $store);
-        $this->assertEquals($store, $registry->get($storeName));
+        $this->assertSame($store, $registry->get($storeName));
     }
 }

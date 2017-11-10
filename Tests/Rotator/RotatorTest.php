@@ -16,6 +16,7 @@ use Giftcards\Encryption\CipherText\Rotator\StoreInterface;
 use Giftcards\Encryption\CipherText\Rotator\StoreRegistry;
 use Giftcards\Encryption\Encryptor;
 use Giftcards\Encryption\Tests\AbstractTestCase;
+use Giftcards\Encryption\Tests\Mock\Mockery\Matcher\EqualsMatcher;
 use Mockery;
 
 class RotatorTest extends AbstractTestCase
@@ -27,6 +28,12 @@ class RotatorTest extends AbstractTestCase
             new Record(1, ['record1_encrypted']),
             new Record(2, ['record2_encrypted']),
             new Record(3, ['record3_encrypted']),
+        ];
+        $rotatedRecords = [
+            new Record(0, ['record0_rotated']),
+            new Record(1, ['record1_rotated']),
+            new Record(2, ['record2_rotated']),
+            new Record(3, ['record3_rotated']),
         ];
 
         $observer = new NullObserver();
@@ -43,15 +50,26 @@ class RotatorTest extends AbstractTestCase
         $encryptor->shouldReceive("encrypt")->with("record3_decrypted", "test_profile")->andReturn("record3_rotated");
 
         $store = Mockery::mock(StoreInterface::class);
-        $store->shouldReceive("fetch")->withArgs([0, 3])->andReturn(
+        $store->shouldReceive("fetch")->once()->ordered()->with(0, 3)->andReturn(
             [
                 $records[0],
                 $records[1],
                 $records[2],
             ]);
-        $store->shouldReceive("fetch")->withArgs([3, 3])->andReturn([$records[3]]);
-        $store->shouldReceive("fetch")->withArgs([6, 3])->andReturn([]);
-        $store->shouldReceive("save");
+        $store->shouldReceive("save")->once()->ordered()->with(new EqualsMatcher(
+            [
+                $rotatedRecords[0],
+                $rotatedRecords[1],
+                $rotatedRecords[2],
+            ]
+        ));
+        $store->shouldReceive("fetch")->once()->ordered()->with(3, 3)->andReturn([$records[3]]);
+        $store->shouldReceive("save")->once()->ordered()->with(new EqualsMatcher(
+            [
+                $rotatedRecords[3]
+            ]
+        ));
+        $store->shouldReceive("fetch")->once()->ordered()->with(6, 3)->andReturn([]);
 
         $storeRegistry = Mockery::mock(StoreRegistry::class);
         $storeRegistry
