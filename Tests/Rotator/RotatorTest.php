@@ -9,7 +9,7 @@
 namespace Giftcards\Encryption\Tests\Rotator;
 
 use Giftcards\Encryption\CipherText\Rotator\Bounds;
-use Giftcards\Encryption\CipherText\Rotator\NullObserver;
+use Giftcards\Encryption\CipherText\Rotator\NullRotatorObserver;
 use Giftcards\Encryption\CipherText\Rotator\Record;
 use Giftcards\Encryption\CipherText\Rotator\Rotator;
 use Giftcards\Encryption\CipherText\Rotator\StoreInterface;
@@ -36,7 +36,7 @@ class RotatorTest extends AbstractTestCase
             new Record(3, ['record3_rotated']),
         ];
 
-        $observer = new NullObserver();
+        $observer = new NullRotatorObserver();
 
         $encryptor = Mockery::mock(Encryptor::class);
         $encryptor->shouldReceive("decrypt")->with("record0_encrypted")->andReturn("record0_decrypted");
