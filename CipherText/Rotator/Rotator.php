@@ -29,7 +29,7 @@ class Rotator
 
     public function rotate($storeName, $newProfile, Bounds $bounds, ObserverInterface $observer)
     {
-        $store = $this->storeRegistry->getStoreByName($storeName);
+        $store = $this->storeRegistry->get($storeName);
         /** @var int $offset */
         /** @var int $limit */
         foreach ($bounds as $key => list($offset, $limit)) {
