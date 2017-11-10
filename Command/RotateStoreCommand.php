@@ -24,11 +24,9 @@ class RotateStoreCommand extends Command
 {
     private $rotator;
 
-    public function __construct(
-        StoreRegistry $storeRegistry,
-        Encryptor $cipherTextGenerator
-    ) {
-        $this->rotator = new Rotator($cipherTextGenerator, $storeRegistry);
+    public function __construct(Rotator $rotator)
+    {
+        $this->rotator = $rotator;
         parent::__construct('giftcards_encryption:stores:rotate');
     }
 
