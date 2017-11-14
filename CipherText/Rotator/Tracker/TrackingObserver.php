@@ -6,7 +6,9 @@
  * Time: 3:06 PM
  */
 
-namespace Giftcards\Encryption\CipherText\Rotator;
+namespace Giftcards\Encryption\CipherText\Rotator\Tracker;
+
+use Giftcards\Encryption\CipherText\Rotator\NullObserver;
 
 class TrackingObserver extends NullObserver
 {
