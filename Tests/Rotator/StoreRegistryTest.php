@@ -9,8 +9,8 @@
 namespace Giftcards\Encryption\Tests\Rotator;
 
 
-use Giftcards\Encryption\CipherText\Rotator\StoreInterface;
-use Giftcards\Encryption\CipherText\Rotator\StoreRegistry;
+use Giftcards\Encryption\CipherText\Rotator\Store\StoreInterface;
+use Giftcards\Encryption\CipherText\Rotator\Store\StoreRegistry;
 use Giftcards\Encryption\Tests\AbstractTestCase;
 use Mockery;
 
@@ -20,7 +20,7 @@ class StoreRegistryTest extends AbstractTestCase
     {
         $storeName = $this->getFaker()->unique()->word;
         $store = Mockery::mock(StoreInterface::class);
-        $registry = new StoreRegistry();
+        $registry = new \Giftcards\Encryption\CipherText\Rotator\Store\StoreRegistry();
         $registry->set($storeName, $store);
         $this->assertSame($store, $registry->get($storeName));
     }

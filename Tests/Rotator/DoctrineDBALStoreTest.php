@@ -11,7 +11,7 @@ namespace Giftcards\Encryption\Tests\Rotator;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Giftcards\Encryption\CipherText\Rotator\DoctrineDBALStore;
+use Giftcards\Encryption\CipherText\Rotator\Store\DoctrineDBALStore;
 use Giftcards\Encryption\CipherText\Rotator\Record;
 use Giftcards\Encryption\Tests\AbstractTestCase;
 
@@ -76,7 +76,7 @@ class DoctrineDBALStoreTest extends AbstractTestCase
         $connection->shouldNotReceive("rollBack");
         $connection->shouldReceive("update");
 
-        $store = new DoctrineDBALStore($connection, $tableName, $encryptedColumns, $idColumn);
+        $store = new \Giftcards\Encryption\CipherText\Rotator\Store\DoctrineDBALStore($connection, $tableName, $encryptedColumns, $idColumn);
         $store->save($records);
 
         $connection->shouldHaveReceived("beginTransaction")->withNoArgs();

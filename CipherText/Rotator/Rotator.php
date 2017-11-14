@@ -8,6 +8,7 @@
 
 namespace Giftcards\Encryption\CipherText\Rotator;
 
+use Giftcards\Encryption\CipherText\Rotator\Store\StoreRegistry;
 use Giftcards\Encryption\Encryptor;
 
 class Rotator

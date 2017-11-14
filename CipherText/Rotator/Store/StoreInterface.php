@@ -6,8 +6,9 @@
  * Time: 8:17 AM
  */
 
-namespace Giftcards\Encryption\CipherText\Rotator;
+namespace Giftcards\Encryption\CipherText\Rotator\Store;
 
+use Giftcards\Encryption\CipherText\Rotator\Record;
 
 interface StoreInterface
 {

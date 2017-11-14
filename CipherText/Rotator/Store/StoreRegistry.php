@@ -6,7 +6,7 @@
  * Time: 8:16 AM
  */
 
-namespace Giftcards\Encryption\CipherText\Rotator;
+namespace Giftcards\Encryption\CipherText\Rotator\Store;
 
 class StoreRegistry
 {

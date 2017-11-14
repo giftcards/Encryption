@@ -6,10 +6,11 @@
  * Time: 12:52 PM
  */
 
-namespace Giftcards\Encryption\CipherText\Rotator;
+namespace Giftcards\Encryption\CipherText\Rotator\Store;
 
 use Doctrine\DBAL\Connection;
 use Exception;
+use Giftcards\Encryption\CipherText\Rotator\Record;
 
 class DoctrineDBALStore implements StoreInterface
 {
