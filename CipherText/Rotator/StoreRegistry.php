@@ -19,10 +19,12 @@ class StoreRegistry
     /**
      * @param string $storeName
      * @param StoreInterface $store
+     * @return $this
      */
     public function set(string $storeName, StoreInterface $store)
     {
         $this->stores[$storeName] = $store;
+        return $this;
     }
 
     /**
