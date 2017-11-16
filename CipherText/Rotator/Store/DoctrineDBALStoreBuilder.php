@@ -48,7 +48,7 @@ class DoctrineDBALStoreBuilder implements BuilderInterface
      */
     public function getName()
     {
-        return 'doctrine_dbal_store';
+        return 'doctrine_dbal';
     }
 
 }
