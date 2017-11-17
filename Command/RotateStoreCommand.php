@@ -17,6 +17,7 @@ use Giftcards\Encryption\CipherText\Rotator\Tracker\TrackingObserver;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class RotateStoreCommand extends Command
@@ -49,21 +50,21 @@ class RotateStoreCommand extends Command
             ->addOption(
                 'new-profile',
                 null,
-                InputArgument::REQUIRED,
+                InputOption::VALUE_REQUIRED,
                 'The new profile the current data is encrypted with.',
                 null
             )
             ->addOption(
                 'limit',
                 null,
-                InputArgument::REQUIRED,
+                InputOption::VALUE_REQUIRED,
                 'Max records to process',
                 null
             )
             ->addOption(
                 'batch-size',
                 null,
-                InputArgument::REQUIRED,
+                InputOption::VALUE_REQUIRED,
                 'Records per batch to process',
                 1
             );
@@ -73,7 +74,7 @@ class RotateStoreCommand extends Command
     {
         foreach ($input->getArgument('stores') as $storeName) {
             $offset = $this->tracker->get($storeName);
-            $limit = $input->getOption('limit') - $offset;
+            $limit = $this->getLimit($input, $offset);
             $this->rotator->rotate(
                 $storeName,
                 $input->getOption('new-profile'),
@@ -89,5 +90,14 @@ class RotateStoreCommand extends Command
             );
             $this->tracker->reset($storeName);
         }
+    }
+
+    private function getLimit(InputInterface $input, int $offset)
+    {
+        $limit = $input->getOption('limit');
+        if( $limit == null ) {
+            return null;
+        }
+        return $limit - $offset;
     }
 }
