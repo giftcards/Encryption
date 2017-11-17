@@ -8,6 +8,7 @@
 
 namespace Giftcards\Encryption\CipherText\Rotator\Store;
 
+use Giftcards\Encryption\Factory\BuilderInterface;
 use Giftcards\Encryption\Factory\Factory;
 
 class StoreRegistryBuilder
@@ -24,7 +25,7 @@ class StoreRegistryBuilder
     
     /**
      * Constructs a StoreRegistryBuilder with built-in StoreBuilders
-     * @param array $builders Additional builders
+     * @param BuilderInterface[] $builders Additional builders
      */
     public function __construct($builders = [])
     {
@@ -33,16 +34,15 @@ class StoreRegistryBuilder
     }
 
     /**
-     * @param $builder
      * @param $storeName
+     * @param $builderName
      * @param array $options
-     * @return self
+     * @return StoreRegistryBuilder
      */
-    public function addStore($builder, $storeName, array $options)
+    public function addStore($storeName, $builderName, array $options = []): StoreRegistryBuilder
     {
-        $this->stores[] = [
-            'builder' => $builder,
-            'storeName' => $storeName,
+        $this->stores[$storeName] = [
+            'builder' => $builderName,
             'options' => $options
         ];
         return $this;
@@ -54,8 +54,8 @@ class StoreRegistryBuilder
     public function build(): StoreRegistry
     {
         $registry = new StoreRegistry();
-        foreach ($this->stores as list($builder, $storeName, $options)) {
-            $registry->set($storeName, $this->factory->create($builder, $options));
+        foreach ($this->stores as $storeName => list($builderName, $options)) {
+            $registry->set($storeName, $this->factory->create($builderName, $options));
         }
         return $registry;
     }
