@@ -51,4 +51,13 @@ class Factory
     {
         return $this->registry;
     }
+
+    /**
+     * @param $builderName
+     * @return bool true if this factory contains a builder with the given name
+     */
+    public function hasBuilder($builderName): bool
+    {
+        return $this->getRegistry()->has($builderName);
+    }
 }
