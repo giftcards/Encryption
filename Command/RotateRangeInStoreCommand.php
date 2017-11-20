@@ -50,21 +50,21 @@ class RotateRangeInStoreCommand extends Command
             ->addOption(
                 'offset',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 'Starting record',
                 0
             )
             ->addOption(
                 'limit',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 'Max records to process',
                 null
             )
             ->addOption(
                 'batch-size',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 'Records per batch to process',
                 1
             );

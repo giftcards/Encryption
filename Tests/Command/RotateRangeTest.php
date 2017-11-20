@@ -12,9 +12,7 @@ use Giftcards\Encryption\CipherText\Rotator\Bounds;
 use Giftcards\Encryption\CipherText\Rotator\ConsoleOutputRotatorObserver;
 use Giftcards\Encryption\CipherText\Rotator\Rotator;
 use Giftcards\Encryption\CipherText\Rotator\RotatorObserverChain;
-use Giftcards\Encryption\CipherText\Rotator\Tracker\TrackerInterface;
-use Giftcards\Encryption\CipherText\Rotator\Tracker\TrackingObserver;
-use Giftcards\Encryption\Command\RotateStoreCommand;
+use Giftcards\Encryption\Command\RotateRangeInStoreCommand;
 use Giftcards\Encryption\Tests\AbstractTestCase;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -27,35 +25,27 @@ class RotateStoreTest extends AbstractTestCase
         $storeName = $this->getFaker()->unique()->word();
         $newProfile = $this->getFaker()->unique()->word();
 
-        $limit = $this->getFaker()->unique()->randomNumber();
-        $batchSize = $this->getFaker()->unique()->randomNumber();
-
         $rotator = \Mockery::mock(Rotator::class);
         $rotator->shouldReceive("rotate");
         assert($rotator instanceof Rotator);
 
-        $tracker = \Mockery::mock(TrackerInterface::class);
-        $tracker->shouldReceive("get")->andReturn(0);
-        $tracker->shouldReceive("reset");
-        assert($tracker instanceof TrackerInterface);
+        $offset = $this->getFaker()->unique()->randomNumber();
+        $limit = $this->getFaker()->unique()->randomNumber();
+        $batchSize = $this->getFaker()->unique()->randomNumber();
 
-        $command = new RotateStoreCommand($rotator, $tracker);
-        $input = new StringInput("{$storeName} --limit={$limit} --batch-size={$batchSize} --new-profile={$newProfile}");
+        $command = new RotateRangeInStoreCommand($rotator);
+        $input = new StringInput("{$storeName} --offset={$offset} --limit={$limit} --batch-size={$batchSize} --new-profile={$newProfile}");
         $output = new ConsoleOutput();
         $command->run($input, $output);
-
-        $tracker->shouldHaveReceived("get")->with($storeName);
-        $tracker->shouldHaveReceived("reset")->with($storeName);
 
         $rotator->shouldHaveReceived("rotate")->withArgs([
             $storeName,
             $newProfile,
-            \Hamcrest_Matchers::equalTo(new Bounds(0, $limit, $batchSize)),
+            \Hamcrest_Matchers::equalTo(new Bounds($offset, $limit, $batchSize)),
             \Hamcrest_Matchers::equalTo(new RotatorObserverChain(
-                new TrackingObserver($tracker, $storeName),
                 new ConsoleOutputRotatorObserver($output)
             ))
-        ]);;
+        ]);
     }
 
 }
