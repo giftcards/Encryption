@@ -17,7 +17,7 @@ use Giftcards\Encryption\Tests\AbstractTestCase;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-class RotateStoreTest extends AbstractTestCase
+class RotateRangeTest extends AbstractTestCase
 {
 
     public function testCommand()
