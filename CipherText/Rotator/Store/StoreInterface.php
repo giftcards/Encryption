@@ -17,7 +17,7 @@ interface StoreInterface
      * @param int $limit
      * @return Record[]
      */
-    public function fetch(int $offset, int $limit):array;
+    public function fetch($offset, $limit);
 
     /**
      * @param Record[] $rotatedRecords

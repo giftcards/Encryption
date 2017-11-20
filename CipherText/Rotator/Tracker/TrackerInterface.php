@@ -16,18 +16,18 @@ interface TrackerInterface
      * @param int $offset
      * @return void
      */
-    public function save(string $storeName, int $offset);
+    public function save($storeName, $offset);
 
     /**
      * @param string $storeName
      * @return int Last offset rotated within the given store
      */
-    public function get(string $storeName):int;
+    public function get($storeName);
 
     /**
      * Resets the last offset rotated in this store
      * @param string $storeName
      * @return void
      */
-    public function reset(string $storeName);
+    public function reset($storeName);
 }

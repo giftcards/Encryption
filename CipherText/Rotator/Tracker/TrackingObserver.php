@@ -8,9 +8,9 @@
 
 namespace Giftcards\Encryption\CipherText\Rotator\Tracker;
 
-use Giftcards\Encryption\CipherText\Rotator\NullObserver;
+use Giftcards\Encryption\CipherText\Rotator\NullRotatorObserver;
 
-class TrackingObserver extends NullObserver
+class TrackingObserver extends NullRotatorObserver
 {
 
     /**

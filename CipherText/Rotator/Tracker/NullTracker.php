@@ -17,7 +17,7 @@ class NullTracker implements TrackerInterface
      * @param int $offset
      * @return void
      */
-    public function save(string $storeName, int $offset)
+    public function save($storeName, $offset)
     {
     }
 
@@ -25,7 +25,7 @@ class NullTracker implements TrackerInterface
      * @param string $storeName
      * @return int Last offset rotated within the given store
      */
-    public function get(string $storeName): int
+    public function get($storeName)
     {
         return 0;
     }
@@ -35,7 +35,7 @@ class NullTracker implements TrackerInterface
      * @param string $storeName
      * @return void
      */
-    public function reset(string $storeName)
+    public function reset($storeName)
     {
     }
 }

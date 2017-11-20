@@ -8,7 +8,6 @@
 
 namespace Giftcards\Encryption\CipherText\Rotator\Store;
 
-use Doctrine\DBAL\Connection;
 use Giftcards\Encryption\Factory\BuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,9 +18,14 @@ class DoctrineDBALStoreBuilder implements BuilderInterface
      * @param array $options
      * @return DoctrineDBALStore
      */
-    public function build(array $options): DoctrineDBALStore
+    public function build(array $options)
     {
-        return new DoctrineDBALStore($options['connection'], $options['table'], $options['fields'], $options['idField']);
+        return new DoctrineDBALStore(
+            $options['connection'],
+            $options['table'],
+            $options['fields'],
+            $options['idField']
+        );
     }
 
     /**
@@ -36,7 +40,7 @@ class DoctrineDBALStoreBuilder implements BuilderInterface
                 'fields',
                 'id_field'
             ))
-            ->setAllowedTypes('connection', Connection::class)
+            ->setAllowedTypes('connection', "Doctrine\\DBAL\\Connection")
             ->setAllowedTypes('table', 'string')
             ->setAllowedTypes('fields', 'array')
             ->setAllowedTypes('id_field', 'string')

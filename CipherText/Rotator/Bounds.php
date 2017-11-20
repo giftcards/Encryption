@@ -68,7 +68,7 @@ class Bounds implements \Iterator
 
     public function current()
     {
-        return [$this->currentOffset, $this->currentLimit];
+        return array($this->currentOffset, $this->currentLimit);
     }
 
     public function rewind()

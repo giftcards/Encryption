@@ -33,23 +33,31 @@ class Rotator
         $store = $this->storeRegistry->get($storeName);
         /** @var int $offset */
         /** @var int $limit */
-        foreach ($bounds as $key => list($offset, $limit)) {
+        foreach ($bounds as $key => $entry) {
+            list($offset, $limit) = $entry;
             $records = $store->fetch($offset, $limit);
             $observer->fetchedRecords($offset, $limit, $records);
             if (!count($records)) {
                 break;
             }
-            $store->save(array_map(function (Record $record) use ($newProfile, $observer) {
-                return $this->rotateRecord($record, $newProfile, $observer);
-            }, $records));
+            $store->save($this->rotateRecords($records, $newProfile, $observer));
             $observer->savedRecords($offset, $limit, $records);
         }
     }
 
-    private function rotateRecord(Record $record, $newProfile, RotatorObserverInterface $observer): Record
+    private function rotateRecords(array $records, $newProfile, RotatorObserverInterface $observer)
+    {
+        $results = array();
+        foreach ($records as $record) {
+            $results[] = $this->rotateRecord($record, $newProfile, $observer);
+        }
+        return $results;
+    }
+
+    private function rotateRecord(Record $record, $newProfile, RotatorObserverInterface $observer)
     {
         $observer->rotatingRecord($record);
-        $newData = [];
+        $newData = array();
         foreach ($record->getData() as $key => $datum) {
             $newData[$key] = $this->encryptor->encrypt($this->encryptor->decrypt($datum), $newProfile);
         }

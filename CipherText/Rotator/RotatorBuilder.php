@@ -22,7 +22,7 @@ class RotatorBuilder
      * RotatorBuilder constructor.
      * @param BuilderInterface[] $storeBuilders
      */
-    public function __construct($storeBuilders = [])
+    public function __construct($storeBuilders = array())
     {
         $this->storeRegistryBuilder = new StoreRegistryBuilder($storeBuilders);
     }
@@ -30,7 +30,7 @@ class RotatorBuilder
     /**
      * @return Rotator
      */
-    public function build(): Rotator
+    public function build()
     {
         return new Rotator($this->buildEncryptor(), $this->buildStoreRegistry());
     }
@@ -49,12 +49,12 @@ class RotatorBuilder
      * @param $builderName
      * @param array $options
      */
-    public function addStore($storeName, $builderName, array $options = [])
+    public function addStore($storeName, $builderName, array $options = array())
     {
         $this->storeRegistryBuilder->addStore($storeName, $builderName, $options);
     }
 
-    private function buildStoreRegistry(): StoreRegistry
+    private function buildStoreRegistry()
     {
         return $this->storeRegistryBuilder->build();
     }
@@ -95,7 +95,7 @@ class RotatorBuilder
     /**
      * @return Encryptor
      */
-    private function buildEncryptor(): Encryptor
+    private function buildEncryptor()
     {
         if ($this->getEncryptor() instanceof EncryptorBuilder) {
             return $this->getEncryptor()->build();

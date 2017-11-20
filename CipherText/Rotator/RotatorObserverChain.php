@@ -14,13 +14,23 @@ class RotatorObserverChain implements RotatorObserverInterface
     /**
      * @var RotatorObserverInterface[]
      */
-    private $observers;
+    private $observers = array();
 
-    public function __construct(RotatorObserverInterface ... $observers)
+    /**
+     * RotatorObserverChain constructor.
+     * @param RotatorObserverInterface $observers,...
+     */
+    public function __construct()
     {
-        $this->observers = $observers;
+        foreach (func_get_args() as $observer) {
+            $this->addObserver($observer);
+        }
     }
 
+    public function addObserver(RotatorObserverInterface $observer)
+    {
+        $this->observers[] = $observer;
+    }
 
     public function fetchedRecords($offset, $limit, array $records)
     {

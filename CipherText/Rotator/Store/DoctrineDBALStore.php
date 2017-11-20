@@ -38,7 +38,7 @@ class DoctrineDBALStore implements StoreInterface
      * @param array $fields Fields to encrypt
      * @param string $idField Primary key field
      */
-    public function __construct(Connection $connection, string $table, array $fields, string $idField)
+    public function __construct(Connection $connection, $table, array $fields, $idField)
     {
         $this->connection = $connection;
         $this->table = $table;
@@ -51,24 +51,26 @@ class DoctrineDBALStore implements StoreInterface
      * @param int $limit
      * @return array
      */
-    public function fetch(int $offset, int $limit): array
+    public function fetch($offset, $limit)
     {
         $fields = $this->fields;
         $fields[] = $this->idField;
         $stmt = $this->connection->createQueryBuilder()
             ->select($fields)
-            ->from($this->table,"t")
+            ->from($this->table, "t")
             ->setFirstResult($offset)
             ->setMaxResults($limit)
             ->execute();
 
+        return array_map(array($this, "fetchRecord"), $stmt->fetchAll(\PDO::FETCH_ASSOC));
+    }
 
-        return array_map(function ($row) {
-            return new Record(
-                $row[$this->idField],
-                array_intersect_key($row, array_flip($this->fields))
-            );
-        }, $stmt->fetchAll(\PDO::FETCH_ASSOC));
+    private function fetchRecord($row)
+    {
+        return new Record(
+            $row[$this->idField],
+            array_intersect_key($row, array_flip($this->fields))
+        );
     }
 
     /**
@@ -80,17 +82,20 @@ class DoctrineDBALStore implements StoreInterface
     {
         $this->connection->beginTransaction();
         try {
-            array_walk($rotatedRecords,function(Record $rotatedRecord) {
-                $this->connection->update(
-                    $this->table,
-                    $rotatedRecord->getData(),
-                    array($this->idField => $rotatedRecord->getId())
-                );
-            });
+            array_walk($rotatedRecords, array($this, "saveRecord"));
             $this->connection->commit();
         } catch (Exception $e) {
             $this->connection->rollBack();
             throw $e;
         }
+    }
+
+    private function saveRecord(Record $rotatedRecord)
+    {
+        $this->connection->update(
+            $this->table,
+            $rotatedRecord->getData(),
+            array($this->idField => $rotatedRecord->getId())
+        );
     }
 }

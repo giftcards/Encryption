@@ -21,16 +21,16 @@ class StoreRegistryBuilder
     /**
      * @var array
      */
-    private $buildQueue = [];
+    private $buildQueue = array();
 
     /**
      * Constructs a StoreRegistryBuilder with built-in StoreBuilders
      * @param BuilderInterface[] $builders Additional builders
      */
-    public function __construct($builders = [])
+    public function __construct($builders = array())
     {
         $builders[] = new DoctrineDBALStoreBuilder();
-        $this->factory = new Factory(StoreInterface::class, $builders);
+        $this->factory = new Factory("Giftcards\\Encryption\\CipherText\\Rotator\\Store\\StoreInterface", $builders);
     }
 
     /**
@@ -40,7 +40,7 @@ class StoreRegistryBuilder
      * @return StoreRegistryBuilder
      * @throws \TypeError
      */
-    public function addStore(string $storeName, $store, array $options = []): StoreRegistryBuilder
+    public function addStore($storeName, $store, array $options = array())
     {
         if ($store instanceof StoreInterface) {
             return $this->addStoreToRegistry($storeName, $store);
@@ -61,7 +61,7 @@ class StoreRegistryBuilder
     /**
      * @return StoreRegistry
      */
-    public function build(): StoreRegistry
+    public function build()
     {
         $registry = new StoreRegistry();
         foreach ($this->buildQueue as $storeName => $entry) {
@@ -77,12 +77,12 @@ class StoreRegistryBuilder
      * @param array $options
      * @return StoreRegistryBuilder
      */
-    private function addStoreToBuildQueue(string $storeName, $builderName, array $options): StoreRegistryBuilder
+    private function addStoreToBuildQueue($storeName, $builderName, array $options)
     {
         if (!$this->factory->hasBuilder($builderName)) {
             throw new \DomainException(sprintf("Unknown builder: %s", $builderName));
         }
-        $this->buildQueue[$storeName] = [$builderName, $options];
+        $this->buildQueue[$storeName] = array($builderName, $options);
         return $this;
     }
 
@@ -91,7 +91,7 @@ class StoreRegistryBuilder
      * @param StoreInterface $store
      * @return StoreRegistryBuilder
      */
-    private function addStoreToRegistry(string $storeName, StoreInterface $store): StoreRegistryBuilder
+    private function addStoreToRegistry($storeName, StoreInterface $store)
     {
         $this->buildQueue[$storeName] = $store;
         return $this;
@@ -101,9 +101,9 @@ class StoreRegistryBuilder
      * @param StoreInterface|array $entry A StoreInterface or an array in the format [builderName, options]
      * @return StoreInterface
      */
-    private function buildEntry($entry): StoreInterface
+    private function buildEntry($entry)
     {
-        if( $entry instanceof StoreInterface) {
+        if ($entry instanceof StoreInterface) {
             return $entry;
         }
         list($builderName, $options) = $entry;

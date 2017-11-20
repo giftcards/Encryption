@@ -14,14 +14,14 @@ class StoreRegistry
     /**
      * @var StoreInterface
      */
-    private $stores = [];
+    private $stores = array();
 
     /**
      * @param string $storeName
      * @param StoreInterface $store
      * @return $this
      */
-    public function set(string $storeName, StoreInterface $store)
+    public function set($storeName, StoreInterface $store)
     {
         $this->stores[$storeName] = $store;
         return $this;
@@ -31,7 +31,7 @@ class StoreRegistry
      * @param $storeName
      * @return StoreInterface
      */
-    public function get($storeName):StoreInterface
+    public function get($storeName)
     {
         return $this->stores[$storeName];
     }
