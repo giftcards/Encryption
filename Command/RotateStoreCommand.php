@@ -92,7 +92,7 @@ class RotateStoreCommand extends Command
         }
     }
 
-    private function getLimit(InputInterface $input, int $offset)
+    private function getLimit(InputInterface $input, $offset)
     {
         $limit = $input->getOption('limit');
         if( $limit == null ) {
