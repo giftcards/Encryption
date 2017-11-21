@@ -36,4 +36,9 @@ class StoreRegistry
         return $this->stores[$storeName];
     }
 
+    public function has($storeName)
+    {
+        return isset($this->stores[$storeName]);
+    }
+
 }

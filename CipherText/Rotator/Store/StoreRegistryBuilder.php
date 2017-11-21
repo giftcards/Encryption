@@ -26,10 +26,20 @@ class StoreRegistryBuilder
     /**
      * Constructs a StoreRegistryBuilder with built-in StoreBuilders
      * @param BuilderInterface[] $builders Additional builders
+     * @return StoreRegistryBuilder
+     */
+    public static function factory($builders = array())
+    {
+        $builders[] = new DoctrineDBALStoreBuilder();
+        return new self($builders);
+    }
+
+    /**
+     * StoreRegistryBuilder constructor.
+     * @param array $builders
      */
     public function __construct($builders = array())
     {
-        $builders[] = new DoctrineDBALStoreBuilder();
         $this->factory = new Factory("Giftcards\\Encryption\\CipherText\\Rotator\\Store\\StoreInterface", $builders);
     }
 
@@ -50,7 +60,7 @@ class StoreRegistryBuilder
             return $this->addStoreToBuildQueue($storeName, $store, $options);
         }
 
-        throw new \TypeError(
+        throw new \InvalidArgumentException(
             sprintf(
                 "Second argument for StoreRegistryBuilder::addStore() must be a string or StoreInterface. %s given",
                 is_object($store) ? get_class($store) : gettype($store)
