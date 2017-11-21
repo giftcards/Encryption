@@ -17,19 +17,51 @@ class DoctrineDBALStoreBuilderTest extends AbstractTestCase
 {
     public function testBuilder()
     {
-        $connection = \Mockery::mock(Connection::class);
+        $connection = \Mockery::mock("Doctrine\\DBAL\\Connection");
         assert($connection instanceof Connection);
         $table = $this->getFaker()->word;
-        $fields = [
+        $fields = array(
             $this->getFaker()->word
-        ];
+        );
         $idField = $this->getFaker()->word;
         $builder = new DoctrineDBALStoreBuilder();
-        $this->assertEquals(new DoctrineDBALStore($connection, $table, $fields, $idField), $builder->build([
+        $this->assertEquals(new DoctrineDBALStore($connection, $table, $fields, $idField), $builder->build(array(
             'connection' => $connection,
             'table' => $table,
             'fields' => $fields,
             'idField' => $idField
-        ]));
+        )));
+    }
+
+    public function testResolver()
+    {
+        $builder = new DoctrineDBALStoreBuilder();
+        $resolver = \Mockery::mock("Symfony\\Component\\OptionsResolver\\OptionsResolver");
+        $resolver->shouldReceive("setRequired")->with(array(
+            'connection',
+            'table',
+            'fields',
+            'id_field'
+        ))->andReturnSelf();
+        $resolver->shouldReceive("setAllowedTypes")->withArgs(array(
+            "connection",
+            "Doctrine\\DBAL\\Connection"
+        ))->andReturnSelf();
+        $resolver->shouldReceive("setAllowedTypes")->withArgs(array("table", "string"))->andReturnSelf();
+        $resolver->shouldReceive("setAllowedTypes")->withArgs(array("fields", "array"))->andReturnSelf();
+        $resolver->shouldReceive("setAllowedTypes")->withArgs(array("id_field", "string"))->andReturnSelf();
+
+        $builder->configureOptionsResolver($resolver);
+
+        $resolver->shouldHaveReceived("setRequired")->with(array(
+            'connection',
+            'table',
+            'fields',
+            'id_field'
+        ));
+        $resolver->shouldHaveReceived("setAllowedTypes")->withArgs(array("connection", "Doctrine\\DBAL\\Connection"));
+        $resolver->shouldHaveReceived("setAllowedTypes")->withArgs(array("table", "string"));
+        $resolver->shouldHaveReceived("setAllowedTypes")->withArgs(array("fields", "array"));
+        $resolver->shouldHaveReceived("setAllowedTypes")->withArgs(array("id_field", "string"));
     }
 }
