@@ -21,7 +21,7 @@ class ConsoleOutputRotatorObserver implements RotatorObserverInterface
 
     public function fetchedRecords($offset, $limit, array $records)
     {
-        $this->output->writeln(sprintf("Fetching records %d-%d, %d found", $offset, $offset + $limit, count($records)));
+        $this->output->writeln(sprintf("Fetched records %d-%d, %d found", $offset, $offset + $limit, count($records)));
     }
 
     public function rotatingRecord(Record $record)
@@ -36,6 +36,6 @@ class ConsoleOutputRotatorObserver implements RotatorObserverInterface
 
     public function savedRecords($offset, $limit, array $records)
     {
-        $this->output->writeln(sprintf("Saving records %d-%d, %d total", $offset, $offset + $limit, count($records)));
+        $this->output->writeln(sprintf("Saved records %d-%d, %d total", $offset, $offset + $limit, count($records)));
     }
 }

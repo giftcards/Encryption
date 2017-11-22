@@ -32,7 +32,7 @@ class ConsoleOutputRotatorObserverTest extends AbstractTestCase
         $observer->fetchedRecords($offset, $limit, $records);
         $output->shouldHaveReceived("writeln")->with(
             sprintf(
-                "Fetching records %d-%d, %d found",
+                "Fetched records %d-%d, %d found",
                 $offset,
                 $offset + $limit,
                 count($records)
@@ -51,7 +51,7 @@ class ConsoleOutputRotatorObserverTest extends AbstractTestCase
 
         $observer->savedRecords($offset, $limit, $records);
         $output->shouldHaveReceived("writeln")->with(
-            sprintf("Saving records %d-%d, %d total", $offset, $offset + $limit, count($records))
+            sprintf("Saved records %d-%d, %d total", $offset, $offset + $limit, count($records))
         );
     }
 

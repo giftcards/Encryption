@@ -52,7 +52,7 @@ class StoreRegistryBuilderTest extends AbstractTestCase
 
     public function testFactory()
     {
-        $builder = StoreRegistryBuilder::factory();
+        $builder = StoreRegistryBuilder::newInstance();
         $registry = $builder->build();
     }
 
@@ -87,5 +87,4 @@ class StoreRegistryBuilderTest extends AbstractTestCase
         }
 
     }
-
 }

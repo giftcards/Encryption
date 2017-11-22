@@ -36,10 +36,10 @@ class Rotator
         foreach ($bounds as $key => $entry) {
             list($offset, $limit) = $entry;
             $records = $store->fetch($offset, $limit);
-            $observer->fetchedRecords($offset, $limit, $records);
             if (!count($records)) {
                 break;
             }
+            $observer->fetchedRecords($offset, $limit, $records);
             $store->save($this->rotateRecords($records, $newProfile, $observer));
             $observer->savedRecords($offset, $limit, $records);
         }

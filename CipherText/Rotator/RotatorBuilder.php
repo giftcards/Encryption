@@ -19,6 +19,14 @@ class RotatorBuilder
 
     // <editor-fold desc="Construction and Building">
     /**
+     * @return RotatorBuilder
+     */
+    public static function newInstance()
+    {
+        return new self();
+    }
+
+    /**
      * RotatorBuilder constructor.
      * @param BuilderInterface[] $storeBuilders
      */
@@ -103,5 +111,4 @@ class RotatorBuilder
         return $this->getEncryptor();
     }
     // </editor-fold>
-
 }

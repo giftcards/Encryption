@@ -28,7 +28,7 @@ class StoreRegistryBuilder
      * @param BuilderInterface[] $builders Additional builders
      * @return StoreRegistryBuilder
      */
-    public static function factory($builders = array())
+    public static function newInstance($builders = array())
     {
         $builders[] = new DoctrineDBALStoreBuilder();
         return new self($builders);
@@ -119,6 +119,4 @@ class StoreRegistryBuilder
         list($builderName, $options) = $entry;
         return $this->factory->create($builderName, $options);
     }
-
-
 }
