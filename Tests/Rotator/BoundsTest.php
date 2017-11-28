@@ -16,46 +16,46 @@ class BoundsTest extends AbstractTestCase
     public function testIteration()
     {
         $bounds = new Bounds(0, 12, 1);
-        $this->assertEquals([
-            [0, 1],
-            [1, 1],
-            [2, 1],
-            [3, 1],
-            [4, 1],
-            [5, 1],
-            [6, 1],
-            [7, 1],
-            [8, 1],
-            [9, 1],
-            [10, 1],
-            [11, 1],
-        ], iterator_to_array($bounds));
+        $this->assertEquals(array(
+            array(0, 1),
+            array(1, 1),
+            array(2, 1),
+            array(3, 1),
+            array(4, 1),
+            array(5, 1),
+            array(6, 1),
+            array(7, 1),
+            array(8, 1),
+            array(9, 1),
+            array(10, 1),
+            array(11, 1),
+        ), iterator_to_array($bounds));
         $bounds = new Bounds(0, 12, 3);
-        $this->assertEquals([
-            [0, 3],
-            [3, 3],
-            [6, 3],
-            [9, 3]
-        ], iterator_to_array($bounds));
+        $this->assertEquals(array(
+            array(0, 3),
+            array(3, 3),
+            array(6, 3),
+            array(9, 3)
+        ), iterator_to_array($bounds));
         $bounds = new Bounds(2, 12, 3);
-        $this->assertEquals([
-            [2, 3],
-            [5, 3],
-            [8, 3],
-            [11, 1],
-        ], iterator_to_array($bounds));
+        $this->assertEquals(array(
+            array(2, 3),
+            array(5, 3),
+            array(8, 3),
+            array(11, 1),
+        ), iterator_to_array($bounds));
         $bounds = new Bounds(2, null, 4);
-        $this->assertEquals([
-            [2, 4],
-            [6, 4],
-            [10, 4],
-            [14, 4],
-            [18, 4],
-        ], iterator_to_array(new \LimitIterator($bounds, 0, 5)));
-        $this->assertEquals([
-            1 => [6, 4],
-            2 => [10, 4],
-            3 => [14, 4],
-        ], iterator_to_array(new \LimitIterator($bounds, 1, 3)));
+        $this->assertEquals(array(
+            array(2, 4),
+            array(6, 4),
+            array(10, 4),
+            array(14, 4),
+            array(18, 4),
+        ), iterator_to_array(new \LimitIterator($bounds, 0, 5)));
+        $this->assertEquals(array(
+            1 => array(6, 4),
+            2 => array(10, 4),
+            3 => array(14, 4),
+        ), iterator_to_array(new \LimitIterator($bounds, 1, 3)));
     }
 }

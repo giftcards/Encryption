@@ -8,11 +8,7 @@
 
 namespace Giftcards\Encryption\Tests\Rotator\Builders;
 
-use Giftcards\Encryption\CipherText\Rotator\Rotator;
 use Giftcards\Encryption\CipherText\Rotator\RotatorBuilder;
-use Giftcards\Encryption\CipherText\Rotator\Store\StoreRegistry;
-use Giftcards\Encryption\Encryptor;
-use Giftcards\Encryption\Factory\BuilderInterface;
 use Giftcards\Encryption\Tests\AbstractTestCase;
 
 class RotatorBuilderTest extends AbstractTestCase
@@ -20,10 +16,10 @@ class RotatorBuilderTest extends AbstractTestCase
     public function testBuilder()
     {
         $builderName = $this->getFaker()->unique()->word;
-        $builder = \Mockery::mock(BuilderInterface::class);
+        $builder = \Mockery::mock("Giftcards\\Encryption\\Factory\\BuilderInterface");
         $builder->shouldReceive("getName")->andReturn($builderName);
 
-        $rotatorBuilder = new RotatorBuilder([$builder]);
+        $rotatorBuilder = new RotatorBuilder(array($builder));
         $rotatorBuilder->build();
 
         $builder->shouldHaveReceived("getName");

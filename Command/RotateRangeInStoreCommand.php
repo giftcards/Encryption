@@ -92,5 +92,4 @@ class RotateRangeInStoreCommand extends Command
             );
         }
     }
-
 }

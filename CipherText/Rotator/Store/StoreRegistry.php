@@ -40,5 +40,4 @@ class StoreRegistry
     {
         return isset($this->stores[$storeName]);
     }
-
 }

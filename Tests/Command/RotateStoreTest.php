@@ -30,11 +30,11 @@ class RotateStoreTest extends AbstractTestCase
         $limit = $this->getFaker()->unique()->randomNumber();
         $batchSize = $this->getFaker()->unique()->randomNumber();
 
-        $rotator = \Mockery::mock(Rotator::class);
+        $rotator = \Mockery::mock("Giftcards\\Encryption\\CipherText\\Rotator\\Rotator");
         $rotator->shouldReceive("rotate");
         assert($rotator instanceof Rotator);
 
-        $tracker = \Mockery::mock(TrackerInterface::class);
+        $tracker = \Mockery::mock("Giftcards\\Encryption\\CipherText\\Rotator\\Tracker\\TrackerInterface");
         $tracker->shouldReceive("get")->andReturn(0);
         $tracker->shouldReceive("reset");
         assert($tracker instanceof TrackerInterface);
@@ -47,7 +47,7 @@ class RotateStoreTest extends AbstractTestCase
         $tracker->shouldHaveReceived("get")->with($storeName);
         $tracker->shouldHaveReceived("reset")->with($storeName);
 
-        $rotator->shouldHaveReceived("rotate")->withArgs([
+        $rotator->shouldHaveReceived("rotate")->withArgs(array(
             $storeName,
             $newProfile,
             \Hamcrest_Matchers::equalTo(new Bounds(0, $limit, $batchSize)),
@@ -55,7 +55,6 @@ class RotateStoreTest extends AbstractTestCase
                 new TrackingObserver($tracker, $storeName),
                 new ConsoleOutputRotatorObserver($output)
             ))
-        ]);;
+        ));
     }
-
 }

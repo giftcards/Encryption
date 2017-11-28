@@ -23,5 +23,4 @@ class NullTrackerTest extends AbstractTestCase
         $tracker->reset($storeName);
         $tracker->save($storeName, 0);
     }
-
 }

@@ -25,7 +25,7 @@ class RotateRangeTest extends AbstractTestCase
         $storeName = $this->getFaker()->unique()->word();
         $newProfile = $this->getFaker()->unique()->word();
 
-        $rotator = \Mockery::mock(Rotator::class);
+        $rotator = \Mockery::mock("Giftcards\\Encryption\\CipherText\\Rotator\\Rotator");
         $rotator->shouldReceive("rotate");
         assert($rotator instanceof Rotator);
 
@@ -38,14 +38,13 @@ class RotateRangeTest extends AbstractTestCase
         $output = new ConsoleOutput();
         $command->run($input, $output);
 
-        $rotator->shouldHaveReceived("rotate")->withArgs([
+        $rotator->shouldHaveReceived("rotate")->withArgs(array(
             $storeName,
             $newProfile,
             \Hamcrest_Matchers::equalTo(new Bounds($offset, $limit, $batchSize)),
             \Hamcrest_Matchers::equalTo(new RotatorObserverChain(
                 new ConsoleOutputRotatorObserver($output)
             ))
-        ]);
+        ));
     }
-
 }

@@ -15,8 +15,8 @@ class RecordTest extends AbstractTestCase
 {
     public function testRecord()
     {
-        $record = new Record(1, ['foo' => 'bar']);
+        $record = new Record(1, array('foo' => 'bar'));
         $this->assertEquals(1, $record->getId());
-        $this->assertEquals(['foo' => 'bar'], $record->getData());
+        $this->assertEquals(array('foo' => 'bar'), $record->getData());
     }
 }

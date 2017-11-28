@@ -45,5 +45,4 @@ class Record
     {
         return $this->data;
     }
-
 }
