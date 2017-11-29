@@ -32,7 +32,7 @@ class RotatorBuilder
      */
     public function __construct($storeBuilders = array())
     {
-        $this->storeRegistryBuilder = new StoreRegistryBuilder($storeBuilders);
+        $this->storeRegistryBuilder = StoreRegistryBuilder::newInstance($storeBuilders);
     }
 
     /**
