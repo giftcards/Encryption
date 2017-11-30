@@ -89,7 +89,7 @@ class StoreRegistryBuilder
      */
     private function addStoreToBuildQueue($storeName, $builderName, array $options)
     {
-        if (!$this->factory->hasBuilder($builderName)) {
+        if (!$this->factory->getRegistry()->has($builderName)) {
             throw new \DomainException(sprintf("Unknown builder: %s", $builderName));
         }
         $this->buildQueue[$storeName] = array($builderName, $options);
