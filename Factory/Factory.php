@@ -51,4 +51,5 @@ class Factory
     {
         return $this->registry;
     }
+
 }
