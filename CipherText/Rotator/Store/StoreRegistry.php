@@ -12,9 +12,9 @@ class StoreRegistry
 {
 
     /**
-     * @var StoreInterface
+     * @var StoreInterface[]
      */
-    private $stores = array();
+    protected $stores = array();
 
     /**
      * @param string $storeName
@@ -33,11 +33,23 @@ class StoreRegistry
      */
     public function get($storeName)
     {
+        if (!$this->has($storeName)) {
+            throw new StoreNotFoundException($storeName);
+        }
+
         return $this->stores[$storeName];
     }
 
     public function has($storeName)
     {
         return isset($this->stores[$storeName]);
+    }
+
+    /**
+     * @return StoreInterface[]
+     */
+    public function all()
+    {
+        return $this->stores;
     }
 }
