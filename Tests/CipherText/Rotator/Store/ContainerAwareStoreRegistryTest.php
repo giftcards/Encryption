@@ -2,24 +2,28 @@
 /**
  * Created by PhpStorm.
  * User: jjose00
- * Date: 11/10/17
- * Time: 9:09 AM
+ * Date: 2/5/18
+ * Time: 6:07 PM
  */
 
-namespace Giftcards\Encryption\Tests\Rotator;
+namespace Giftcards\Encryption\Tests\CipherText\Rotator\Store;
 
-use Giftcards\Encryption\CipherText\Rotator\Store\StoreRegistry;
+use Giftcards\Encryption\CipherText\Rotator\Store\ContainerAwareStoreRegistry;
 use Giftcards\Encryption\Tests\AbstractTestCase;
-use Mockery;
+use Symfony\Component\DependencyInjection\Container;
 
-class StoreRegistryTest extends AbstractTestCase
+class ContainerAwareStoreRegistryTest extends AbstractTestCase
 {
-    /** @var  StoreRegistry */
+    /** @var  Container */
+    protected $container;
+    /** @var  ContainerAwareStoreRegistry */
     protected $registry;
 
     public function setUp()
     {
-        $this->registry = new StoreRegistry();
+        $this->registry = new ContainerAwareStoreRegistry(
+            $this->container = new Container()
+        );
     }
 
     public function testGettersSetters()
@@ -31,9 +35,11 @@ class StoreRegistryTest extends AbstractTestCase
         $store3 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\Store\StoreInterface');
         $store3Name = $this->getFaker()->unique()->word;
 
+        $this->container->set('store2', $store2);
+
         $this->registry
             ->set($store1Name, $store1)
-            ->set($store2Name, $store2)
+            ->setServiceId($store2Name, 'store2')
             ->set($store3Name, $store3)
         ;
         $this->assertTrue($this->registry->has($store1Name));
@@ -60,10 +66,11 @@ class StoreRegistryTest extends AbstractTestCase
         $store2Name = $this->getFaker()->unique()->word;
         $store3 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\Store\StoreInterface');
         $store3Name = $this->getFaker()->unique()->word;
+        $this->container->set('store2', $store2);
 
         $this->registry
             ->set($store1Name, $store1)
-            ->set($store2Name, $store2)
+            ->setServiceId($store2Name, 'store2')
             ->set($store3Name, $store3)
             ->get($this->getFaker()->unique()->word)
         ;

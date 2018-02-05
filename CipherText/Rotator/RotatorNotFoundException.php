@@ -17,6 +17,6 @@ class RotatorNotFoundException extends \InvalidArgumentException
     public function __construct($name)
     {
         $this->name = $name;
-        parent::__construct(sprintf('The store named "%s" could not be found.', $name));
+        parent::__construct(sprintf('The rotator named "%s" could not be found.', $name));
     }
 }
