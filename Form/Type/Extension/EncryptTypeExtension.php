@@ -12,7 +12,7 @@ use Giftcards\Encryption\Encryptor;
 use Giftcards\Encryption\Form\DataTransformer\EncryptTransformer;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EncryptTypeExtension extends AbstractTypeExtension
 {
@@ -53,19 +53,19 @@ class EncryptTypeExtension extends AbstractTypeExtension
     /**
      * Overrides the default options from the extended type.
      *
-     * @param OptionsResolverInterface $resolver The resolver for the options.
+     * @param OptionsResolver $resolver The resolver for the options.
      *
      * @deprecated since version 2.7, to be removed in 3.0.
      *             Use the method configureOptions instead. This method will be
      *             added to the FormTypeExtensionInterface with Symfony 3.0
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults([
                 'encryption_profile' => false
-            ))
-            ->setAllowedTypes(array('encryption_profile' => array('false', 'string')))
+            ])
+            ->setAllowedTypes('encryption_profile', ['false', 'string'])
         ;
     }
 
