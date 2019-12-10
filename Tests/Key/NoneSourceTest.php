@@ -16,12 +16,12 @@ class NoneSourceTest extends AbstractSourceTest
     public function gettersHassersProvider()
     {
         $faker = Factory::create();
-        return array(
-            array(
+        return [
+            [
                 new NoneSource(),
-                array('none' => ''),
-                array($faker->unique()->word, $faker->unique()->word)
-            )
-        );
+                ['none' => ''],
+                [$faker->unique()->word, $faker->unique()->word]
+            ]
+        ];
     }
 }

@@ -9,14 +9,15 @@
 namespace Giftcards\Encryption\Tests\Factory;
 
 use Giftcards\Encryption\Factory\Registry;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Mockery;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class RegistryTest extends AbstractTestCase
+class RegistryTest extends AbstractExtendableTestCase
 {
     /** @var  Registry */
     protected $registry;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->registry = new Registry();
     }
@@ -24,19 +25,19 @@ class RegistryTest extends AbstractTestCase
     public function testGettersSetters()
     {
         $builder1Name = $this->getFaker()->unique()->word;
-        $builder1 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
+        $builder1 = Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
             ->shouldReceive('getName')
             ->andReturn($builder1Name)
             ->getMock()
         ;
         $builder2Name = $this->getFaker()->unique()->word;
-        $builder2 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
+        $builder2 = Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
             ->shouldReceive('getName')
             ->andReturn($builder2Name)
             ->getMock()
         ;
         $builder3Name = $this->getFaker()->unique()->word;
-        $builder3 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
+        $builder3 = Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
             ->shouldReceive('getName')
             ->andReturn($builder3Name)
             ->getMock()
@@ -51,26 +52,24 @@ class RegistryTest extends AbstractTestCase
         $this->assertTrue($this->registry->has($builder3Name));
         $this->assertSame($builder3, $this->registry->get($builder3Name));
         $this->assertFalse($this->registry->has($this->getFaker()->unique()->word));
-        $this->assertEquals(array(
+        $this->assertEquals([
             $builder1Name => $builder1,
             $builder2Name => $builder2,
             $builder3Name => $builder3,
-        ), $this->registry->all());
+        ], $this->registry->all());
     }
 
-    /**
-     * @expectedException \Giftcards\Encryption\Factory\BuilderNotFoundException
-     */
     public function testGetWithMissingBuilder()
     {
+        $this->expectException('\Giftcards\Encryption\Factory\BuilderNotFoundException');
         $builder1Name = $this->getFaker()->unique()->word;
-        $builder1 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
+        $builder1 = Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
             ->shouldReceive('getName')
             ->andReturn($builder1Name)
             ->getMock()
         ;
         $builder2Name = $this->getFaker()->unique()->word;
-        $builder2 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
+        $builder2 = Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
             ->shouldReceive('getName')
             ->andReturn($builder2Name)
             ->getMock()

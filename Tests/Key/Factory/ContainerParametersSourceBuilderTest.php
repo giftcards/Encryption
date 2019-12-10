@@ -10,15 +10,17 @@ namespace Giftcards\Encryption\Tests\Key\Factory;
 
 use Giftcards\Encryption\Key\ContainerParametersSource;
 use Giftcards\Encryption\Key\Factory\ContainerParametersSourceBuilder;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+
+use Mockery;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 use Symfony\Component\DependencyInjection\Container;
 
-class ContainerParametersSourceBuilderTest extends AbstractTestCase
+class ContainerParametersSourceBuilderTest extends AbstractExtendableTestCase
 {
     /** @var  ContainerParametersSourceBuilder */
     protected $factory;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->factory = new ContainerParametersSourceBuilder();
     }
@@ -28,43 +30,43 @@ class ContainerParametersSourceBuilderTest extends AbstractTestCase
         $container = new Container();
         $this->assertEquals(
             new ContainerParametersSource($container),
-            $this->factory->build(array('container' => $container))
+            $this->factory->build(['container' => $container])
         );
     }
 
     public function testConfigureOptionsResolver()
     {
         $this->factory->configureOptionsResolver(
-            \Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolver')
+            Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolver')
                 ->shouldReceive('setRequired')
                 ->once()
-                ->with(array('container'))
-                ->andReturn(\Mockery::self())
+                ->with(['container'])
+                ->andReturnSelf()
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
                 ->with('container', 'Symfony\Component\DependencyInjection\ContainerInterface')
-                ->andReturn(\Mockery::self())
+                ->andReturnSelf()
                 ->getMock()
         );
         $container = new Container();
         $factory = new ContainerParametersSourceBuilder($container);
         $factory->configureOptionsResolver(
-            \Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolver')
+            Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolver')
                 ->shouldReceive('setRequired')
                 ->once()
-                ->with(array('container'))
-                ->andReturn(\Mockery::self())
+                ->with(['container'])
+                ->andReturnSelf()
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
                 ->with('container', 'Symfony\Component\DependencyInjection\ContainerInterface')
-                ->andReturn(\Mockery::self())
+                ->andReturnSelf()
                 ->getMock()
                 ->shouldReceive('setDefaults')
                 ->once()
-                ->with(array('container' => $container))
-                ->andReturn(\Mockery::self())
+                ->with(['container' => $container])
+                ->andReturnSelf()
                 ->getMock()
         );
     }

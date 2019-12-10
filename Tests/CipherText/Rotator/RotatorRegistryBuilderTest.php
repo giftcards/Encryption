@@ -8,15 +8,16 @@
 
 namespace Giftcards\Encryption\Tests\CipherText\Rotator;
 
+use Mockery;
 use Mockery\MockInterface;
 use Giftcards\Encryption\CipherText\Rotator\Factory\DatabaseTableRotatorBuilder;
 use Giftcards\Encryption\CipherText\Rotator\Factory\DoctrineDBALRotatorBuilder;
 use Giftcards\Encryption\CipherText\Rotator\RotatorRegistry;
 use Giftcards\Encryption\CipherText\Rotator\RotatorRegistryBuilder;
 use Giftcards\Encryption\Factory\Factory;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class RotatorRegistryBuilderTest extends AbstractTestCase
+class RotatorRegistryBuilderTest extends AbstractExtendableTestCase
 {
     /** @var  RotatorRegistryBuilder */
     protected $builder;
@@ -27,11 +28,11 @@ class RotatorRegistryBuilderTest extends AbstractTestCase
     /** @var  MockInterface */
     protected $factory;
 
-    public function setUp()
+    public function setUp() : void
     {
-        $this->rotator1 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
-        $this->rotator2 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
-        $this->factory = \Mockery::mock('Giftcards\Encryption\Factory\Factory');
+        $this->rotator1 = Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
+        $this->rotator2 = Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
+        $this->factory = Mockery::mock('Giftcards\Encryption\Factory\Factory');
         $this->builder = new RotatorRegistryBuilder(
             $this->factory
         );
@@ -41,10 +42,10 @@ class RotatorRegistryBuilderTest extends AbstractTestCase
     {
         $this->assertEquals(new RotatorRegistryBuilder(new Factory(
             'Giftcards\Encryption\CipherText\Rotator\RotatorInterface',
-            array(
+            [
                 new DatabaseTableRotatorBuilder(),
                 new DoctrineDBALRotatorBuilder(),
-            )
+            ]
         )), RotatorRegistryBuilder::newInstance());
     }
     
@@ -71,12 +72,12 @@ class RotatorRegistryBuilderTest extends AbstractTestCase
         $name2 = $this->getFaker()->unique()->word;
         $name3 = $this->getFaker()->unique()->word;
         $factoryName = $this->getFaker()->unique()->word;
-        $factoryOptions = array(
+        $factoryOptions = [
             $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
             $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
             $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
-        );
-        $source3 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
+        ];
+        $source3 = Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
         $this->factory
             ->shouldReceive('create')
             ->once()

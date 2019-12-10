@@ -10,22 +10,23 @@ namespace Giftcards\Encryption\Tests\Rotator;
 
 use Giftcards\Encryption\CipherText\Rotator\ConsoleOutputRotatorObserver;
 use Giftcards\Encryption\CipherText\Rotator\Record;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Mockery;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class ConsoleOutputRotatorObserverTest extends AbstractTestCase
+class ConsoleOutputRotatorObserverTest extends AbstractExtendableTestCase
 {
 
     public function testObserver()
     {
-        $output = \Mockery::mock("Symfony\\Component\\Console\\Output\\OutputInterface");
+        $output = Mockery::mock("Symfony\\Component\\Console\\Output\\OutputInterface");
         $output->shouldReceive("writeln");
 
         $offset = $this->getFaker()->unique()->randomNumber();
         $limit = $this->getFaker()->unique()->randomNumber();
-        $record = new Record($this->getFaker()->unique()->randomNumber(), array(
+        $record = new Record($this->getFaker()->unique()->randomNumber(), [
             'value' => $this->getFaker()->unique()->word()
-        ));
-        $records = array($record);
+        ]);
+        $records = [$record];
 
         $observer = new ConsoleOutputRotatorObserver($output);
 

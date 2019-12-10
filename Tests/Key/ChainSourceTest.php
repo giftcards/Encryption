@@ -17,14 +17,14 @@ class ChainSourceTest extends AbstractSourceTest
     public function gettersHassersProvider()
     {
         $faker = Factory::create();
-        $keys = array(
+        $keys = [
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
-        );
+        ];
         $keyChunks = array_chunk($keys, 2, true);
         $source1 = new ArraySource($keyChunks[0]);
         $source2 = new ArraySource($keyChunks[1]);
@@ -37,8 +37,8 @@ class ChainSourceTest extends AbstractSourceTest
                 ->add($source2)
                 ->add($source3)
         );
-        return array(
-            array($chain, $keys, array($faker->unique()->word, $faker->unique()->word))
-        );
+        return [
+            [$chain, $keys, [$faker->unique()->word, $faker->unique()->word]]
+        ];
     }
 }

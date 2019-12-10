@@ -19,29 +19,29 @@ class PrefixKeyNameSourceTest extends AbstractSourceTest
         $faker = Factory::create();
         $prefix = $faker->unique()->word;
         $separator = $faker->unique()->word;
-        $keys = array(
+        $keys = [
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
-        );
+        ];
         $prefixedKeys = array_combine(
             array_map(function ($keyKey) use ($prefix, $separator) {
                 return $prefix.$separator.$keyKey;
             }, array_keys($keys)),
             $keys
         );
-        return array(
-            array(
+        return [
+            [
                 new PrefixKeyNameSource($prefix, new ArraySource($keys), $separator),
                 $prefixedKeys,
                 array_keys($keys)
-            ),
-            array(
+            ],
+            [
                 new PrefixKeyNameSource($prefix, new ArraySource($keys), $separator),
                 $prefixedKeys,
-                array($faker->unique()->word, $faker->unique()->word)
-            )
-        );
+                [$faker->unique()->word, $faker->unique()->word]
+            ]
+        ];
     }
 }

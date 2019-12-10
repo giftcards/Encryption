@@ -16,14 +16,14 @@ class ArraySourceTest extends AbstractSourceTest
     public function gettersHassersProvider()
     {
         $faker = Factory::create();
-        $keys = array(
+        $keys = [
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
-        );
-        return array(
-            array(new ArraySource($keys), $keys, array($faker->unique()->word, $faker->unique()->word))
-        );
+        ];
+        return [
+            [new ArraySource($keys), $keys, [$faker->unique()->word, $faker->unique()->word]]
+        ];
     }
 }

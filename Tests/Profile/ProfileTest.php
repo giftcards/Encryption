@@ -9,9 +9,9 @@
 namespace Giftcards\Encryption\Tests\Profile;
 
 use Giftcards\Encryption\Profile\Profile;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class ProfileTest extends AbstractTestCase
+class ProfileTest extends AbstractExtendableTestCase
 {
     public function testGetters()
     {

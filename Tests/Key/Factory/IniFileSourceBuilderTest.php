@@ -10,14 +10,15 @@ namespace Giftcards\Encryption\Tests\Key\Factory;
 
 use Giftcards\Encryption\Key\Factory\IniFileSourceBuilder;
 use Giftcards\Encryption\Key\IniFileSource;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Mockery;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class IniFileSourceBuilderTest extends AbstractTestCase
+class IniFileSourceBuilderTest extends AbstractExtendableTestCase
 {
     /** @var  IniFileSourceBuilder */
     protected $factory;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->factory = new IniFileSourceBuilder();
     }
@@ -28,36 +29,36 @@ class IniFileSourceBuilderTest extends AbstractTestCase
         $caseSensitive = $this->getFaker()->boolean;
         $this->assertEquals(
             new IniFileSource($iniFilePath, $caseSensitive),
-            $this->factory->build(array(
+            $this->factory->build([
                 'file' => $iniFilePath,
                 'case_sensitive' => $caseSensitive
-            ))
+            ])
         );
     }
 
     public function testConfigureOptionsResolver()
     {
         $this->factory->configureOptionsResolver(
-            \Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolver')
+            Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolver')
                 ->shouldReceive('setRequired')
                 ->once()
-                ->with(array('file'))
-                ->andReturn(\Mockery::self())
+                ->with(['file'])
+                ->andReturnSelf()
                 ->getMock()
                 ->shouldReceive('setDefaults')
                 ->once()
-                ->with(array('case_sensitive' => false))
-                ->andReturn(\Mockery::self())
+                ->with(['case_sensitive' => false])
+                ->andReturnSelf()
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
                 ->with('file', 'string')
-                ->andReturn(\Mockery::self())
+                ->andReturnSelf()
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
                 ->with('case_sensitive', 'bool')
-                ->andReturn(\Mockery::self())
+                ->andReturnSelf()
                 ->getMock()
         );
     }

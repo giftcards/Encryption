@@ -18,18 +18,18 @@ class ContainerParametersSourceTest extends AbstractSourceTest
     public function gettersHassersProvider()
     {
         $faker = Factory::create();
-        $keys = array(
+        $keys = [
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
-        );
-        return array(
-            array(
+        ];
+        return [
+            [
                 new ContainerParametersSource(new Container(new ParameterBag($keys))),
                 $keys,
-                array($faker->unique()->word, $faker->unique()->word)
-            )
-        );
+                [$faker->unique()->word, $faker->unique()->word]
+            ]
+        ];
     }
 }

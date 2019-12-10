@@ -16,14 +16,14 @@ use Giftcards\Encryption\Encryptor;
 use Giftcards\Encryption\EncryptorBuilder;
 use Giftcards\Encryption\Key\ChainSource;
 use Giftcards\Encryption\Profile\ProfileRegistry;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class EncryptorBuilderTest extends AbstractTestCase
+class EncryptorBuilderTest extends AbstractExtendableTestCase
 {
     /** @var  EncryptorBuilder */
     protected $encryptorBuilder;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->encryptorBuilder = new EncryptorBuilder();
     }

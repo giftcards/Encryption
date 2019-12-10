@@ -11,15 +11,16 @@ namespace Giftcards\Encryption\Tests\Rotator;
 use Giftcards\Encryption\CipherText\Rotator\Record;
 use Giftcards\Encryption\CipherText\Rotator\Tracker\TrackerInterface;
 use Giftcards\Encryption\CipherText\Rotator\Tracker\TrackingObserver;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Mockery;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class TrackingObserverTest extends AbstractTestCase
+class TrackingObserverTest extends AbstractExtendableTestCase
 {
     public function testTrackingObserver()
     {
         $storeName = $this->getFaker()->unique()->word();
 
-        $tracker = \Mockery::mock(TrackerInterface::class);
+        $tracker = Mockery::mock(TrackerInterface::class);
         $tracker->shouldReceive("save");
         assert($tracker instanceof TrackerInterface);
 
@@ -32,7 +33,7 @@ class TrackingObserverTest extends AbstractTestCase
             new Record(4, []),
         ];
 
-        $observer = new \Giftcards\Encryption\CipherText\Rotator\Tracker\TrackingObserver($tracker, $storeName);
+        $observer = new TrackingObserver($tracker, $storeName);
         $observer->savedRecords($offset, $limit, $records);
 
         $tracker->shouldHaveReceived("save")->withArgs([

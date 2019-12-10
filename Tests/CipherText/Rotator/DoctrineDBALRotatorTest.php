@@ -8,11 +8,13 @@
 
 namespace Giftcards\Encryption\Tests\CipherText\Rotator;
 
+use Mockery;
 use Mockery\MockInterface;
 use Giftcards\Encryption\CipherText\Rotator\DoctrineDBALRotator;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use PDO;
 
-class DoctrineDBALRotatorTest extends AbstractTestCase
+class DoctrineDBALRotatorTest extends AbstractExtendableTestCase
 {
     /** @var  DoctrineDBALRotator */
     protected $rotator;
@@ -22,16 +24,16 @@ class DoctrineDBALRotatorTest extends AbstractTestCase
     protected $fields;
     protected $idField;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->rotator = new DoctrineDBALRotator(
-            $this->connection = \Mockery::mock('Doctrine\DBAL\Connection'),
+            $this->connection = Mockery::mock('Doctrine\DBAL\Connection'),
             $this->table = $this->getFaker()->unique()->word,
-            $this->fields = array(
+            $this->fields = [
                 $this->getFaker()->unique()->word,
                 $this->getFaker()->unique()->word,
                 $this->getFaker()->unique()->word,
-            ),
+            ],
             $this->idField = $this->getFaker()->unique()->word
         );
     }
@@ -39,8 +41,8 @@ class DoctrineDBALRotatorTest extends AbstractTestCase
     public function testRotate()
     {
         $newProfile = $this->getFaker()->word;
-        $encryptor = \Mockery::mock('Giftcards\Encryption\Encryptor');
-        $observer = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\ObserverInterface');
+        $encryptor = Mockery::mock('Giftcards\Encryption\Encryptor');
+        $observer = Mockery::mock('Giftcards\Encryption\CipherText\Rotator\ObserverInterface');
         $fields = $this->fields;
         $fields[] = $this->idField;
         $faker = $this->getFaker();
@@ -57,24 +59,24 @@ class DoctrineDBALRotatorTest extends AbstractTestCase
             ->shouldReceive('createQueryBuilder')
             ->once()
             ->andReturn(
-                \Mockery::mock()
+                Mockery::mock()
                     ->shouldReceive('select')
                     ->once()
                     ->with($fields)
-                    ->andReturn(\Mockery::self())
+                    ->andReturnSelf()
                     ->getMock()
                     ->shouldReceive('from')
                     ->once()
                     ->with($this->table)
-                    ->andReturn(\Mockery::self())
+                    ->andReturnSelf()
                     ->getMock()
                     ->shouldReceive('execute')
                     ->once()
                     ->andReturn(
-                        \Mockery::mock()
+                        Mockery::mock()
                             ->shouldReceive('fetch')
                             ->times(4)
-                            ->with(\PDO::FETCH_ASSOC)
+                            ->with(PDO::FETCH_ASSOC)
                             ->andReturn($row1, $row2, $row3, false)
                             ->getMock()
                     )
@@ -113,8 +115,8 @@ class DoctrineDBALRotatorTest extends AbstractTestCase
             ->with($row3[$this->idField])
             ->getMock()
         ;
-        foreach (array($row1, $row2, $row3) as $row) {
-            $encryptedRow = array();
+        foreach ([$row1, $row2, $row3] as $row) {
+            $encryptedRow = [];
             foreach ($row as $field => $value) {
                 if ($field == $this->idField) {
                     continue;
@@ -140,7 +142,7 @@ class DoctrineDBALRotatorTest extends AbstractTestCase
                 ->with(
                     $this->table,
                     $encryptedRow,
-                    array($this->idField => $row[$this->idField])
+                    [$this->idField => $row[$this->idField]]
                 )
             ;
         }

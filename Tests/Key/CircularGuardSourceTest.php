@@ -8,17 +8,19 @@
 
 namespace Giftcards\Encryption\Tests\Key;
 
+use Exception;
 use Giftcards\Encryption\Key\ArraySource;
 use Giftcards\Encryption\Key\CircularGuardSource;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Mockery;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class CircularGuardSourceTest extends AbstractTestCase
+class CircularGuardSourceTest extends AbstractExtendableTestCase
 {
     public function testNonCircularHas()
     {
         $key = $this->getFaker()->unique()->word;
         $value = $this->getFaker()->unique()->word;
-        $source = new CircularGuardSource(new ArraySource(array($key => $value)));
+        $source = new CircularGuardSource(new ArraySource([$key => $value]));
         $this->assertTrue($source->has($key));
         $this->assertTrue($source->has($key));
     }
@@ -27,16 +29,14 @@ class CircularGuardSourceTest extends AbstractTestCase
     {
         $key = $this->getFaker()->unique()->word;
         $value = $this->getFaker()->unique()->word;
-        $source = new CircularGuardSource(new ArraySource(array($key => $value)));
+        $source = new CircularGuardSource(new ArraySource([$key => $value]));
         $this->assertEquals($value, $source->get($key));
         $this->assertEquals($value, $source->get($key));
     }
     
-    /**
-     * @expectedException \Giftcards\Encryption\Key\KeyNotFoundException
-     */
     public function testCircularGet()
     {
+        $this->expectException('\Giftcards\Encryption\Key\KeyNotFoundException');
         $key = $this->getFaker()->unique()->word;
         $source = new CircularGuardSource($innerSource = new MockCircularSource());
         $innerSource->setInner($source);
@@ -53,10 +53,10 @@ class CircularGuardSourceTest extends AbstractTestCase
 
     public function testHasWithException()
     {
-        $exception = new \Exception();
+        $exception = new Exception();
         $key = $this->getFaker()->unique()->word;
         $source = new CircularGuardSource(
-            \Mockery::mock('Giftcards\Encryption\Key\SourceInterface')
+            Mockery::mock('Giftcards\Encryption\Key\SourceInterface')
                 ->shouldReceive('has')
                 ->once()
                 ->with($key)
@@ -70,7 +70,7 @@ class CircularGuardSourceTest extends AbstractTestCase
         );
         try {
             $source->has($key);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->assertSame($e, $exception);
         }
         

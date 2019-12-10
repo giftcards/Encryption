@@ -12,9 +12,9 @@ use Giftcards\Encryption\CipherText\CipherText;
 use Giftcards\Encryption\CipherText\ProfilelessChipherText;
 use Giftcards\Encryption\CipherText\Serializer\NoProfileSerializerDeserializer;
 use Giftcards\Encryption\Profile\Profile;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class NoProfileSerializerDeserializerTest extends AbstractTestCase
+class NoProfileSerializerDeserializerTest extends AbstractExtendableTestCase
 {
     /** @var  NoProfileSerializerDeserializer */
     protected $serializer;
@@ -23,7 +23,7 @@ class NoProfileSerializerDeserializerTest extends AbstractTestCase
     /** @var  Profile */
     protected $profile;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->profile = new Profile('', '');
         $this->serializer = new NoProfileSerializerDeserializer($this->profile);
@@ -47,11 +47,9 @@ class NoProfileSerializerDeserializerTest extends AbstractTestCase
         $this->assertEquals($text, $this->serializer->serialize(new CipherText($text, new Profile('', ''))));
     }
 
-    /**
-     * @expectedException \Giftcards\Encryption\CipherText\Serializer\FailedToSerializeException
-     */
     public function testSerializeWhereCant()
     {
+        $this->expectException('\Giftcards\Encryption\CipherText\Serializer\FailedToSerializeException');
         $text = $this->getFaker()->word;
         $this->assertEquals($text, $this->serializer->serialize(new CipherText($text, new Profile('dfdfdf', ''))));
     }

@@ -9,25 +9,26 @@
 namespace Giftcards\Encryption\Tests\CipherText;
 
 use Giftcards\Encryption\CipherText\Rotator\RotatorRegistry;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Mockery;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class RotatorRegistryTest extends AbstractTestCase
+class RotatorRegistryTest extends AbstractExtendableTestCase
 {
     /** @var  RotatorRegistry */
     protected $registry;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->registry = new RotatorRegistry();
     }
     
     public function testGettersSetters()
     {
-        $rotator1 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
+        $rotator1 = Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
         $rotator1Name = $this->getFaker()->unique()->word;
-        $rotator2 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
+        $rotator2 = Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
         $rotator2Name = $this->getFaker()->unique()->word;
-        $rotator3 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
+        $rotator3 = Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
         $rotator3Name = $this->getFaker()->unique()->word;
 
         $this->registry
@@ -41,23 +42,21 @@ class RotatorRegistryTest extends AbstractTestCase
         $this->assertSame($rotator2, $this->registry->get($rotator2Name));
         $this->assertTrue($this->registry->has($rotator3Name));
         $this->assertSame($rotator3, $this->registry->get($rotator3Name));
-        $this->assertSame(array(
+        $this->assertSame([
             $rotator1Name => $rotator1,
             $rotator2Name => $rotator2,
             $rotator3Name => $rotator3,
-        ), $this->registry->all());
+        ], $this->registry->all());
     }
 
-    /**
-     * @expectedException \Giftcards\Encryption\CipherText\Rotator\RotatorNotFoundException
-     */
     public function testGetWhereNotThere()
     {
-        $rotator1 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
+        $this->expectException('\Giftcards\Encryption\CipherText\Rotator\RotatorNotFoundException');
+        $rotator1 = Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
         $rotator1Name = $this->getFaker()->unique()->word;
-        $rotator2 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
+        $rotator2 = Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
         $rotator2Name = $this->getFaker()->unique()->word;
-        $rotator3 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
+        $rotator3 = Mockery::mock('Giftcards\Encryption\CipherText\Rotator\RotatorInterface');
         $rotator3Name = $this->getFaker()->unique()->word;
 
         $this->registry

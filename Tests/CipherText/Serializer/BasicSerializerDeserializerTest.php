@@ -11,15 +11,15 @@ namespace Giftcards\Encryption\Tests\CipherText\Serializer;
 use Giftcards\Encryption\CipherText\CipherText;
 use Giftcards\Encryption\CipherText\Serializer\BasicSerializerDeserializer;
 use Giftcards\Encryption\Profile\Profile;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class BasicSerializerDeserializerTest extends AbstractTestCase
+class BasicSerializerDeserializerTest extends AbstractExtendableTestCase
 {
     /** @var  BasicSerializerDeserializer */
     protected $serializer;
     protected $separator;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->serializer = new BasicSerializerDeserializer(
             $this->separator = ':'
@@ -37,7 +37,7 @@ class BasicSerializerDeserializerTest extends AbstractTestCase
         $cipher = $this->getFaker()->word;
         $text = $this->getFaker()->word;
         $this->assertEquals(
-            base64_encode(json_encode(array('key_name' => $keyName, 'cipher' => $cipher))).$this->separator.base64_encode($text),
+            base64_encode(json_encode(['key_name' => $keyName, 'cipher' => $cipher])).$this->separator.base64_encode($text),
             $this->serializer->serialize(new CipherText($text, new Profile($cipher, $keyName)))
         );
     }
@@ -57,7 +57,7 @@ class BasicSerializerDeserializerTest extends AbstractTestCase
         $cipher = $this->getFaker()->word;
         $text = $this->getFaker()->word;
         $this->assertTrue($this->serializer->canDeserialize(
-            base64_encode(json_encode(array('key_name' => $keyName, 'cipher' => $cipher))).$this->separator.base64_encode($text)
+            base64_encode(json_encode(['key_name' => $keyName, 'cipher' => $cipher])).$this->separator.base64_encode($text)
         ));
     }
 
@@ -69,18 +69,15 @@ class BasicSerializerDeserializerTest extends AbstractTestCase
         $this->assertEquals(
             new CipherText($text, new Profile($cipher, $keyName)),
             $this->serializer->deserialize(
-                base64_encode(json_encode(array('key_name' => $keyName, 'cipher' => $cipher))).$this->separator.base64_encode($text)
+                base64_encode(json_encode(['key_name' => $keyName, 'cipher' => $cipher])).$this->separator.base64_encode($text)
             )
         );
         
     }
 
-    /**
-     * @expectedException \Giftcards\Encryption\CipherText\Serializer\FailedToDeserializeException
-     *
-     */
     public function testDeserializeWhereCantDeserialize()
     {
+        $this->expectException('\Giftcards\Encryption\CipherText\Serializer\FailedToDeserializeException');
         $string = str_replace($this->separator, '', $this->getFaker()->word);
         $this->serializer->deserialize($string);
     }

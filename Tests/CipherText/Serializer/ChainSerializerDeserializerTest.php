@@ -8,11 +8,12 @@
 
 namespace Giftcards\Encryption\Tests\CipherText\Serializer;
 
+use Mockery;
 use Mockery\MockInterface;
 use Giftcards\Encryption\CipherText\Serializer\ChainSerializerDeserializer;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class ChainSerializerDeserializerTest extends AbstractTestCase
+class ChainSerializerDeserializerTest extends AbstractExtendableTestCase
 {
     /** @var  ChainSerializerDeserializer */
     protected $chain;
@@ -29,22 +30,22 @@ class ChainSerializerDeserializerTest extends AbstractTestCase
     /** @var  MockInterface */
     protected $deserializer3;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->chain = new ChainSerializerDeserializer();
         $this->chain
-            ->addSerializer($this->serializer1 = \Mockery::mock('Giftcards\Encryption\CipherText\Serializer\SerializerInterface'))
-            ->addSerializer($this->serializer2 = \Mockery::mock('Giftcards\Encryption\CipherText\Serializer\SerializerInterface'))
-            ->addSerializer($this->serializer3 = \Mockery::mock('Giftcards\Encryption\CipherText\Serializer\SerializerInterface'))
-            ->addDeserializer($this->deserializer1 = \Mockery::mock('Giftcards\Encryption\CipherText\Serializer\DeserializerInterface'))
-            ->addDeserializer($this->deserializer2 = \Mockery::mock('Giftcards\Encryption\CipherText\Serializer\DeserializerInterface'))
-            ->addDeserializer($this->deserializer3 = \Mockery::mock('Giftcards\Encryption\CipherText\Serializer\DeserializerInterface'))
+            ->addSerializer($this->serializer1 = Mockery::mock('Giftcards\Encryption\CipherText\Serializer\SerializerInterface'))
+            ->addSerializer($this->serializer2 = Mockery::mock('Giftcards\Encryption\CipherText\Serializer\SerializerInterface'))
+            ->addSerializer($this->serializer3 = Mockery::mock('Giftcards\Encryption\CipherText\Serializer\SerializerInterface'))
+            ->addDeserializer($this->deserializer1 = Mockery::mock('Giftcards\Encryption\CipherText\Serializer\DeserializerInterface'))
+            ->addDeserializer($this->deserializer2 = Mockery::mock('Giftcards\Encryption\CipherText\Serializer\DeserializerInterface'))
+            ->addDeserializer($this->deserializer3 = Mockery::mock('Giftcards\Encryption\CipherText\Serializer\DeserializerInterface'))
         ;
     }
 
     public function testCanSerialize()
     {
-        $cipherText = \Mockery::mock('Giftcards\Encryption\CipherText\CipherTextInterface');
+        $cipherText = Mockery::mock('Giftcards\Encryption\CipherText\CipherTextInterface');
         $this->serializer1
             ->shouldReceive('canSerialize')
             ->twice()
@@ -69,7 +70,7 @@ class ChainSerializerDeserializerTest extends AbstractTestCase
 
     public function testSerialize()
     {
-        $cipherText = \Mockery::mock('Giftcards\Encryption\CipherText\CipherTextInterface');
+        $cipherText = Mockery::mock('Giftcards\Encryption\CipherText\CipherTextInterface');
         $string = $this->getFaker()->word;
         $this->serializer1
             ->shouldReceive('canSerialize')
@@ -92,12 +93,10 @@ class ChainSerializerDeserializerTest extends AbstractTestCase
         $this->assertEquals($string, $this->chain->serialize($cipherText));
     }
 
-    /**
-     * @expectedException \Giftcards\Encryption\CipherText\Serializer\FailedToSerializeException
-     */
     public function testSerializeWithNoSerializerAbleToSerialize()
     {
-        $cipherText = \Mockery::mock('Giftcards\Encryption\CipherText\CipherTextInterface');
+        $this->expectException('\Giftcards\Encryption\CipherText\Serializer\FailedToSerializeException');
+        $cipherText = Mockery::mock('Giftcards\Encryption\CipherText\CipherTextInterface');
         $this->serializer1
             ->shouldReceive('canSerialize')
             ->once()
@@ -149,7 +148,7 @@ class ChainSerializerDeserializerTest extends AbstractTestCase
     public function testDeserialize()
     {
         $string = $this->getFaker()->word;
-        $cipherText = \Mockery::mock('Giftcards\Encryption\CipherText\CipherTextInterface');
+        $cipherText = Mockery::mock('Giftcards\Encryption\CipherText\CipherTextInterface');
         $this->deserializer1
             ->shouldReceive('canDeserialize')
             ->once()
@@ -171,11 +170,9 @@ class ChainSerializerDeserializerTest extends AbstractTestCase
         $this->assertSame($cipherText, $this->chain->deserialize($string));
     }
 
-    /**
-     * @expectedException \Giftcards\Encryption\CipherText\Serializer\FailedToDeserializeException
-     */
     public function testDeserializeWithNoSerializerAbleToDeserialize()
     {
+        $this->expectException('\Giftcards\Encryption\CipherText\Serializer\FailedToDeserializeException');
         $string = $this->getFaker()->word;
         $this->deserializer1
             ->shouldReceive('canDeserialize')

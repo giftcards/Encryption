@@ -9,9 +9,9 @@
 namespace Giftcards\Encryption\Tests\Rotator;
 
 use Giftcards\Encryption\CipherText\Rotator\Tracker\NullTracker;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class NullTrackerTest extends AbstractTestCase
+class NullTrackerTest extends AbstractExtendableTestCase
 {
 
     public function testTracker()

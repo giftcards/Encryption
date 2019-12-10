@@ -11,37 +11,38 @@ namespace Giftcards\Encryption\Tests\Key;
 use Faker\Factory;
 use Guzzle\Http\Exception\ClientErrorResponseException;
 use Giftcards\Encryption\Key\VaultSource;
+use Mockery;
 
 class VaultSourceTest extends AbstractSourceTest
 {
     public function gettersHassersProvider()
     {
         $faker = Factory::create();
-        $keys = array(
+        $keys = [
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
-        );
-        $missingKeys = array($faker->unique()->word, $faker->unique()->word);
+        ];
+        $missingKeys = [$faker->unique()->word, $faker->unique()->word];
 
         $valueField = $faker->unique()->word;
         $mount = $faker->unique()->word;
         $apiVersion = $faker->unique()->word;
         
-        $client = \Mockery::mock('Guzzle\Http\Client');
+        $client = Mockery::mock('Guzzle\Http\Client');
 
         foreach ($keys as $name => $value) {
             $client
                 ->shouldReceive('get')
                 ->with(sprintf('/%s/%s/%s', $apiVersion, $mount, $name))
                 ->andReturn(
-                    \Mockery::mock()
+                    Mockery::mock()
                         ->shouldReceive('send')
                         ->andReturn(
-                            \Mockery::mock()
+                            Mockery::mock()
                                 ->shouldReceive('json')
-                                ->andReturn(array('data' => array($valueField => $value)))
+                                ->andReturn(['data' => [$valueField => $value]])
                                 ->getMock()
                         )
                         ->getMock()
@@ -52,7 +53,7 @@ class VaultSourceTest extends AbstractSourceTest
         foreach ($missingKeys as $name) {
             $exception = new ClientErrorResponseException();
             $exception->setResponse(
-                \Mockery::mock('Guzzle\Http\Message\Response')
+                Mockery::mock('Guzzle\Http\Message\Response')
                     ->shouldReceive('getStatusCode')
                     ->andReturn(404)
                     ->getMock()
@@ -61,7 +62,7 @@ class VaultSourceTest extends AbstractSourceTest
                 ->shouldReceive('get')
                 ->with(sprintf('/%s/%s/%s', $apiVersion, $mount, $name))
                 ->andReturn(
-                    \Mockery::mock()
+                    Mockery::mock()
                         ->shouldReceive('send')
                         ->andThrow($exception)
                         ->getMock()
@@ -69,8 +70,8 @@ class VaultSourceTest extends AbstractSourceTest
             ;
         }
 
-        return array(
-            array(
+        return [
+            [
                 new VaultSource(
                     $client,
                     $mount,
@@ -79,15 +80,13 @@ class VaultSourceTest extends AbstractSourceTest
                 ),
                 $keys,
                 $missingKeys
-            )
-        );
+            ]
+        ];
     }
 
-    /**
-     * @expectedException \Guzzle\Http\Exception\ClientErrorResponseException
-     */
     public function testHasWhereClientExceptionThrownButNot404()
     {
+        $this->expectException('\Guzzle\Http\Exception\ClientErrorResponseException');
         $faker = Factory::create();
         $key = $faker->unique()->word;
         $valueField = $faker->unique()->word;
@@ -95,16 +94,16 @@ class VaultSourceTest extends AbstractSourceTest
         $apiVersion = $faker->unique()->word;
         $exception = new ClientErrorResponseException();
         $exception->setResponse(
-            \Mockery::mock('Guzzle\Http\Message\Response')
+            Mockery::mock('Guzzle\Http\Message\Response')
                 ->shouldReceive('getStatusCode')
                 ->andReturn(400)
                 ->getMock()
         );
-        $client = \Mockery::mock('Guzzle\Http\Client')
+        $client = Mockery::mock('Guzzle\Http\Client')
             ->shouldReceive('get')
             ->with(sprintf('/%s/%s/%s', $apiVersion, $mount, $key))
             ->andReturn(
-                \Mockery::mock()
+                Mockery::mock()
                     ->shouldReceive('send')
                     ->andThrow($exception)
                     ->getMock()
@@ -120,11 +119,9 @@ class VaultSourceTest extends AbstractSourceTest
         $source->has($key);
     }
 
-    /**
-     * @expectedException \Guzzle\Http\Exception\ClientErrorResponseException
-     */
     public function testGetWhereClientExceptionThrownButNot404()
     {
+        $this->expectException('\Guzzle\Http\Exception\ClientErrorResponseException');
         $faker = Factory::create();
         $key = $faker->unique()->word;
         $valueField = $faker->unique()->word;
@@ -132,16 +129,16 @@ class VaultSourceTest extends AbstractSourceTest
         $apiVersion = $faker->unique()->word;
         $exception = new ClientErrorResponseException();
         $exception->setResponse(
-            \Mockery::mock('Guzzle\Http\Message\Response')
+            Mockery::mock('Guzzle\Http\Message\Response')
                 ->shouldReceive('getStatusCode')
                 ->andReturn(400)
                 ->getMock()
         );
-        $client = \Mockery::mock('Guzzle\Http\Client')
+        $client = Mockery::mock('Guzzle\Http\Client')
             ->shouldReceive('get')
             ->with(sprintf('/%s/%s/%s', $apiVersion, $mount, $key))
             ->andReturn(
-                \Mockery::mock()
+                Mockery::mock()
                     ->shouldReceive('send')
                     ->andThrow($exception)
                     ->getMock()

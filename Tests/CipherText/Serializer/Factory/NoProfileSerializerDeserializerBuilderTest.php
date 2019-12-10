@@ -12,11 +12,13 @@ use Giftcards\Encryption\CipherText\Serializer\Factory\NoProfileSerializerDeseri
 use Giftcards\Encryption\CipherText\Serializer\NoProfileSerializerDeserializer;
 use Giftcards\Encryption\Profile\Profile;
 use Giftcards\Encryption\Profile\ProfileRegistry;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+
 use Giftcards\Encryption\Tests\Mock\Mockery\Matcher\EqualsMatcher;
+use Mockery;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class NoProfileSerializerDeserializerBuilderTest extends AbstractTestCase
+class NoProfileSerializerDeserializerBuilderTest extends AbstractExtendableTestCase
 {
     /** @var  NoProfileSerializerDeserializerBuilder */
     protected $builder;
@@ -25,7 +27,7 @@ class NoProfileSerializerDeserializerBuilderTest extends AbstractTestCase
     /** @var  ProfileRegistry */
     protected $profileRegistry;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->builder = new NoProfileSerializerDeserializerBuilder();
         $this->builderWithProfileRegistry = new NoProfileSerializerDeserializerBuilder(
@@ -41,42 +43,42 @@ class NoProfileSerializerDeserializerBuilderTest extends AbstractTestCase
         ) : null;
         $this->assertEquals(
             new NoProfileSerializerDeserializer($profile),
-            $this->builder->build(array('profile' => $profile))
+            $this->builder->build(['profile' => $profile])
         );
     }
 
     public function testConfigureOptionsResolver()
     {
         $this->builder->configureOptionsResolver(
-            \Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolver')
+            Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolver')
                 ->shouldReceive('setDefaults')
                 ->once()
-                ->with(array('profile' => null))
-                ->andReturn(\Mockery::self())
+                ->with(['profile' => null])
+                ->andReturnSelf()
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
-                ->with('profile', array('Giftcards\Encryption\Profile\Profile', 'null'))
-                ->andReturn(\Mockery::self())
+                ->with('profile', ['Giftcards\Encryption\Profile\Profile', 'null'])
+                ->andReturnSelf()
                 ->getMock()
         );
         $this->builderWithProfileRegistry->configureOptionsResolver(
-            \Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolver')
+            Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolver')
                 ->shouldReceive('setDefaults')
                 ->once()
-                ->with(array('profile' => null))
-                ->andReturn(\Mockery::self())
+                ->with(['profile' => null])
+                ->andReturnSelf()
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
-                ->with('profile', array('Giftcards\Encryption\Profile\Profile', 'null', 'string'))
-                ->andReturn(\Mockery::self())
+                ->with('profile', ['Giftcards\Encryption\Profile\Profile', 'null', 'string'])
+                ->andReturnSelf()
                 ->getMock()
                 ->shouldReceive('setNormalizer')
                 ->once()
                 ->with('profile', new EqualsMatcher(function () {
                 }))
-                ->andReturn(\Mockery::self())
+                ->andReturnSelf()
                 ->getMock()
         );
         $resolver = new OptionsResolver();
@@ -87,8 +89,8 @@ class NoProfileSerializerDeserializerBuilderTest extends AbstractTestCase
         );
         $profileName = $this->getFaker()->unique()->word;
         $this->profileRegistry->set($profileName, $profile);
-        $options = $resolver->resolve(array('profile' => $profileName));
-        $this->assertSame($options, $resolver->resolve(array('profile' => $profile)));
+        $options = $resolver->resolve(['profile' => $profileName]);
+        $this->assertSame($options, $resolver->resolve(['profile' => $profile]));
         $this->assertSame($profile, $options['profile']);
         $options = $resolver->resolve();
         $this->assertNull($options['profile']);

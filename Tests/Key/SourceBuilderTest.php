@@ -11,6 +11,7 @@ namespace Giftcards\Encryption\Tests\Key;
 use Doctrine\Common\Cache\ArrayCache;
 use Giftcards\Encryption\Key\CircularGuardSource;
 use Giftcards\Encryption\Key\Factory\ContainerParametersSourceBuilder;
+use Mockery;
 use Mockery\MockInterface;
 use Giftcards\Encryption\Factory\Factory;
 use Giftcards\Encryption\Key\CachingSource;
@@ -25,9 +26,9 @@ use Giftcards\Encryption\Key\MappingSource;
 use Giftcards\Encryption\Key\NoneSource;
 use Giftcards\Encryption\Key\PrefixKeyNameSource;
 use Giftcards\Encryption\Key\SourceBuilder;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class SourceBuilderTest extends AbstractTestCase
+class SourceBuilderTest extends AbstractExtendableTestCase
 {
     /** @var  SourceBuilder */
     protected $builder;
@@ -38,11 +39,11 @@ class SourceBuilderTest extends AbstractTestCase
     /** @var  MockInterface */
     protected $factory;
 
-    public function setUp()
+    public function setUp() : void
     {
-        $this->source1 = \Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
-        $this->source2 = \Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
-        $this->factory = \Mockery::mock('Giftcards\Encryption\Factory\Factory');
+        $this->source1 = Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
+        $this->source2 = Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
+        $this->factory = Mockery::mock('Giftcards\Encryption\Factory\Factory');
         $this->builder = new SourceBuilder(
             $this->factory
         );
@@ -52,28 +53,28 @@ class SourceBuilderTest extends AbstractTestCase
     {
         $this->assertEquals(new SourceBuilder(new Factory(
             'Giftcards\Encryption\Key\SourceInterface',
-            array(
+            [
                 new VaultSourceBuilder(),
                 new MongoSourceBuilder(),
                 new IniFileSourceBuilder(),
                 new ArraySourceBuilder(),
                 new ContainerParametersSourceBuilder()
-            )
+            ]
         )), SourceBuilder::newInstance());
     }
 
     public function testBuildWithFallbacks()
     {
-        $fallbackses = array(
-            $this->getFaker()->unique()->word => array(
+        $fallbackses = [
+            $this->getFaker()->unique()->word => [
                 $this->getFaker()->unique()->word,
                 $this->getFaker()->unique()->word,
                 $this->getFaker()->unique()->word,
-            ),
-            $this->getFaker()->unique()->word => array(
+            ],
+            $this->getFaker()->unique()->word => [
                 $this->getFaker()->unique()->word,
-            ),
-        );
+            ],
+        ];
         foreach ($fallbackses as $name => $fallbacks) {
             foreach ($fallbacks as $fallback) {
                 $this->builder->addFallback($name, $fallback);
@@ -96,12 +97,12 @@ class SourceBuilderTest extends AbstractTestCase
 
     public function testBuildWithMap()
     {
-        $map = array(
+        $map = [
             $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
             $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
             $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
             $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
-        );
+        ];
         foreach ($map as $name => $mapped) {
             $this->builder->map($name, $mapped);
         }
@@ -122,20 +123,20 @@ class SourceBuilderTest extends AbstractTestCase
 
     public function testBuildWithCombined()
     {
-        $combined = array(
-            $this->getFaker()->unique()->word => array(
+        $combined = [
+            $this->getFaker()->unique()->word => [
                 CombiningSource::LEFT => $this->getFaker()->unique()->word,
                 CombiningSource::RIGHT => $this->getFaker()->unique()->word,
-            ),
-            $this->getFaker()->unique()->word => array(
+            ],
+            $this->getFaker()->unique()->word => [
                 CombiningSource::LEFT => $this->getFaker()->unique()->word,
                 CombiningSource::RIGHT => $this->getFaker()->unique()->word,
-            ),
-            $this->getFaker()->unique()->word => array(
+            ],
+            $this->getFaker()->unique()->word => [
                 CombiningSource::LEFT => $this->getFaker()->unique()->word,
                 CombiningSource::RIGHT => $this->getFaker()->unique()->word,
-            ),
-        );
+            ],
+        ];
         foreach ($combined as $name => $leftRight) {
             $this->builder->combine(
                 $leftRight[CombiningSource::LEFT],
@@ -193,12 +194,12 @@ class SourceBuilderTest extends AbstractTestCase
     public function testBuildWithNamedBuilders()
     {
         $factoryName = $this->getFaker()->unique()->word;
-        $factoryOptions = array(
+        $factoryOptions = [
             $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
             $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
             $this->getFaker()->unique()->word =>$this->getFaker()->unique()->word,
-        );
-        $source3 = \Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
+        ];
+        $source3 = Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
         $this->factory
             ->shouldReceive('create')
             ->once()
@@ -224,13 +225,13 @@ class SourceBuilderTest extends AbstractTestCase
     public function testBuildWithNamedBuildersWithPrefixes()
     {
         $factoryName = $this->getFaker()->unique()->word;
-        $factoryOptions = array(
+        $factoryOptions = [
             $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
             $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
             $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
-        );
+        ];
         $prefix = $this->getFaker()->unique()->word;
-        $source3 = \Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
+        $source3 = Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
         $this->factory
             ->shouldReceive('create')
             ->once()
@@ -239,7 +240,7 @@ class SourceBuilderTest extends AbstractTestCase
         ;
         $this->builder
             ->add($this->source1)
-            ->add($this->source2, array(), $prefix)
+            ->add($this->source2, [], $prefix)
             ->add($factoryName, $factoryOptions)
         ;
 
@@ -256,12 +257,12 @@ class SourceBuilderTest extends AbstractTestCase
     public function testBuildWithCircularGuards()
     {
         $factoryName = $this->getFaker()->unique()->word;
-        $factoryOptions = array(
+        $factoryOptions = [
             $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
             $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
             $this->getFaker()->unique()->word => $this->getFaker()->unique()->word,
-        );
-        $source3 = \Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
+        ];
+        $source3 = Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
         $this->factory
             ->shouldReceive('create')
             ->once()
@@ -270,7 +271,7 @@ class SourceBuilderTest extends AbstractTestCase
         ;
         $this->builder
             ->add($this->source1)
-            ->add($this->source2, array(), false, true)
+            ->add($this->source2, [], false, true)
             ->add($factoryName, $factoryOptions, null, true)
         ;
 

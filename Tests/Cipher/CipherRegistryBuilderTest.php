@@ -12,14 +12,15 @@ use Giftcards\Encryption\Cipher\CipherRegistry;
 use Giftcards\Encryption\Cipher\CipherRegistryBuilder;
 use Giftcards\Encryption\Cipher\MysqlAes;
 use Giftcards\Encryption\Cipher\NoOp;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Mockery;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class CipherRegistryBuilderTest extends AbstractTestCase
+class CipherRegistryBuilderTest extends AbstractExtendableTestCase
 {
     /** @var  CipherRegistryBuilder */
     protected $builder;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->builder = new CipherRegistryBuilder();
     }
@@ -36,12 +37,12 @@ class CipherRegistryBuilderTest extends AbstractTestCase
 
     public function testBuild()
     {
-        $cipher1 = \Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
+        $cipher1 = Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn('cipher1')
             ->getMock()
         ;
-        $cipher2 = \Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
+        $cipher2 = Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn('cipher2')
             ->getMock()

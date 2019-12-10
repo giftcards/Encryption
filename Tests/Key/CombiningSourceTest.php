@@ -17,74 +17,72 @@ class CombiningSourceTest extends AbstractSourceTest
     public function gettersHassersProvider()
     {
         $faker = Factory::create();
-        $keys = array(
+        $keys = [
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
             $faker->unique()->word => $faker->unique()->word,
-        );
+        ];
         $keysKeys = array_keys($keys);
-        $combinedKeys = array(
+        $combinedKeys = [
             $faker->unique()->word => $keys[$keysKeys[1]].$keys[$keysKeys[3]],
             $faker->unique()->word => $keys[$keysKeys[0]].$keys[$keysKeys[5]],
             $faker->unique()->word => $keys[$keysKeys[4]].$keys[$keysKeys[2]],
             $faker->unique()->word => $keys[$keysKeys[1]].$keys[$keysKeys[1]],
-        );
+        ];
         $combinedKeysKeys = array_keys($combinedKeys);
         $missingKey1 = $faker->unique()->word;
         $missingKey2 = $faker->unique()->word;
         $missingKey3 = $faker->unique()->word;
         $source = new CombiningSource(
-            array(
-                $combinedKeysKeys[0] => array(
+            [
+                $combinedKeysKeys[0] => [
                     CombiningSource::LEFT => $keysKeys[1],
                     CombiningSource::RIGHT => $keysKeys[3]
-                ),
-                $combinedKeysKeys[1] => array(
+                ],
+                $combinedKeysKeys[1] => [
                     CombiningSource::LEFT => $keysKeys[0],
                     CombiningSource::RIGHT => $keysKeys[5]
-                ),
-                $combinedKeysKeys[2] => array(
+                ],
+                $combinedKeysKeys[2] => [
                     CombiningSource::LEFT => $keysKeys[4],
                     CombiningSource::RIGHT => $keysKeys[2]
-                ),
-                $combinedKeysKeys[3] => array(
+                ],
+                $combinedKeysKeys[3] => [
                     CombiningSource::LEFT => $keysKeys[1],
                     CombiningSource::RIGHT => $keysKeys[1]
-                ),
-                $missingKey1 => array(
+                ],
+                $missingKey1 => [
                     CombiningSource::LEFT => $keysKeys[1],
                     CombiningSource::RIGHT => $faker->unique()->word
-                ),
-                $missingKey2 => array(
+                ],
+                $missingKey2 => [
                     CombiningSource::LEFT => $faker->unique()->word,
                     CombiningSource::RIGHT => $faker->unique()->word
-                ),
-                $missingKey3 => array(
+                ],
+                $missingKey3 => [
                     CombiningSource::LEFT => $faker->unique()->word,
                     CombiningSource::RIGHT => $keysKeys[3]
-                ),
-            ),
+                ],
+            ],
             new ArraySource($keys)
         );
-        return array(
-            array($source, $combinedKeys, array($missingKey1, $missingKey2, $missingKey3))
-        );
+        return [
+            [$source, $combinedKeys, [$missingKey1, $missingKey2, $missingKey3]]
+        ];
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testCOnstrustorWhenLeftAndRightArgNotFormattedCorrectly()
     {
-        $leftAndRight = array(
-            $this->getFaker()->unique()->word => array('sdfdsf')
-        );
+        $this->expectException('\InvalidArgumentException');
+        $leftAndRight = [
+            $this->getFaker()->unique()->word => ['sdfdsf']
+        ];
         new CombiningSource(
             $leftAndRight,
-            new ArraySource(array())
+            new ArraySource([])
         );
     }
 }

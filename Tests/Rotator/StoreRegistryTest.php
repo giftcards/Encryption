@@ -9,26 +9,27 @@
 namespace Giftcards\Encryption\Tests\Rotator;
 
 use Giftcards\Encryption\CipherText\Rotator\Store\StoreRegistry;
-use Giftcards\Encryption\Tests\AbstractTestCase;
-use Mockery;
 
-class StoreRegistryTest extends AbstractTestCase
+use Mockery;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+
+class StoreRegistryTest extends AbstractExtendableTestCase
 {
     /** @var  StoreRegistry */
     protected $registry;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->registry = new StoreRegistry();
     }
 
     public function testGettersSetters()
     {
-        $store1 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\Store\StoreInterface');
+        $store1 = Mockery::mock('Giftcards\Encryption\CipherText\Rotator\Store\StoreInterface');
         $store1Name = $this->getFaker()->unique()->word;
-        $store2 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\Store\StoreInterface');
+        $store2 = Mockery::mock('Giftcards\Encryption\CipherText\Rotator\Store\StoreInterface');
         $store2Name = $this->getFaker()->unique()->word;
-        $store3 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\Store\StoreInterface');
+        $store3 = Mockery::mock('Giftcards\Encryption\CipherText\Rotator\Store\StoreInterface');
         $store3Name = $this->getFaker()->unique()->word;
 
         $this->registry
@@ -42,23 +43,21 @@ class StoreRegistryTest extends AbstractTestCase
         $this->assertSame($store2, $this->registry->get($store2Name));
         $this->assertTrue($this->registry->has($store3Name));
         $this->assertSame($store3, $this->registry->get($store3Name));
-        $this->assertSame(array(
+        $this->assertSame([
             $store1Name => $store1,
             $store2Name => $store2,
             $store3Name => $store3,
-        ), $this->registry->all());
+        ], $this->registry->all());
     }
 
-    /**
-     * @expectedException \Giftcards\Encryption\CipherText\Rotator\Store\StoreNotFoundException
-     */
     public function testGetWhereNotThere()
     {
-        $store1 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\Store\StoreInterface');
+        $this->expectException('\Giftcards\Encryption\CipherText\Rotator\Store\StoreNotFoundException');
+        $store1 = Mockery::mock('Giftcards\Encryption\CipherText\Rotator\Store\StoreInterface');
         $store1Name = $this->getFaker()->unique()->word;
-        $store2 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\Store\StoreInterface');
+        $store2 = Mockery::mock('Giftcards\Encryption\CipherText\Rotator\Store\StoreInterface');
         $store2Name = $this->getFaker()->unique()->word;
-        $store3 = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\Store\StoreInterface');
+        $store3 = Mockery::mock('Giftcards\Encryption\CipherText\Rotator\Store\StoreInterface');
         $store3Name = $this->getFaker()->unique()->word;
 
         $this->registry

@@ -9,9 +9,9 @@
 namespace Giftcards\Encryption\Tests\Key;
 
 use Giftcards\Encryption\Key\SourceInterface;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-abstract class AbstractSourceTest extends AbstractTestCase
+abstract class AbstractSourceTest extends AbstractExtendableTestCase
 {
     /**
      * @dataProvider gettersHassersProvider
@@ -31,10 +31,10 @@ abstract class AbstractSourceTest extends AbstractTestCase
 
     /**
      * @dataProvider gettersHassersProvider
-     * @expectedException \Giftcards\Encryption\Key\KeyNotFoundException
      */
     public function testGetWhenNonExistent(SourceInterface $source, array $_, array $notExisting)
     {
+        $this->expectException('\Giftcards\Encryption\Key\KeyNotFoundException');
         $source->get($notExisting[0]);
     }
     

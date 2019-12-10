@@ -23,23 +23,23 @@ class MappingSourceTest extends AbstractSourceTest
         $key4 = $faker->unique()->word;
         $mapKey1 = $faker->unique()->word;
         $mapKey2 = $faker->unique()->word;
-        $keys = array(
+        $keys = [
             $key1 => $faker->unique()->word,
             $key2 => $faker->unique()->word,
             $key3 => $faker->unique()->word,
             $key4 => $faker->unique()->word,
-        );
-        $map = array(
+        ];
+        $map = [
             $mapKey1 => $key3,
             $mapKey2 => $key1,
-        );
-        $existingKeys = array($key1 => $keys[$key1], $mapKey1 => $keys[$key3], $mapKey2 => $keys[$key1]);
-        return array(
-            array(
+        ];
+        $existingKeys = [$key1 => $keys[$key1], $mapKey1 => $keys[$key3], $mapKey2 => $keys[$key1]];
+        return [
+            [
                 new MappingSource($map, new ArraySource($keys)),
                 $existingKeys,
-                array($faker->unique()->word, $faker->unique()->word)
-            )
-        );
+                [$faker->unique()->word, $faker->unique()->word]
+            ]
+        ];
     }
 }

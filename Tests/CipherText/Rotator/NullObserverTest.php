@@ -9,20 +9,21 @@
 namespace Giftcards\Encryption\Tests\CipherText\Rotator;
 
 use Giftcards\Encryption\CipherText\Rotator\NullObserver;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class NullObserverTest extends AbstractTestCase
+class NullObserverTest extends AbstractExtendableTestCase
 {
     /** @var  NullObserver */
     protected $observer;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->observer = new NullObserver();
     }
 
     public function testRotateCallbacks()
     {
+        $this->expectNoException();
         $this->observer->rotating('');
         $this->observer->rotated('');
     }

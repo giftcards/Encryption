@@ -8,13 +8,15 @@
 
 namespace Giftcards\Encryption\Tests\Doctrine;
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use Giftcards\Encryption\Doctrine\Configuration\Metadata\Driver\AnnotationDriver;
 use Giftcards\Encryption\Doctrine\FieldEncryptor;
-use Giftcards\Encryption\Tests\AbstractTestCase;
-use Mockery\MockInterface;
 
-class FieldEncryptorTest extends AbstractTestCase
+use Mockery;
+use Mockery\MockInterface;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use ReflectionProperty;
+
+class FieldEncryptorTest extends AbstractExtendableTestCase
 {
     /** @var  FieldEncryptor */
     protected $fieldEncryptor;
@@ -23,16 +25,16 @@ class FieldEncryptorTest extends AbstractTestCase
     /** @var  AnnotationDriver */
     protected $driver;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->fieldEncryptor = new FieldEncryptor(
-            $this->encryptor = \Mockery::mock('Giftcards\Encryption\Encryptor')
+            $this->encryptor = Mockery::mock('Giftcards\Encryption\Encryptor')
         );
     }
 
     public function testEncryption()
     {
-        $reflectionProperty1 = new \ReflectionProperty(
+        $reflectionProperty1 = new ReflectionProperty(
             'Giftcards\Encryption\Tests\Doctrine\MockEntityWithEncryptedProperties',
             'encryptedProperty'
         );
@@ -102,12 +104,12 @@ class FieldEncryptorTest extends AbstractTestCase
         $this->assertEquals($entity2EncryptedProperty, $entity2->encryptedProperty);
 
         //make sure values are ignored
-        $this->fieldEncryptor->encryptField($entity1, $reflectionProperty1, null, array($entity1->encryptedProperty));
-        $this->fieldEncryptor->encryptField($entity2, $reflectionProperty1, 'foo', array($entity2->encryptedProperty));
+        $this->fieldEncryptor->encryptField($entity1, $reflectionProperty1, null, [$entity1->encryptedProperty]);
+        $this->fieldEncryptor->encryptField($entity2, $reflectionProperty1, 'foo', [$entity2->encryptedProperty]);
         $this->assertEquals($entity1EncryptedProperty, $entity1->encryptedProperty);
         $this->assertEquals($entity2EncryptedProperty, $entity2->encryptedProperty);
-        $this->fieldEncryptor->decryptField($entity1, $reflectionProperty1, null, array($entity1->encryptedProperty));
-        $this->fieldEncryptor->decryptField($entity2, $reflectionProperty1, 'foo', array($entity2->encryptedProperty));
+        $this->fieldEncryptor->decryptField($entity1, $reflectionProperty1, null, [$entity1->encryptedProperty]);
+        $this->fieldEncryptor->decryptField($entity2, $reflectionProperty1, 'foo', [$entity2->encryptedProperty]);
         $this->assertEquals($entity1EncryptedProperty, $entity1->encryptedProperty);
         $this->assertEquals($entity2EncryptedProperty, $entity2->encryptedProperty);
     }
