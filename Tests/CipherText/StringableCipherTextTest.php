@@ -11,9 +11,10 @@ namespace Giftcards\Encryption\Tests\CipherText;
 use Giftcards\Encryption\CipherText\CipherText;
 use Giftcards\Encryption\CipherText\StringableCipherText;
 use Giftcards\Encryption\Profile\Profile;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Mockery;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class StringableCipherTextTest extends AbstractTestCase
+class StringableCipherTextTest extends AbstractExtendableTestCase
 {
     public function testGetters()
     {
@@ -29,7 +30,7 @@ class StringableCipherTextTest extends AbstractTestCase
             $profile
         );
         $string = $this->getFaker()->unique()->word;
-        $serializer = \Mockery::mock('Giftcards\Encryption\CipherText\Serializer\SerializerInterface')
+        $serializer = Mockery::mock('Giftcards\Encryption\CipherText\Serializer\SerializerInterface')
             ->shouldReceive('serialize')
             ->once()
             ->with($inner)

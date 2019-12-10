@@ -13,11 +13,14 @@ use Giftcards\Encryption\CipherText\Rotator\ConsoleOutputRotatorObserver;
 use Giftcards\Encryption\CipherText\Rotator\Rotator;
 use Giftcards\Encryption\CipherText\Rotator\RotatorObserverChain;
 use Giftcards\Encryption\Command\RotateRangeInStoreCommand;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+
+use Hamcrest\Matchers;
+use Mockery;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-class RotateRangeTest extends AbstractTestCase
+class RotateRangeTest extends AbstractExtendableTestCase
 {
 
     public function testCommand()
@@ -25,7 +28,7 @@ class RotateRangeTest extends AbstractTestCase
         $storeName = $this->getFaker()->unique()->word();
         $newProfile = $this->getFaker()->unique()->word();
 
-        $rotator = \Mockery::mock("Giftcards\\Encryption\\CipherText\\Rotator\\Rotator");
+        $rotator = Mockery::mock("Giftcards\\Encryption\\CipherText\\Rotator\\Rotator");
         $rotator->shouldReceive("rotate");
         assert($rotator instanceof Rotator);
 
@@ -38,13 +41,13 @@ class RotateRangeTest extends AbstractTestCase
         $output = new ConsoleOutput();
         $command->run($input, $output);
 
-        $rotator->shouldHaveReceived("rotate")->withArgs(array(
+        $rotator->shouldHaveReceived("rotate")->withArgs([
             $storeName,
             $newProfile,
-            \Hamcrest_Matchers::equalTo(new Bounds($offset, $limit, $batchSize)),
-            \Hamcrest_Matchers::equalTo(new RotatorObserverChain(
+            Matchers::equalTo(new Bounds($offset, $limit, $batchSize)),
+            Matchers::equalTo(new RotatorObserverChain(
                 new ConsoleOutputRotatorObserver($output)
             ))
-        ));
+        ]);
     }
 }

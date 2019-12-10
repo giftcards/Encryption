@@ -9,6 +9,7 @@
 namespace Giftcards\Encryption\Tests\Factory;
 
 use Giftcards\Encryption\Factory\ContainerAwareRegistry;
+use Mockery;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -20,7 +21,7 @@ class ContainerAwareRegistryTest extends RegistryTest
     /** @var  ContainerInterface */
     protected $container;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->container = new Container();
         $this->registry = new ContainerAwareRegistry($this->container);
@@ -29,19 +30,19 @@ class ContainerAwareRegistryTest extends RegistryTest
     public function testGettersSettersIncludingServiceIds()
     {
         $builder1Name = $this->getFaker()->unique()->word;
-        $builder1 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
+        $builder1 = Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
             ->shouldReceive('getName')
             ->andReturn($builder1Name)
             ->getMock()
         ;
         $builder2Name = $this->getFaker()->unique()->word;
-        $builder2 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
+        $builder2 = Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
             ->shouldReceive('getName')
             ->andReturn($builder2Name)
             ->getMock()
         ;
         $builder3Name = $this->getFaker()->unique()->word;
-        $builder3 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
+        $builder3 = Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
             ->shouldReceive('getName')
             ->andReturn($builder3Name)
             ->getMock()
@@ -58,26 +59,24 @@ class ContainerAwareRegistryTest extends RegistryTest
         $this->assertTrue($this->registry->has($builder3Name));
         $this->assertSame($builder3, $this->registry->get($builder3Name));
         $this->assertFalse($this->registry->has($this->getFaker()->unique()->word));
-        $this->assertEquals(array(
+        $this->assertEquals([
             $builder1Name => $builder1,
             $builder2Name => $builder2,
             $builder3Name => $builder3,
-        ), $this->registry->all());
+        ], $this->registry->all());
     }
 
-    /**
-     * @expectedException \Giftcards\Encryption\Factory\BuilderNotFoundException
-     */
     public function testGetWithMissingEncryptorIncludingServiceIds()
     {
+        $this->expectException('\Giftcards\Encryption\Factory\BuilderNotFoundException');
         $builder1Name = $this->getFaker()->unique()->word;
-        $builder1 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
+        $builder1 = Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
             ->shouldReceive('getName')
             ->andReturn($builder1Name)
             ->getMock()
         ;
         $builder2Name = $this->getFaker()->unique()->word;
-        $builder2 = \Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
+        $builder2 = Mockery::mock('Giftcards\Encryption\Factory\BuilderInterface')
             ->shouldReceive('getName')
             ->andReturn($builder2Name)
             ->getMock()

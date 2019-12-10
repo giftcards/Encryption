@@ -10,14 +10,14 @@ namespace Giftcards\Encryption\Tests\Profile;
 
 use Giftcards\Encryption\Profile\Profile;
 use Giftcards\Encryption\Profile\ProfileRegistry;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class ProfileRegistryTest extends AbstractTestCase
+class ProfileRegistryTest extends AbstractExtendableTestCase
 {
     /** @var  ProfileRegistry */
     protected $registry;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->registry = new ProfileRegistry();
     }
@@ -51,18 +51,16 @@ class ProfileRegistryTest extends AbstractTestCase
         $this->assertSame($profile2, $this->registry->get($profile2Name));
         $this->assertTrue($this->registry->has($profile3Name));
         $this->assertSame($profile3, $this->registry->get($profile3Name));
-        $this->assertSame(array(
+        $this->assertSame([
             $profile1Name => $profile1,
             $profile2Name => $profile2,
             $profile3Name => $profile3,
-        ), $this->registry->all());
+        ], $this->registry->all());
     }
 
-    /**
-     * @expectedException \Giftcards\Encryption\Profile\ProfileNotFoundException
-     */
     public function testGetWhereNotThere()
     {
+        $this->expectException('\Giftcards\Encryption\Profile\ProfileNotFoundException');
         $profile1 = new Profile(
             $this->getFaker()->word,
             $this->getFaker()->word

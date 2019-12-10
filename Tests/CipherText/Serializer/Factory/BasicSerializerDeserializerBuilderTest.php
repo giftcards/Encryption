@@ -10,14 +10,15 @@ namespace Giftcards\Encryption\Tests\CipherText\Serializer\Factory;
 
 use Giftcards\Encryption\CipherText\Serializer\BasicSerializerDeserializer;
 use Giftcards\Encryption\CipherText\Serializer\Factory\BasicSerializerDeserializerBuilder;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Mockery;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class BasicSerializerDeserializerBuilderTest extends AbstractTestCase
+class BasicSerializerDeserializerBuilderTest extends AbstractExtendableTestCase
 {
     /** @var  BasicSerializerDeserializerBuilder */
     protected $builder;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->builder = new BasicSerializerDeserializerBuilder();
     }
@@ -27,23 +28,23 @@ class BasicSerializerDeserializerBuilderTest extends AbstractTestCase
         $separator = $this->getFaker()->unique()->word;
         $this->assertEquals(
             new BasicSerializerDeserializer($separator),
-            $this->builder->build(array('separator' => $separator))
+            $this->builder->build(['separator' => $separator])
         );
     }
 
     public function testConfigureOptionsResolver()
     {
         $this->builder->configureOptionsResolver(
-            \Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolver')
+            Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolver')
                 ->shouldReceive('setDefaults')
                 ->once()
-                ->with(array('separator' => ':'))
-                ->andReturn(\Mockery::self())
+                ->with(['separator' => ':'])
+                ->andReturnSelf()
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
                 ->with('separator', 'string')
-                ->andReturn(\Mockery::self())
+                ->andReturnSelf()
                 ->getMock()
         );
     }

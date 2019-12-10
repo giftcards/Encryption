@@ -9,16 +9,17 @@
 namespace Giftcards\Encryption\Tests\Rotator;
 
 use Giftcards\Encryption\CipherText\Rotator\Store\StoreRegistryBuilder;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Mockery;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class StoreRegistryBuilderTest extends AbstractTestCase
+class StoreRegistryBuilderTest extends AbstractExtendableTestCase
 {
 
     public function testAddStore()
     {
         $storeName = $this->getFaker()->unique()->word();
-        $store = \Mockery::mock("Giftcards\\Encryption\\CipherText\\Rotator\\Store\\StoreInterface");
+        $store = Mockery::mock("Giftcards\Encryption\CipherText\Rotator\Store\StoreInterface");
 
         $regBuilder = new StoreRegistryBuilder();
         $regBuilder->addStore($storeName, $store);
@@ -31,18 +32,18 @@ class StoreRegistryBuilderTest extends AbstractTestCase
     public function testBuilder()
     {
         $storeName = $this->getFaker()->unique()->word();
-        $store = \Mockery::mock("Giftcards\\Encryption\\CipherText\\Rotator\\Store\\StoreInterface");
+        $store = Mockery::mock("Giftcards\\Encryption\\CipherText\\Rotator\\Store\\StoreInterface");
 
         $builderName = $this->getFaker()->unique()->word();
-        $builderOptions = array('foo' => 'bar');
-        $builder = \Mockery::mock("Giftcards\\Encryption\\Factory\\BuilderInterface");
+        $builderOptions = ['foo' => 'bar'];
+        $builder = Mockery::mock("Giftcards\\Encryption\\Factory\\BuilderInterface");
         $builder->shouldReceive("getName")->andReturn($builderName);
         $builder->shouldReceive("configureOptionsResolver")->andReturnUsing(function (OptionsResolver $resolver) {
-            $resolver->setRequired(array("foo"));
+            $resolver->setRequired(["foo"]);
         });
         $builder->shouldReceive("build")->with($builderOptions)->andReturn($store);
 
-        $regBuilder = new StoreRegistryBuilder(array($builder));
+        $regBuilder = new StoreRegistryBuilder([$builder]);
         $regBuilder->addStore($storeName, $builderName, $builderOptions);
         $registry = $regBuilder->build();
 
@@ -52,39 +53,28 @@ class StoreRegistryBuilderTest extends AbstractTestCase
 
     public function testFactory()
     {
+        $this->expectNoException();
         $builder = StoreRegistryBuilder::newInstance();
-        $registry = $builder->build();
+        $builder->build();
     }
 
     public function testTypeChecking()
     {
+        $this->expectException('\InvalidArgumentException');
+        $this->expectExceptionMessage("Second argument for StoreRegistryBuilder::addStore() must be a string or StoreInterface. integer given");
         $storeName = $this->getFaker()->unique()->word();
         $store = $this->getFaker()->unique()->randomNumber();
-
-        try {
-            $regBuilder = new StoreRegistryBuilder();
-            $regBuilder->addStore($storeName, $store);
-        } catch (\Exception $exception) {
-            $this->assertTrue($exception instanceof \InvalidArgumentException);
-            $this->assertEquals(
-                "Second argument for StoreRegistryBuilder::addStore() must be a string or StoreInterface. integer given",
-                $exception->getMessage()
-            );
-        }
+        $regBuilder = new StoreRegistryBuilder();
+        $regBuilder->addStore($storeName, $store);
     }
 
     public function testBadBuilder()
     {
         $storeName = $this->getFaker()->unique()->word();
         $builderName = $this->getFaker()->unique()->word();
-
-        try {
-            $regBuilder = new StoreRegistryBuilder();
-            $regBuilder->addStore($storeName, $builderName);
-        } catch (\Exception $exception) {
-            $this->assertTrue($exception instanceof \DomainException);
-            $this->assertEquals(sprintf("Unknown builder: %s", $builderName), $exception->getMessage());
-        }
-
+        $this->expectException('\DomainException');
+        $this->expectExceptionMessage('Unknown builder: ' . $builderName);
+        $regBuilder = new StoreRegistryBuilder();
+        $regBuilder->addStore($storeName, $builderName);
     }
 }

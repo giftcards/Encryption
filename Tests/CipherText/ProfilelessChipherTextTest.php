@@ -9,9 +9,9 @@
 namespace Giftcards\Encryption\Tests\CipherText;
 
 use Giftcards\Encryption\CipherText\ProfilelessChipherText;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class ProfilelessChipherTextTest extends AbstractTestCase
+class ProfilelessChipherTextTest extends AbstractExtendableTestCase
 {
     public function testGetters()
     {
@@ -20,11 +20,9 @@ class ProfilelessChipherTextTest extends AbstractTestCase
         $this->assertEquals($text, $cipherText->getText());
     }
 
-    /**
-     * @expectedException \Giftcards\Encryption\Profile\NoProfileException
-     */
     public function testGetProfile()
     {
+        $this->expectException('\Giftcards\Encryption\Profile\NoProfileException');
         $cipherText = new ProfilelessChipherText('');
         $cipherText->getProfile();
     }

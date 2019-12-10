@@ -12,26 +12,25 @@ use Giftcards\Encryption\CipherText\Rotator\Bounds;
 use Giftcards\Encryption\CipherText\Rotator\NullRotatorObserver;
 use Giftcards\Encryption\CipherText\Rotator\Record;
 use Giftcards\Encryption\CipherText\Rotator\Rotator;
-use Giftcards\Encryption\Tests\AbstractTestCase;
-use Giftcards\Encryption\Tests\Mock\Mockery\Matcher\EqualsMatcher;
 use Mockery;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class RotatorTest extends AbstractTestCase
+class RotatorTest extends AbstractExtendableTestCase
 {
     public function testRotation()
     {
-        $records = array(
-            new Record(0, array('record0_encrypted')),
-            new Record(1, array('record1_encrypted')),
-            new Record(2, array('record2_encrypted')),
-            new Record(3, array('record3_encrypted')),
-        );
-        $rotatedRecords = array(
-            new Record(0, array('record0_rotated')),
-            new Record(1, array('record1_rotated')),
-            new Record(2, array('record2_rotated')),
-            new Record(3, array('record3_rotated')),
-        );
+        $records = [
+            new Record(0, ['record0_encrypted']),
+            new Record(1, ['record1_encrypted']),
+            new Record(2, ['record2_encrypted']),
+            new Record(3, ['record3_encrypted']),
+        ];
+        $rotatedRecords = [
+            new Record(0, ['record0_rotated']),
+            new Record(1, ['record1_rotated']),
+            new Record(2, ['record2_rotated']),
+            new Record(3, ['record3_rotated']),
+        ];
 
         $observer = new NullRotatorObserver();
 
@@ -48,24 +47,24 @@ class RotatorTest extends AbstractTestCase
 
         $store = Mockery::mock("Giftcards\\Encryption\\CipherText\\Rotator\\Store\\StoreInterface");
         $store->shouldReceive("fetch")->once()->ordered()->with(0, 3)->andReturn(
-            array(
+            [
                 $records[0],
                 $records[1],
                 $records[2],
-            ));
-        $store->shouldReceive("save")->once()->ordered()->with(new EqualsMatcher(
-            array(
+            ]);
+        $store->shouldReceive("save")->once()->ordered()->with(
+            [
                 $rotatedRecords[0],
                 $rotatedRecords[1],
                 $rotatedRecords[2],
-            )
-        ));
-        $store->shouldReceive("fetch")->once()->ordered()->with(3, 3)->andReturn(array($records[3]));
-        $store->shouldReceive("save")->once()->ordered()->with(new EqualsMatcher(
-            array(
+            ]
+        );
+        $store->shouldReceive("fetch")->once()->ordered()->with(3, 3)->andReturn([$records[3]]);
+        $store->shouldReceive("save")->once()->ordered()->with(
+            [
                 $rotatedRecords[3]
-            )
-        ));
+            ]
+        );
         $store->shouldReceive("fetch")->once()->ordered()->with(6, 3)->andReturn([]);
 
         $storeRegistry = Mockery::mock("Giftcards\\Encryption\\CipherText\\Rotator\\Store\\StoreRegistry");
@@ -79,9 +78,9 @@ class RotatorTest extends AbstractTestCase
 
         $storeRegistry->shouldHaveReceived("get")->with("test_store");
 
-        $store->shouldHaveReceived("fetch")->withArgs(array(0, 3));
-        $store->shouldHaveReceived("fetch")->withArgs(array(3, 3));
-        $store->shouldHaveReceived("fetch")->withArgs(array(6, 3));
+        $store->shouldHaveReceived("fetch")->withArgs([0, 3]);
+        $store->shouldHaveReceived("fetch")->withArgs([3, 3]);
+        $store->shouldHaveReceived("fetch")->withArgs([6, 3]);
 
         $encryptor->shouldHaveReceived("decrypt")->with("record0_encrypted");
         $encryptor->shouldHaveReceived("decrypt")->with("record1_encrypted");
@@ -93,14 +92,14 @@ class RotatorTest extends AbstractTestCase
         $encryptor->shouldHaveReceived("encrypt")->with("record2_decrypted", "test_profile");
         $encryptor->shouldHaveReceived("encrypt")->with("record3_decrypted", "test_profile");
 
-        $store->shouldHaveReceived("save")->with(array(
-            new Record(0, array('record0_rotated')),
-            new Record(1, array('record1_rotated')),
-            new Record(2, array('record2_rotated')),
-        ));
+        $store->shouldHaveReceived("save")->with([
+            new Record(0, ['record0_rotated']),
+            new Record(1, ['record1_rotated']),
+            new Record(2, ['record2_rotated']),
+        ]);
 
-        $store->shouldHaveReceived("save")->with(array(
-            new Record(3, array('record3_rotated')),
-        ));
+        $store->shouldHaveReceived("save")->with([
+            new Record(3, ['record3_rotated']),
+        ]);
     }
 }

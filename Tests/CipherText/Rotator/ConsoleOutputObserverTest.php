@@ -8,21 +8,22 @@
 
 namespace Giftcards\Encryption\Tests\CipherText\Rotator;
 
+use Mockery;
 use Mockery\MockInterface;
 use Giftcards\Encryption\CipherText\Rotator\ConsoleOutputObserver;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class ConsoleOutputObserverTest extends AbstractTestCase
+class ConsoleOutputObserverTest extends AbstractExtendableTestCase
 {
     /** @var  ConsoleOutputObserver */
     protected $observer;
     /** @var  MockInterface */
     protected $consoleOutput;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->observer = new ConsoleOutputObserver(
-            $this->consoleOutput = \Mockery::mock('Symfony\Component\Console\Output\OutputInterface')
+            $this->consoleOutput = Mockery::mock('Symfony\Component\Console\Output\OutputInterface')
         );
     }
 

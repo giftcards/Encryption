@@ -9,15 +9,14 @@
 namespace Giftcards\Encryption\Tests\Cipher;
 
 use Giftcards\Encryption\Cipher\MysqlAes;
-use Giftcards\Encryption\Tests\AbstractTestCase;
-use PHPUnit_Framework_TestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class MysqlAesEncryptorTest extends AbstractTestCase
+class MysqlAesEncryptorTest extends AbstractExtendableTestCase
 {
     /** @var  MysqlAes */
     protected $encryptor;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->encryptor = new MysqlAes();
     }

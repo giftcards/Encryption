@@ -13,14 +13,15 @@ use Giftcards\Encryption\Key\Factory\VaultSourceBuilder;
 use Giftcards\Encryption\Key\VaultSource;
 use Giftcards\Encryption\Vault\AddTokenPlugin;
 use Giftcards\Encryption\Vault\TokenAuthTokenSource;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Mockery;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class VaultSourceBuilderTest extends AbstractTestCase
+class VaultSourceBuilderTest extends AbstractExtendableTestCase
 {
     /** @var  VaultSourceBuilder */
     protected $factory;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->factory = new VaultSourceBuilder();
     }
@@ -35,7 +36,7 @@ class VaultSourceBuilderTest extends AbstractTestCase
         
         $client = new Client(
             $baseUrl,
-            array('curl.options' => array(CURLOPT_SSLVERSION => 6))
+            ['curl.options' => [CURLOPT_SSLVERSION => 6]]
         );
         $client->addSubscriber(new AddTokenPlugin(new TokenAuthTokenSource($token)));
         $this->assertEquals(new VaultSource(
@@ -43,57 +44,57 @@ class VaultSourceBuilderTest extends AbstractTestCase
             $mount,
             $valueField,
             $apiVersion
-        ), $this->factory->build(array(
+        ), $this->factory->build([
             'base_url' => $baseUrl,
             'token' => $token,
             'mount' => $mount,
             'value_field' => $valueField,
             'api_version' => $apiVersion
-        )));
+        ]));
     }
 
     public function testConfigureOptionsResolver()
     {
         $this->factory->configureOptionsResolver(
-            \Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolver')
+            Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolver')
                 ->shouldReceive('setRequired')
                 ->once()
-                ->with(array('base_url', 'token'))
-                ->andReturn(\Mockery::self())
+                ->with(['base_url', 'token'])
+                ->andReturnSelf()
                 ->getMock()
                 ->shouldReceive('setDefaults')
                 ->once()
-                ->with(array(
+                ->with([
                     'mount' => 'secret',
                     'value_field' => 'value',
                     'api_version' => 'v1'
-                ))
-                ->andReturn(\Mockery::self())
+                ])
+                ->andReturnSelf()
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
                 ->with('base_url', 'string')
-                ->andReturn(\Mockery::self())
+                ->andReturnSelf()
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
                 ->with('token', 'string')
-                ->andReturn(\Mockery::self())
+                ->andReturnSelf()
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
                 ->with('mount', 'string')
-                ->andReturn(\Mockery::self())
+                ->andReturnSelf()
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
                 ->with('value_field', 'string')
-                ->andReturn(\Mockery::self())
+                ->andReturnSelf()
                 ->getMock()
                 ->shouldReceive('setAllowedTypes')
                 ->once()
                 ->with('api_version', 'string')
-                ->andReturn(\Mockery::self())
+                ->andReturnSelf()
                 ->getMock()
         );
     }

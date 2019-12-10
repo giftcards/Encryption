@@ -15,11 +15,14 @@ use Giftcards\Encryption\CipherText\Rotator\RotatorObserverChain;
 use Giftcards\Encryption\CipherText\Rotator\Tracker\TrackerInterface;
 use Giftcards\Encryption\CipherText\Rotator\Tracker\TrackingObserver;
 use Giftcards\Encryption\Command\RotateStoreCommand;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+
+use Hamcrest\Matchers;
+use Mockery;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-class RotateStoreTest extends AbstractTestCase
+class RotateStoreTest extends AbstractExtendableTestCase
 {
 
     public function testCommand()
@@ -30,11 +33,11 @@ class RotateStoreTest extends AbstractTestCase
         $limit = $this->getFaker()->unique()->randomNumber();
         $batchSize = $this->getFaker()->unique()->randomNumber();
 
-        $rotator = \Mockery::mock("Giftcards\\Encryption\\CipherText\\Rotator\\Rotator");
+        $rotator = Mockery::mock("Giftcards\\Encryption\\CipherText\\Rotator\\Rotator");
         $rotator->shouldReceive("rotate");
         assert($rotator instanceof Rotator);
 
-        $tracker = \Mockery::mock("Giftcards\\Encryption\\CipherText\\Rotator\\Tracker\\TrackerInterface");
+        $tracker = Mockery::mock("Giftcards\\Encryption\\CipherText\\Rotator\\Tracker\\TrackerInterface");
         $tracker->shouldReceive("get")->andReturn(0);
         $tracker->shouldReceive("reset");
         assert($tracker instanceof TrackerInterface);
@@ -47,14 +50,14 @@ class RotateStoreTest extends AbstractTestCase
         $tracker->shouldHaveReceived("get")->with($storeName);
         $tracker->shouldHaveReceived("reset")->with($storeName);
 
-        $rotator->shouldHaveReceived("rotate")->withArgs(array(
+        $rotator->shouldHaveReceived("rotate")->withArgs([
             $storeName,
             $newProfile,
-            \Hamcrest_Matchers::equalTo(new Bounds(0, $limit, $batchSize)),
-            \Hamcrest_Matchers::equalTo(new RotatorObserverChain(
+            Matchers::equalTo(new Bounds(0, $limit, $batchSize)),
+            Matchers::equalTo(new RotatorObserverChain(
                 new TrackingObserver($tracker, $storeName),
                 new ConsoleOutputRotatorObserver($output)
             ))
-        ));
+        ]);
     }
 }

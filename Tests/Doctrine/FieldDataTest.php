@@ -9,9 +9,9 @@
 namespace Giftcards\Encryption\Tests\Doctrine;
 
 use Giftcards\Encryption\Doctrine\FieldData;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class FieldDataTest extends AbstractTestCase
+class FieldDataTest extends AbstractExtendableTestCase
 {
     public function testGetters()
     {

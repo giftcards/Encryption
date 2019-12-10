@@ -10,15 +10,15 @@ namespace Giftcards\Encryption\Tests\Vault;
 
 use Guzzle\Http\Message\Request;
 use Giftcards\Encryption\Vault\TokenAuthTokenSource;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class TokenAuthTokenSourceTest extends AbstractTestCase
+class TokenAuthTokenSourceTest extends AbstractExtendableTestCase
 {
     /** @var  TokenAuthTokenSource */
     protected $source;
     protected $token;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->source = new TokenAuthTokenSource(
             $this->token = $this->getFaker()->word

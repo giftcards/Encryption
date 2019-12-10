@@ -9,14 +9,14 @@
 namespace Giftcards\Encryption\Tests\Cipher;
 
 use Giftcards\Encryption\Cipher\NoOp;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class NoOpTest extends AbstractTestCase
+class NoOpTest extends AbstractExtendableTestCase
 {
     /** @var  NoOp */
     protected $cipher;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->cipher = new NoOp();
     }

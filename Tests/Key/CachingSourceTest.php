@@ -8,11 +8,12 @@
 
 namespace Giftcards\Encryption\Tests\Key;
 
+use Mockery;
 use Mockery\MockInterface;
 use Giftcards\Encryption\Key\CachingSource;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class CachingSourceTest extends AbstractTestCase
+class CachingSourceTest extends AbstractExtendableTestCase
 {
     /** @var  CachingSource */
     protected $source;
@@ -21,11 +22,11 @@ class CachingSourceTest extends AbstractTestCase
     /** @var  MockInterface */
     protected $cache;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->source = new CachingSource(
-            $this->cache = \Mockery::mock('Doctrine\Common\Cache\Cache'),
-            $this->inner = \Mockery::mock('Giftcards\Encryption\Key\SourceInterface')
+            $this->cache = Mockery::mock('Doctrine\Common\Cache\Cache'),
+            $this->inner = Mockery::mock('Giftcards\Encryption\Key\SourceInterface')
         );
     }
 

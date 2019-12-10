@@ -9,6 +9,7 @@
 namespace Giftcards\Encryption\Tests\Cipher;
 
 use Giftcards\Encryption\Cipher\ContainerAwareCipherRegistry;
+use Mockery;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -20,7 +21,7 @@ class ContainerAwareCipherRegistryTest extends CipherRegistryTest
     /** @var  ContainerInterface */
     protected $container;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->container = new Container();
         $this->registry = new ContainerAwareCipherRegistry($this->container);
@@ -29,19 +30,19 @@ class ContainerAwareCipherRegistryTest extends CipherRegistryTest
     public function testGettersSettersIncludingServiceIds()
     {
         $encryptor1Name = $this->getFaker()->unique()->word;
-        $encryptor1 = \Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
+        $encryptor1 = Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn($encryptor1Name)
             ->getMock()
         ;
         $encryptor2Name = $this->getFaker()->unique()->word;
-        $encryptor2 = \Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
+        $encryptor2 = Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn($encryptor2Name)
             ->getMock()
         ;
         $encryptor3Name = $this->getFaker()->unique()->word;
-        $encryptor3 = \Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
+        $encryptor3 = Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn($encryptor3Name)
             ->getMock()
@@ -58,26 +59,24 @@ class ContainerAwareCipherRegistryTest extends CipherRegistryTest
         $this->assertTrue($this->registry->has($encryptor3Name));
         $this->assertSame($encryptor3, $this->registry->get($encryptor3Name));
         $this->assertFalse($this->registry->has($this->getFaker()->unique()->word));
-        $this->assertEquals(array(
+        $this->assertEquals([
             $encryptor1Name => $encryptor1,
             $encryptor2Name => $encryptor2,
             $encryptor3Name => $encryptor3,
-        ), $this->registry->all());
+        ], $this->registry->all());
     }
 
-    /**
-     * @expectedException \Giftcards\Encryption\Cipher\CipherNotFoundException
-     */
     public function testGetWithMissingEncryptorIncludingServiceIds()
     {
+        $this->expectException('\Giftcards\Encryption\Cipher\CipherNotFoundException');
         $encryptor1Name = $this->getFaker()->unique()->word;
-        $encryptor1 = \Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
+        $encryptor1 = Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn($encryptor1Name)
             ->getMock()
         ;
         $encryptor2Name = $this->getFaker()->unique()->word;
-        $encryptor2 = \Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
+        $encryptor2 = Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
             ->shouldReceive('getName')
             ->andReturn($encryptor2Name)
             ->getMock()

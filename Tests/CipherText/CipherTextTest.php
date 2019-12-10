@@ -10,9 +10,9 @@ namespace Giftcards\Encryption\Tests\CipherText;
 
 use Giftcards\Encryption\CipherText\CipherText;
 use Giftcards\Encryption\Profile\Profile;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class CipherTextTest extends AbstractTestCase
+class CipherTextTest extends AbstractExtendableTestCase
 {
     public function testGetters()
     {

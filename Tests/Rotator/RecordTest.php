@@ -9,14 +9,14 @@
 namespace Giftcards\Encryption\Tests\Rotator;
 
 use Giftcards\Encryption\CipherText\Rotator\Record;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class RecordTest extends AbstractTestCase
+class RecordTest extends AbstractExtendableTestCase
 {
     public function testRecord()
     {
-        $record = new Record(1, array('foo' => 'bar'));
+        $record = new Record(1, ['foo' => 'bar']);
         $this->assertEquals(1, $record->getId());
-        $this->assertEquals(array('foo' => 'bar'), $record->getData());
+        $this->assertEquals(['foo' => 'bar'], $record->getData());
     }
 }

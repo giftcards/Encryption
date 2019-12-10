@@ -8,6 +8,7 @@
 
 namespace Giftcards\Encryption\Tests;
 
+use Mockery;
 use Mockery\MockInterface;
 use Giftcards\Encryption\Cipher\CipherRegistry;
 use Giftcards\Encryption\CipherText\CipherText;
@@ -15,9 +16,9 @@ use Giftcards\Encryption\CipherText\StringableCipherText;
 use Giftcards\Encryption\Encryptor;
 use Giftcards\Encryption\Profile\Profile;
 use Giftcards\Encryption\Profile\ProfileRegistry;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class EncryptorTest extends AbstractTestCase
+class EncryptorTest extends AbstractExtendableTestCase
 {
     /** @var  Encryptor */
     protected $encryptor;
@@ -37,12 +38,12 @@ class EncryptorTest extends AbstractTestCase
     protected $profile1Name;
     protected $profile2Name;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->cipherRegistry = new CipherRegistry();
-        $this->keySource = \Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
+        $this->keySource = Mockery::mock('Giftcards\Encryption\Key\SourceInterface');
         $this->profileRegistry = new ProfileRegistry();
-        $this->serializerDeserializer = \Mockery::mock(
+        $this->serializerDeserializer = Mockery::mock(
             'Giftcards\Encryption\CipherText\Serializer\SerializerDeserializerInterface'
         );
         $this->key1Name = $this->getFaker()->unique()->word;
@@ -53,13 +54,13 @@ class EncryptorTest extends AbstractTestCase
         $this->profile2Name = $this->getFaker()->unique()->word;
         $this->cipherRegistry
             ->add(
-                \Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
+                Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
                     ->shouldReceive('getName')
                     ->andReturn($this->cipher1Name)
                     ->getMock()
             )
             ->add(
-                \Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
+                Mockery::mock('Giftcards\Encryption\Cipher\CipherInterface')
                     ->shouldReceive('getName')
                     ->andReturn($this->cipher2Name)
                     ->getMock()
@@ -124,11 +125,9 @@ class EncryptorTest extends AbstractTestCase
         );
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testEncryptWhereProfileCantBeChosen()
     {
+        $this->expectException('\RuntimeException');
         $this->encryptor = new Encryptor(
             $this->cipherRegistry,
             $this->keySource,

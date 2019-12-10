@@ -9,11 +9,13 @@
 namespace Giftcards\Encryption\Tests\CipherText\Rotator;
 
 use Giftcards\Encryption\Tests\MockPDO;
+use Mockery;
 use Mockery\MockInterface;
 use Giftcards\Encryption\CipherText\Rotator\DatabaseTableRotator;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
+use PDO;
 
-class DatabaseTableRotatorTest extends AbstractTestCase
+class DatabaseTableRotatorTest extends AbstractExtendableTestCase
 {
     /** @var  DatabaseTableRotator */
     protected $rotator;
@@ -23,16 +25,16 @@ class DatabaseTableRotatorTest extends AbstractTestCase
     protected $fields;
     protected $idField;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->rotator = new DatabaseTableRotator(
-            $this->pdo = new MockPDO(\Mockery::mock()),
+            $this->pdo = new MockPDO(Mockery::mock()),
             $this->table = $this->getFaker()->unique()->word,
-            $this->fields = array(
+            $this->fields = [
                 $this->getFaker()->unique()->word,
                 $this->getFaker()->unique()->word,
                 $this->getFaker()->unique()->word,
-            ),
+            ],
             $this->idField = $this->getFaker()->unique()->word
         );
     }
@@ -40,8 +42,8 @@ class DatabaseTableRotatorTest extends AbstractTestCase
     public function testRotate()
     {
         $newProfile = $this->getFaker()->word;
-        $encryptor = \Mockery::mock('Giftcards\Encryption\Encryptor');
-        $observer = \Mockery::mock('Giftcards\Encryption\CipherText\Rotator\ObserverInterface');
+        $encryptor = Mockery::mock('Giftcards\Encryption\Encryptor');
+        $observer = Mockery::mock('Giftcards\Encryption\CipherText\Rotator\ObserverInterface');
         $fields = $this->fields;
         $fields[] = $this->idField;
         $faker = $this->getFaker();
@@ -63,13 +65,13 @@ class DatabaseTableRotatorTest extends AbstractTestCase
                 $this->table
             ))
             ->andReturn(
-                \Mockery::mock()
+                Mockery::mock()
                     ->shouldReceive('execute')
                     ->once()
                     ->getMock()
                     ->shouldReceive('fetch')
                     ->times(4)
-                    ->with(\PDO::FETCH_ASSOC)
+                    ->with(PDO::FETCH_ASSOC)
                     ->andReturn($row1, $row2, $row3, false)
                     ->getMock()
             )
@@ -106,9 +108,9 @@ class DatabaseTableRotatorTest extends AbstractTestCase
             ->with($row3[$this->idField])
             ->getMock()
         ;
-        foreach (array($row1, $row2, $row3) as $row) {
-            $parameters = array();
-            $setFields = array();
+        foreach ([$row1, $row2, $row3] as $row) {
+            $parameters = [];
+            $setFields = [];
             foreach ($row as $field => $value) {
                 if ($field == $this->idField) {
                     continue;
@@ -140,7 +142,7 @@ class DatabaseTableRotatorTest extends AbstractTestCase
                     $this->idField
                 ))
                 ->andReturn(
-                    \Mockery::mock()
+                    Mockery::mock()
                         ->shouldReceive('execute')
                         ->once()
                         ->with($parameters)

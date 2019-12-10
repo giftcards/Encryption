@@ -10,28 +10,29 @@ namespace Giftcards\Encryption\Tests\Vault;
 
 use Guzzle\Common\Event;
 use Guzzle\Http\Message\Request;
+use Mockery;
 use Mockery\MockInterface;
 use Giftcards\Encryption\Vault\AddTokenPlugin;
-use Giftcards\Encryption\Tests\AbstractTestCase;
+use Omni\TestingBundle\TestCase\Extension\AbstractExtendableTestCase;
 
-class AddTokenPluginTest extends AbstractTestCase
+class AddTokenPluginTest extends AbstractExtendableTestCase
 {
     /** @var  AddTokenPlugin */
     protected $plugin;
     /** @var  MockInterface */
     protected $tokenSource;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->plugin = new AddTokenPlugin(
-            $this->tokenSource = \Mockery::mock('Giftcards\Encryption\Vault\AuthTokenSourceInterface')
+            $this->tokenSource = Mockery::mock('Giftcards\Encryption\Vault\AuthTokenSourceInterface')
         );
     }
 
-    public function testGetSUbscribedEvents()
+    public function testGetSubscribedEvents()
     {
         $this->assertEquals(
-            array('client.create_request' => array('addAuthToken', 255)),
+            ['client.create_request' => ['addAuthToken', 255]],
             $this->plugin->getSubscribedEvents()
         );
     }
@@ -46,7 +47,7 @@ class AddTokenPluginTest extends AbstractTestCase
             ->with($request)
             ->andReturn($token)
         ;
-        $this->plugin->addAuthToken(new Event(array('request' => $request)));
-        $this->assertEquals($token, $request->getHeader('X-Vault-Token', $token));
+        $this->plugin->addAuthToken(new Event(['request' => $request]));
+        $this->assertEquals($token, $request->getHeader('X-Vault-Token'));
     }
 }
